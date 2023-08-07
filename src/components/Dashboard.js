@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import Body from "./Body";
 import { auth } from "../components/Config/firebaseconfig";
 import { signOut } from "firebase/auth";
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 function SidebarButton({ isOpen, onClick }) {
     return (
@@ -94,7 +94,9 @@ function Dashboard({ isloggedIn, setloggedIn }) {
                         <p
                             className="flex items-center px-6 py-3 text-gray-300 hover:bg-gray-700 hover:text-white mb-3"
                         >
-                            <span className='ml-6'>Dashboard</span>
+                            <Link to="/dashboard">
+                                <span className='ml-6'>Dashboard</span>
+                            </Link>
                         </p>
                         <p
                             className="flex items-center px-6 py-3 text-gray-300 hover:bg-gray-700 hover:text-white mb-3 mt-20"
@@ -104,7 +106,6 @@ function Dashboard({ isloggedIn, setloggedIn }) {
                         <p
                             className="flex items-center px-6 py-3 text-gray-300 hover:bg-gray-700 hover:text-white mb-3"
                         >
-                            <span className='ml-2'>Completed Tasks</span>
                         </p>
                     </nav>
                 </div>
@@ -113,7 +114,9 @@ function Dashboard({ isloggedIn, setloggedIn }) {
                 <header className="flex items-center justify-between px-6 py-4 bg-white border-b">
                     <SidebarButton isOpen={isSidebarOpen} onClick={handleSidebarToggle} />
                     <h2 className="text-xl font-semibold ml-1">Task Manager</h2>
-                    <div className="flex items-center ml-auto mr-1 flex-col">
+
+                    <div className="flex items-center ml-auto mr-1 justify-end">
+
                         <img
                             src={userPhotoURL}
                             className="rounded-full cursor-pointer"

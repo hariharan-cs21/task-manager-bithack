@@ -5,9 +5,9 @@ const TaskCard = ({ tasks, currentUserEmail, isAdmin, handleAcceptTask, handleTr
     const [transferToEmail, setTransferToEmail] = useState("")
 
     return (
-        <div className='w-full'>
+        <div className='w-full ml-2'>
             {userTasks.map((task) => (
-                <div key={task.id} className='p-4 bg-white rounded-lg shadow mb-4 flex items-center'>
+                <div key={task.id} className='p-4 bg-white rounded-lg shadow mb-4 flex flex-wrap md:flex-nowrap items-center'>
                     <div className='flex-grow'>
                         <h2 className='text-xl font-bold'>{task.Task}</h2>
                         <p className='text-gray-600'>{task.description}</p>

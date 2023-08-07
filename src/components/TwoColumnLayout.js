@@ -17,6 +17,13 @@ const TwoColumnLayout = () => {
     const [taskAccepted, setTaskAccepted] = useState(false);
     const [tasks, setTasks] = useState([]);
 
+
+    const [showForm, setShowForm] = useState(false);
+
+    const toggleForm = () => {
+        setShowForm(!showForm);
+    };
+
     const submitQuery = async () => {
         if (Priority && Task && description && assignedTo) {
             setIsSubmitting(true);
@@ -121,8 +128,6 @@ const TwoColumnLayout = () => {
     };
 
 
-
-
     useEffect(() => {
         fetchTasks();
     }, [taskAccepted]);
@@ -132,111 +137,125 @@ const TwoColumnLayout = () => {
     const isTaskAcceptedByCurrentUser = (taskId) => acceptedTasks.includes(taskId);
 
     return (
-        <div className='flex w-fit xl:w-full'>
+        <div className='flex flex-wrap justify-start lg:justify-start mr-4'>
             {isAdmin && (
-                <form className="w-full max-w-lg ml-3 mt-6">
-                    <div className="flex items-center mb-6">
-                        <div className="w-1/3">
-                            <label className="block text-black font-bold text-right mb-1 md:mb-0 pr-4" htmlFor="inline-full-name">
-                                Priority
-                            </label>
-                        </div>
-                        <div className="w-2/3">
-                            <select
-                                onChange={(e) => { setPriority(e.target.value) }}
-                                value={Priority}
-                                className="bg-white appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-black leading-tight focus:outline-none focus:bg-white focus:border-blue-500 rounded-md pl-8"
-                                id="grid-state"
-                            >
-                                <option></option>
-                                <option>High</option>
-                                <option>Medium</option>
-                                <option>Low</option>
-                            </select>
-                        </div>
-                    </div>
-                    {/* Add other form fields for Task, Due Date, and Description */}
-                    <div className="flex items-center mb-6">
-                        <div className="w-1/3">
-                            <label className="block text-black font-bold text-right mb-1 md:mb-0 pr-4" htmlFor="inline-password">
-                                Task
-                            </label>
-                        </div>
-                        <div className="w-2/3">
-                            <input
-                                onChange={(e) => { setTask(e.target.value) }}
-                                value={Task} required
-                                className="bg-white appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-black leading-tight focus:outline-none rounded-md"
-                                id="inline-password"
-                            />
-                        </div>
-                    </div>
-                    <div className="flex items-center mb-6">
-                        <div className="w-1/3">
-                            <label className="block text-black font-bold text-right mb-1 md:mb-0 pr-4" htmlFor="inline-password">
-                                Due Date
-                            </label>
-                        </div>
-                        <div className="w-2/3">
-                            <input
-                                onChange={(e) => { setdescription(e.target.value) }}
-                                value={description} required
-                                className="bg-white appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-black leading-tight focus:outline-none rounded-md"
-                                type='date'
-                                id="inline-password"
-                            />
-                        </div>
-                    </div>
-                    <div className="flex items-center mb-4">
-                        <div className="w-1/3">
-                            <label className="block text-black font-bold text-right mb-1 md:mb-0 pr-4" htmlFor="inline-password">
-                                Description
-                            </label>
-                        </div>
-                        <div className="w-2/3">
-                            <textarea
-                                onChange={(e) => { setdescription(e.target.value) }}
-                                value={description}
-                                className="rounded-md resize-none border-2 border-gray-200 focus:border-blue-500 w-full h-40 py-2 px-4 text-black leading-tight focus:outline-none"
-                                id="description"
-                            />
-                        </div>
+                <>
+                    <div className="flex items-start m-2">
+                        <button
+                            onClick={toggleForm}
+                            className="shadow bg-blue-500 focus:shadow-outline focus:outline-none text-white font-bold py-2 px-3 rounded"
+                            type="button"
+                        >
+                            {showForm ? 'Show Card' : 'Add Task'}
+                        </button>
                     </div>
 
-                    <div className="flex items-center mb-4">
-                        <div className="w-1/3">
-                            <label className="block text-black font-bold text-right mb-1 md:mb-0 pr-4" htmlFor="inline-password">
-                                Assign To
-                            </label>
-                        </div>
-                        <div className="w-2/3">
-                            <input
-                                onChange={(e) => { setAssignedTo(e.target.value) }}
-                                value={assignedTo}
-                                className="bg-white appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-black leading-tight focus:outline-none rounded-md"
-                                id="inline-password"
-                                placeholder="Enter the email to assign the task"
-                            />
-                        </div>
-                    </div>
+                    {showForm ? (
+                        <form className="w-full max-w-lg ml-3 mt-6">
+                            <div className="flex items-center mb-6">
+                                <div className="w-1/3">
+                                    <label className="block text-black font-bold text-right mb-1 md:mb-0 pr-4" htmlFor="inline-full-name">
+                                        Priority
+                                    </label>
+                                </div>
+                                <div className="w-2/3">
+                                    <select
+                                        onChange={(e) => { setPriority(e.target.value) }}
+                                        value={Priority}
+                                        className="bg-white appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-black leading-tight focus:outline-none focus:bg-white focus:border-blue-500 rounded-md pl-8"
+                                        id="grid-state"
+                                    >
+                                        <option></option>
+                                        <option>High</option>
+                                        <option>Medium</option>
+                                        <option>Low</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div className="flex items-center mb-6">
+                                <div className="w-1/3">
+                                    <label className="block text-black font-bold text-right mb-1 md:mb-0 pr-4" htmlFor="inline-password">
+                                        Task
+                                    </label>
+                                </div>
+                                <div className="w-2/3">
+                                    <input
+                                        onChange={(e) => { setTask(e.target.value) }}
+                                        value={Task} required
+                                        className="bg-white appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-black leading-tight focus:outline-none rounded-md"
+                                        id="inline-password"
+                                    />
+                                </div>
+                            </div>
+                            <div className="flex items-center mb-6">
+                                <div className="w-1/3">
+                                    <label className="block text-black font-bold text-right mb-1 md:mb-0 pr-4" htmlFor="inline-password">
+                                        Due Date
+                                    </label>
+                                </div>
+                                <div className="w-2/3">
+                                    <input
+                                        onChange={(e) => { setdescription(e.target.value) }}
+                                        value={description} required
+                                        className="bg-white appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-black leading-tight focus:outline-none rounded-md"
+                                        type='date'
+                                        id="inline-password"
+                                    />
+                                </div>
+                            </div>
+                            <div className="flex items-center mb-4">
+                                <div className="w-1/3">
+                                    <label className="block text-black font-bold text-right mb-1 md:mb-0 pr-4" htmlFor="inline-password">
+                                        Description
+                                    </label>
+                                </div>
+                                <div className="w-2/3">
+                                    <textarea
+                                        onChange={(e) => { setdescription(e.target.value) }}
+                                        value={description}
+                                        className="rounded-md resize-none border-2 border-gray-200 focus:border-blue-500 w-full h-40 py-2 px-4 text-black leading-tight focus:outline-none"
+                                        id="description"
+                                    />
+                                </div>
+                            </div>
+
+                            <div className="flex items-center mb-4">
+                                <div className="w-1/3">
+                                    <label className="block text-black font-bold text-right mb-1 md:mb-0 pr-4" htmlFor="inline-password">
+                                        Assign To
+                                    </label>
+                                </div>
+                                <div className="w-2/3">
+                                    <input
+                                        onChange={(e) => { setAssignedTo(e.target.value) }}
+                                        value={assignedTo}
+                                        className="bg-white appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-black leading-tight focus:outline-none rounded-md"
+                                        id="inline-password"
+                                        placeholder="Enter the email to assign the task"
+                                    />
+                                </div>
+                            </div>
 
 
-                    <div className="flex items-center mb-4">
-                        <div className="w-2/3">
-                            <button
-                                onClick={submitQuery}
-                                className="shadow bg-blue-500 focus:shadow-outline focus:outline-none text-white font-bold py-2 px-3 rounded"
-                                type="button"
-                                disabled={isSubmitting}
-                            >
-                                {isSubmitting ? 'Assigning...' : 'Assign Task'}
-                            </button>
-
-
-                        </div>
-                    </div>
-                </form>
+                            <div className="flex items-center mb-4">
+                                <div className="w-2/3">
+                                    <button
+                                        onClick={submitQuery}
+                                        className="shadow bg-blue-500 focus:shadow-outline focus:outline-none text-white font-bold py-2 px-3 rounded mx-10"
+                                        type="button"
+                                        disabled={isSubmitting}
+                                    >
+                                        {isSubmitting ? 'Assigning...' : 'Assign Task'}
+                                    </button>
+                                </div>
+                            </div>
+                        </form>
+                    ) :
+                        <h2 className='m-4'>Assigned Tasks</h2>
+                    }
+                </>
             )}
+
 
             <TaskCard
                 tasks={tasks}

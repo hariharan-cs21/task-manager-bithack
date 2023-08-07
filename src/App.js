@@ -7,7 +7,6 @@ import Dashboard from './components/Dashboard';
 import { useAuthState } from 'react-firebase-hooks/auth';
 import Profile from './components/Profile';
 
-
 function App() {
   const [isloggedIn, setloggedIn] = useState(localStorage.getItem("isLogged"))
   const [user] = useAuthState(auth)

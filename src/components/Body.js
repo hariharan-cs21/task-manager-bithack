@@ -37,6 +37,9 @@ const Body = ({ isloggedIn }) => {
             console.error('Error fetching tasks:', error);
         }
     };
+    const [showNotificationBar, setShowNotificationBar] = useState(false);
+    const [showLayout, setShowLayout] = useState(true);
+
 
     const handleAcceptTask = async (taskId) => {
         try {
@@ -51,17 +54,31 @@ const Body = ({ isloggedIn }) => {
             alert('Error accepting task. Please try again.');
         }
     };
+    const handleShowNotificationBar = () => {
+        setShowNotificationBar(true);
+        setShowLayout(false)
+    };
+    const handleLayout = () => {
+        setShowNotificationBar(false);
+        setShowLayout(true)
+    };
 
     return (
         <>
-            {isloggedIn && <p style={{ fontSize: "0.8rem" }} className='flex items-center ml-auto mr-1 flex-col'>Welcome {userDisplayName}</p>}
-            <div className="overflow-auto flex-1">
-                {/* Include the NotificationBar component */}
-                <NotificationBar tasks={tasks} currentUserEmail={currentUserEmail} />
+            <div className='flex items-center justify-end'>
+                <i className="uil uil-bell text-2xl text-green-500 ml-auto hover:decoration-blue-400" onClick={handleShowNotificationBar}></i>
 
-                {<TwoColumnLayout isloggedIn={isloggedIn} tasks={tasks} currentUserEmail={currentUserEmail} handleAcceptTask={handleAcceptTask} />}
+                {isloggedIn && <p className='ml-1 text-sm'>Welcome {userDisplayName}</p>}
+            </div>
+            {showNotificationBar && <button className="shadow bg-blue-500 focus:shadow-outline focus:outline-none text-white font-bold py-2 px-3 rounded m-auto" onClick={handleLayout}>View Dashboard</button>}
+            <div className="overflow-auto flex-1">
+
+                {showNotificationBar && <NotificationBar tasks={tasks} currentUserEmail={currentUserEmail} />}
+
+                {showLayout && <TwoColumnLayout isloggedIn={isloggedIn} tasks={tasks} currentUserEmail={currentUserEmail} handleAcceptTask={handleAcceptTask} />}
             </div>
         </>
+
     );
 };
 

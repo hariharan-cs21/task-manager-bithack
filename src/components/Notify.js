@@ -16,7 +16,10 @@ const NotificationBar = ({ tasks, currentUserEmail }) => {
     };
 
     return (
-        <div className="fixed bottom-4 left-4 right-4 max-w-sm mx-auto p-4 rounded-md bg-blue-500 text-white shadow-lg">
+        <div
+            className="fixed m-4 ml-1  ml-1 max-w-lg mx-auto p-4 rounded-md bg-blue-500 text-white shadow-lg"
+            style={{ maxHeight: '80vh', overflowY: 'auto', width: '100%' }} // Set the container height and enable vertical scrolling
+        >
             {showDetails ? (
                 <>
                     <h3 className="text-lg font-semibold mb-2">{selectedTask?.Task}</h3>
