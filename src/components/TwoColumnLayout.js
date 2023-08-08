@@ -6,8 +6,6 @@ import TaskCard from './TaskCard';
 const TwoColumnLayout = () => {
     const [Priority, setPriority] = useState("");
     const [assignedTo, setAssignedTo] = useState("");
-    const [acceptedTasks, setAcceptedTasks] = useState([]);
-
     const currentUserEmail = auth.currentUser?.email || "";
 
     const [Task, setTask] = useState("");
@@ -64,25 +62,7 @@ const TwoColumnLayout = () => {
             console.error('Error fetching tasks:', error);
         }
     };
-    const handleAssignTask = async (taskId, assignedTo) => {
-        try {
-            if (!taskId || !assignedTo) {
-                alert("Task ID and Assignee Email cannot be empty.");
-                return;
-            }
 
-            const taskDocRef = doc(db, "allQueries", taskId);
-            await updateDoc(taskDocRef, {
-                assignedTo: assignedTo,
-                acceptedBy: null,
-            });
-            alert(`Task assigned to ${assignedTo}`);
-            fetchTasks();
-        } catch (error) {
-            console.error("Error assigning task:", error);
-            alert("Error assigning task. Please try again.");
-        }
-    };
 
     const handleTransferTask = async (taskId, assignedTo) => {
         try {
@@ -133,20 +113,18 @@ const TwoColumnLayout = () => {
     }, [taskAccepted]);
 
     const isAdmin = auth.currentUser?.email === "linktothedeveloper@gmail.com";
-    const isUser = !isAdmin && auth.currentUser?.email !== "linktothedeveloper@gmail.com";
-    const isTaskAcceptedByCurrentUser = (taskId) => acceptedTasks.includes(taskId);
 
     return (
         <div className='flex flex-wrap justify-start lg:justify-start mr-4'>
             {isAdmin && (
                 <>
-                    <div className="flex items-start m-2">
+                    <div className="flex items-start mb-2">
                         <button
                             onClick={toggleForm}
                             className="shadow bg-blue-500 focus:shadow-outline focus:outline-none text-white font-bold py-2 px-3 rounded"
                             type="button"
                         >
-                            {showForm ? 'Show Card' : 'Add Task'}
+                            {showForm ? 'Assigned Task' : 'Add Task'}
                         </button>
                     </div>
 
@@ -187,7 +165,7 @@ const TwoColumnLayout = () => {
                                     />
                                 </div>
                             </div>
-                            <div className="flex items-center mb-6">
+                            {/* <div className="flex items-center mb-6">
                                 <div className="w-1/3">
                                     <label className="block text-black font-bold text-right mb-1 md:mb-0 pr-4" htmlFor="inline-password">
                                         Due Date
@@ -202,7 +180,7 @@ const TwoColumnLayout = () => {
                                         id="inline-password"
                                     />
                                 </div>
-                            </div>
+                            </div> */}
                             <div className="flex items-center mb-4">
                                 <div className="w-1/3">
                                     <label className="block text-black font-bold text-right mb-1 md:mb-0 pr-4" htmlFor="inline-password">
@@ -250,8 +228,15 @@ const TwoColumnLayout = () => {
                                 </div>
                             </div>
                         </form>
+
                     ) :
-                        <h2 className='m-4'>Assigned Tasks</h2>
+                        <div className="mb-3 mt-4 mx-auto w-[90%] md:w-[30%] lg:w-[30%] p-1 bg-gradient-to-br from-blue-500 to-indigo-500 rounded-lg shadow-lg text-white text-center">
+                            <h2 className="text-1xl md:text-2xl lg:text-2xl font-bold">Assigned Tasks</h2>
+                        </div>
+
+
+
+
                     }
                 </>
             )}

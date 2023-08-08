@@ -5,13 +5,15 @@ import { useNavigate } from 'react-router-dom';
 
 const Login = ({ setloggedIn }) => {
     let navigate = useNavigate();
-    const signIn = () => {
-        signInWithPopup(auth, provider)
-            .then(() => {
-                localStorage.setItem('isLogged', true);
-                setloggedIn(true);
-                navigate('/dashboard');
-            });
+    const signIn = async () => {
+        try {
+            await signInWithPopup(auth, provider);
+            localStorage.setItem('isLogged', true);
+            setloggedIn(true);
+            navigate('/dashboard');
+        } catch (error) {
+            console.log("Error occurred during sign-in:", error.message);
+        }
     };
 
     return (

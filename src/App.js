@@ -6,6 +6,7 @@ import Login from './components/Login';
 import Dashboard from './components/Dashboard';
 import { useAuthState } from 'react-firebase-hooks/auth';
 import Profile from './components/Profile';
+import Chat from './components/Chat'
 
 function App() {
   const [isloggedIn, setloggedIn] = useState(localStorage.getItem("isLogged"))
@@ -16,6 +17,7 @@ function App() {
         <Route path="/" element={<Login setloggedIn={setloggedIn} />} />
         <Route path="/profile" element={<Profile isloggedIn={isloggedIn} user={user} setloggedIn={setloggedIn} />} />
         <Route path="/dashboard" element={<Dashboard isloggedIn={isloggedIn} setloggedIn={setloggedIn} user={user} />} />
+        <Route path="/chat" element={<Chat isloggedIn={isloggedIn} setloggedIn={setloggedIn} user={user} />} />
       </Routes>
     </Router>
   );
