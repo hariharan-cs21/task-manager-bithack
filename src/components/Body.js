@@ -1,29 +1,18 @@
 import React, { useEffect, useState } from 'react';
 import TwoColumnLayout from './TwoColumnLayout';
 import { auth, db } from "../components/Config/firebaseconfig";
-import { useNavigate } from 'react-router-dom';
 import NotificationBar from './Notify';
 import { updateDoc, doc, getDocs, collection } from 'firebase/firestore';
-
+import "../App.css"
 
 const Body = ({ isloggedIn, user }) => {
-    const [userDisplayName, setUserDisplayName] = useState('');
     const [tasks, setTasks] = useState([]);
     const [taskAccepted, setTaskAccepted] = useState(false);
     const currentUserEmail = auth.currentUser?.email || '';
-    const navigate = useNavigate();
+    const [showVibration, setShowVibration] = useState(true);
+    const [showNotificationBar, setShowNotificationBar] = useState(false);
+    const [showLayout, setShowLayout] = useState(true);
 
-    useEffect(() => {
-        if (!isloggedIn) {
-            navigate('/');
-        } else {
-            setUserDisplayName(auth.currentUser?.displayName || '');
-        }
-    }, [isloggedIn]);
-
-    useEffect(() => {
-        fetchTasks();
-    }, [taskAccepted]);
 
     const fetchTasks = async () => {
         const queryCollection = collection(db, 'allQueries');
@@ -35,9 +24,6 @@ const Body = ({ isloggedIn, user }) => {
             console.error('Error fetching tasks:', error);
         }
     };
-    const [showNotificationBar, setShowNotificationBar] = useState(false);
-    const [showLayout, setShowLayout] = useState(true);
-
 
     const handleAcceptTask = async (taskId) => {
         try {
@@ -61,11 +47,28 @@ const Body = ({ isloggedIn, user }) => {
         setShowLayout(true)
     };
 
+    useEffect(() => {
+        fetchTasks();
+    }, [taskAccepted]);
+
+
+    useEffect(() => {
+        const vibrationTimer = setTimeout(() => {
+            setShowVibration(false);
+        }, 4000);
+        return () => {
+            clearTimeout(vibrationTimer);
+        };
+    }, []);
+
     return (
         <>
             <div className='flex items-center justify-end'>
-                <i className="uil uil-bell text-2xl text-green-500 ml-auto hover:decoration-blue-400" onClick={handleShowNotificationBar}></i>
-
+                <i
+                    className={`uil uil-bell text-3xl text-green-500 hover:text-blue-400 cursor-pointer transition duration-300 transform hover:scale-110 ${showVibration ? 'animate-bell' : ''
+                        }`}
+                    onClick={handleShowNotificationBar}
+                ></i>
                 {isloggedIn && <p className='ml-1 text-sm mr-3'>Welcome {user?.displayName}</p>}
             </div>
             {showNotificationBar && <button className="shadow bg-blue-500 focus:shadow-outline focus:outline-none text-white font-bold py-2 px-3 rounded m-auto" onClick={handleLayout}>View Dashboard</button>}

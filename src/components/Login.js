@@ -32,7 +32,7 @@ const Login = ({ setloggedIn }) => {
             }
         };
         handleRedirectResult();
-    }, []);
+    },);
 
     if (isLoading) {
         return null;
