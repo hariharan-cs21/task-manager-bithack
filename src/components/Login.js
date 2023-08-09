@@ -1,10 +1,11 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { auth, provider } from './Config/firebaseconfig';
 import { signInWithRedirect, getRedirectResult } from 'firebase/auth';
 import { useNavigate } from 'react-router-dom';
 
 const Login = ({ setloggedIn }) => {
-    let navigate = useNavigate();
+    const [isLoading, setIsLoading] = useState(true);
+    const navigate = useNavigate();
 
     const signIn = async () => {
         try {
@@ -13,6 +14,7 @@ const Login = ({ setloggedIn }) => {
             console.log("Error occurred during sign-in:", error.message);
         }
     };
+
     useEffect(() => {
         const handleRedirectResult = async () => {
             try {
@@ -21,13 +23,20 @@ const Login = ({ setloggedIn }) => {
                     localStorage.setItem('isLogged', true);
                     setloggedIn(true);
                     navigate('/dashboard');
+                } else {
+                    setIsLoading(false);
                 }
             } catch (error) {
                 console.log("Redirecting err", error.message);
+                setIsLoading(false);
             }
         };
         handleRedirectResult();
     }, []);
+
+    if (isLoading) {
+        return null;
+    }
 
     return (
         <div className="flex justify-center items-center h-screen bg-gradient-to-r from-purple-700 to-indigo-800">
@@ -50,10 +59,7 @@ const Login = ({ setloggedIn }) => {
                         <span className="text-lg font-semibold">Sign in with Google</span>
                     </button>
                 </div>
-            </div>
-        </div>
-
-
+            </div>        </div>
     );
 };
 

@@ -6,7 +6,7 @@ import NotificationBar from './Notify';
 import { updateDoc, doc, getDocs, collection } from 'firebase/firestore';
 
 
-const Body = ({ isloggedIn }) => {
+const Body = ({ isloggedIn, user }) => {
     const [userDisplayName, setUserDisplayName] = useState('');
     const [tasks, setTasks] = useState([]);
     const [taskAccepted, setTaskAccepted] = useState(false);
@@ -66,7 +66,7 @@ const Body = ({ isloggedIn }) => {
             <div className='flex items-center justify-end'>
                 <i className="uil uil-bell text-2xl text-green-500 ml-auto hover:decoration-blue-400" onClick={handleShowNotificationBar}></i>
 
-                {isloggedIn && <p className='ml-1 text-sm mr-3'>Welcome {userDisplayName}</p>}
+                {isloggedIn && <p className='ml-1 text-sm mr-3'>Welcome {user?.displayName}</p>}
             </div>
             {showNotificationBar && <button className="shadow bg-blue-500 focus:shadow-outline focus:outline-none text-white font-bold py-2 px-3 rounded m-auto" onClick={handleLayout}>View Dashboard</button>}
             <div className="overflow-auto flex-1">

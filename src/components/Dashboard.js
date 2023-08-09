@@ -45,19 +45,9 @@ function SidebarButton({ isOpen, onClick }) {
     );
 }
 
-function Dashboard({ isloggedIn, setloggedIn }) {
+function Dashboard({ isloggedIn, setloggedIn, user }) {
     let navigate = useNavigate();
 
-    const [userPhotoURL, setUserPhotoURL] = useState('');
-
-    useEffect(() => {
-        if (!isloggedIn) {
-            navigate("/");
-        } else {
-
-            setUserPhotoURL(auth.currentUser?.photoURL || '');
-        }
-    }, [isloggedIn]);
 
     const [isSidebarOpen, setIsSidebarOpen] = useState(false);
     const handleSidebarToggle = () => {
@@ -122,7 +112,7 @@ function Dashboard({ isloggedIn, setloggedIn }) {
                     <div className="flex items-center ml-auto mr-1 justify-end">
 
                         <img
-                            src={userPhotoURL}
+                            src={user?.photoURL}
                             className="rounded-full cursor-pointer"
                             width="32px"
                             height="32px"
@@ -144,7 +134,7 @@ function Dashboard({ isloggedIn, setloggedIn }) {
                         </option>
                     </div>
                 )}
-                <Body isloggedIn={isloggedIn} />
+                <Body isloggedIn={isloggedIn} user={user} />
             </div>
         </div>
     );
