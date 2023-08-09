@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { format } from 'date-fns';
 import {
     getDocs,
     collection,
@@ -17,6 +18,9 @@ const Chat = ({ isloggedIn, user }) => {
     const [joinedGroups, setJoinedGroups] = useState([]);
     const [hashtagGroups, setHashtagGroups] = useState([]);
     const [newGroup, setNewGroup] = useState('');
+    const [refresh, setRefresh] = useState(false);
+    const [chatDate, setChatDate] = useState(null);
+
 
     const navigate = useNavigate();
 
@@ -37,11 +41,14 @@ const Chat = ({ isloggedIn, user }) => {
                 };
                 await addDoc(chatCollection, messageData);
                 setMessage('');
+
+                fetchMessages();
             } catch (error) {
                 console.error('Error sending message:', error);
             }
         }
     };
+
 
 
     const createNewGroup = async () => {
@@ -69,7 +76,15 @@ const Chat = ({ isloggedIn, user }) => {
             );
             const querySnapshot = await getDocs(q);
             const messageData = querySnapshot.docs.map((doc) => doc.data());
+            messageData.sort((a, b) => a.timestamp - b.timestamp);
+
             setMessages(messageData);
+
+            if (messageData.length > 0) {
+                const firstMessageTimestamp = messageData[0].timestamp.toMillis();
+                const formattedDate = format(new Date(firstMessageTimestamp), 'MMMM d, yyyy');
+                setChatDate(formattedDate);
+            }
         } catch (error) {
             console.error('Error fetching messages:', error);
         }
@@ -95,60 +110,38 @@ const Chat = ({ isloggedIn, user }) => {
     useEffect(() => {
         fetchHashtagGroups();
     }, []);
+    const handleRefresh = () => {
+        setRefresh(true);
+    };
+
+    useEffect(() => {
+        if (refresh) {
+            fetchMessages();
+            setRefresh(false);
+        }
+    }, [refresh, selectedGroup]);
 
     return (
         <>
             {isloggedIn && (
                 <div className="flex h-screen antialiased text-gray-800">
-                    <div class="flex flex-row h-full w-full overflow-x-hidden">
+                    <div className="flex flex-row h-full w-full overflow-x-hidden">
 
-                        <div class="flex flex-col py-8 pl-6 pr-2 w-64 bg-white flex-shrink-0">
-                            <div className="ml-4 py-2 text-large text-white flex flex-col items-center mb-1 bg-gray-600 rounded-lg cursor-pointer" onClick={() => navigate("/dashboard")}>View Dashboard</div>
+                        <div className="flex flex-col py-8 pl-6 pr-2 w-64 bg-white flex-shrink-0">
+                            <div className="ml-4 mr-2 py-2 text-large text-white flex flex-col items-center mb-2 bg-gray-600 rounded-lg cursor-pointer" onClick={() => navigate("/dashboard")}>View Dashboard</div>
 
-                            <div class="flex flex-row items-center justify-center h-12 w-full mt-3">
-                                <div
-                                    class="flex items-center justify-center rounded-2xl text-gray-100 bg-gray-400 h-10 w-10"
-                                >
-                                    <svg
-                                        className="w-6 h-6"
-                                        fill="none"
-                                        stroke="currentColor"
-                                        viewBox="0 0 24 24"
-                                        xmlns="http://www.w3.org/2000/svg"
-                                    >
-                                        <path
-                                            stroke-linecap="round"
-                                            stroke-linejoin="round"
-                                            stroke-width="2"
-                                            d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z"
-                                        ></path>
-                                    </svg>
-                                </div>
-                                <div className="ml-2 font-bold text-2xl">QuickChat</div>
+
+
+                            <div className="h-20 w-20 rounded-full border overflow-hidden container mx-auto">
+                                <img
+                                    src={user?.photoURL}
+                                    alt="Avatar"
+                                    className="h-full w-full"
+                                />
                             </div>
-                            <div
-                                className="flex flex-col items-center bg-gray-300 border border-gray-700 mt-4 w-full py-6 px-4 rounded-lg"
-                            >
-                                <div className="h-20 w-20 rounded-full border overflow-hidden">
-                                    <img
-                                        src={user?.photoURL}
-                                        alt="Avatar"
-                                        class="h-full w-full"
-                                    />
-                                </div>
-                                <div className="text-sm font-semibold mt-2">{user?.displayName}</div>
-                            </div>
+                            <div className="text-sm font-semibold mt-2 text-center">{user?.displayName}</div>
                             <div className="flex flex-col space-y-1 mt-4 -mx-2">
-                                <button onClick={() => window.location.reload(false)}
-                                    class="flex flex-row justify-center items-center hover:bg-gray-100 rounded-xl p-2"
-                                >
-                                    <div className="text-sm font-semibold">Refresh</div>
-                                </button>
-                            </div>
 
-                        </div>
-                        <div className="flex flex-col flex-auto h-full p-6">
-                            <div className="flex flex-col flex-auto flex-shrink-0 rounded-2xl bg-gray-100 h-full p-4">
                                 {isAdmin && (
                                     <div className="mb-4">
                                         <input
@@ -160,45 +153,79 @@ const Chat = ({ isloggedIn, user }) => {
                                         />
                                         <button
                                             onClick={createNewGroup}
-                                            className="bg-gray-600 text-white px-4 py-2 rounded-md mt-2 hover:bg-gray-600 focus:outline-none"
+                                            className="bg-gray-600 text-white px-2 py-1 text-right float-right rounded-md mt-2 hover:bg-green-600 focus:outline-none"
                                         >
                                             Create Group
                                         </button>
                                     </div>
                                 )}
-                                {!joinedGroups.includes(selectedGroup) && (
-                                    <div className="mb-4">
-                                        <select
-                                            className="border border-gray-300 px-3 py-2 rounded-md w-full focus:outline-none"
-                                            value={selectedGroup}
-                                            onChange={(e) => setSelectedGroup(e.target.value)}
-                                        >
-                                            <option value="" disabled>
-                                                Select a group to join
-                                            </option>
-                                            {hashtagGroups.map((group) => (
-                                                <option key={group.id} value={group.id}>
-                                                    {group.name}
-                                                </option>
-                                            ))}
-                                        </select>
+                                <div className="mt-2 space-y-1 ">
+                                    <p className='text-center text-white p-1 bg-gray-600 rounded-lg cursor-pointer mb-3'>Groups</p>
+                                    <hr className="border-2 border-black opacity-25 rounded" />
 
-                                    </div>
-                                )}
+
+                                    {hashtagGroups.map((group) => (
+                                        <button
+                                            key={group.id}
+                                            onClick={() => setSelectedGroup(group.id)}
+                                            className={`w-full text-center px-4 py-2 rounded-md ${selectedGroup === group.id
+                                                ? 'bg-gray-200'
+                                                : 'hover:bg-gray-100'
+                                                }`}
+                                        >
+                                            {group.name}
+                                        </button>
+                                    ))}
+                                </div>
+                            </div>
+
+                        </div>
+                        <div className="flex flex-col flex-auto h-full p-6">
+                            <div className="flex flex-col flex-auto flex-shrink-0 rounded-2xl bg-gray-100 h-full p-4 ">
+                                <button onClick={handleRefresh}
+                                    className="flex flex-row justify-center items-center rounded-xl p-1 text-white bg-gray-600 mb-1"
+                                >
+                                    <div ><i className="uil uil-refresh hover:bg-gray-300 text-lg p-1 rounded"></i>Refresh</div>
+                                </button>
+
                                 {joinedGroups.includes(selectedGroup) && (
                                     <div className="mb-4">
+
                                         <h2>Group: {selectedGroup}</h2>
                                     </div>
                                 )}
                                 {selectedGroup && (
                                     <>
-                                        <div className="flex flex-col h-full overflow-x-auto mb-4">
+                                        <div className="flex flex-col h-full overflow-x-auto mb-2">
+                                            {chatDate && (
+                                                <div className="flex justify-center">
+                                                    <div className="bg-gray-200 p-2 rounded flex items-center">
+                                                        <p className="mr-1 text-black text-sm">{chatDate}</p>
+                                                        <p className="text-black text-sm">{format(new Date(chatDate), 'EEEE')}</p>
+                                                    </div>
+                                                </div>
+                                            )}
                                             {messages.map((msg, index) => (
-                                                <div key={index} className="col-start-6 col-end-13 p-3 rounded-lg">
-                                                    {msg.sender} : {msg.text}
+
+                                                <div key={index} className="col-start-6 col-end-13 p-2 rounded-lg">
+
+
+                                                    {auth.currentUser?.uid !== msg.senderId &&
+                                                        <div className='bg-gray-700 max-w-sm inline-block text-white p-2 rounded-lg ml-4'>
+                                                            <p className="text-[11px] text-gray-300 ml-1">{msg.sender}</p>
+                                                            <p className='text-[14px] inline-block text-white rounded-lg'>{msg.text}</p>
+                                                        </div>
+                                                    }
+                                                    {auth.currentUser?.uid === msg.senderId &&
+                                                        <div className='bg-[#7ab4cc] max-w-sm inline-block text-white p-2 rounded-lg float-right mr-4'>
+                                                            <p className='text-[14px] inline-block text-white rounded-lg'>{msg.text}</p>
+                                                            {/* {new Date(msg.timestamp.toMillis()).toLocaleString()} */}
+                                                        </div>
+                                                    }
                                                 </div>
                                             ))}
                                         </div>
+
                                         <div className="flex flex-row items-center h-16 rounded-xl bg-white w-full px-4">
                                             <div className="flex-grow ml-4">
                                                 <div className="relative w-full p-2">
@@ -214,7 +241,9 @@ const Chat = ({ isloggedIn, user }) => {
                                             <div className="ml-4">
                                                 <button
                                                     className="flex items-center justify-center bg-gray-600 hover:bg-gray-700 rounded-xl text-white px-4 py-1 flex-shrink-0"
-                                                    onClick={sendMessage}
+                                                    onClick={() => {
+                                                        sendMessage()
+                                                    }}
                                                 >
                                                     <span>Send</span>
                                                     <span className="ml-2">

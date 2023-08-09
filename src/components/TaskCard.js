@@ -2,7 +2,17 @@ import React, { useState } from 'react';
 
 const TaskCard = ({ tasks, currentUserEmail, isAdmin, handleAcceptTask, handleTransferTask }) => {
     const userTasks = isAdmin ? tasks : tasks.filter(task => task.assignedTo === currentUserEmail);
-    const [transferToEmail, setTransferToEmail] = useState("")
+    const [transferToEmail, setTransferToEmail] = useState("");
+
+    const calculateTimeRemaining = (dueDate) => {
+        const now = new Date();
+        const due = new Date(dueDate);
+        const timeDiff = due - now;
+        const daysRemaining = Math.floor(timeDiff / (1000 * 60 * 60 * 24));
+        const hoursRemaining = Math.floor((timeDiff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+
+        return `${daysRemaining} days ${hoursRemaining} hours`;
+    };
 
     return (
         <div className='w-full ml-2'>
@@ -19,6 +29,11 @@ const TaskCard = ({ tasks, currentUserEmail, isAdmin, handleAcceptTask, handleTr
                             {task.acceptedBy ? 'Accepted' : 'Pending'}
                         </p>
                         {task.dueDate && <p className='text-sm text-gray-500'>Due Date: {task.dueDate}</p>}
+                        {task.dueDate && (
+                            <p className='text-sm text-gray-500'>
+                                Time Remaining: {calculateTimeRemaining(task.dueDate)}
+                            </p>
+                        )}
                     </div>
                     {!task.acceptedBy && currentUserEmail === task.assignedTo && (
                         <button
@@ -34,10 +49,10 @@ const TaskCard = ({ tasks, currentUserEmail, isAdmin, handleAcceptTask, handleTr
                                 type='text'
                                 placeholder='Enter the email to transfer'
                                 className='px-4 py-2 border rounded'
-                                onChange={(e) => setTransferToEmail(e.target.value)} // Save the value to a state (e.g., transferToEmail)
+                                onChange={(e) => setTransferToEmail(e.target.value)}
                             />
                             <button
-                                onClick={() => handleTransferTask(task.id, transferToEmail)} // Use the transferToEmail state as the target email for transfer
+                                onClick={() => handleTransferTask(task.id, transferToEmail)}
                                 className='px-4 py-2 bg-green-500 text-white rounded'
                             >
                                 Transfer

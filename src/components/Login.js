@@ -1,20 +1,33 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { auth, provider } from './Config/firebaseconfig';
-import { signInWithPopup } from 'firebase/auth';
+import { signInWithRedirect, getRedirectResult } from 'firebase/auth';
 import { useNavigate } from 'react-router-dom';
 
 const Login = ({ setloggedIn }) => {
     let navigate = useNavigate();
+
     const signIn = async () => {
         try {
-            await signInWithPopup(auth, provider);
-            localStorage.setItem('isLogged', true);
-            setloggedIn(true);
-            navigate('/dashboard');
+            await signInWithRedirect(auth, provider);
         } catch (error) {
             console.log("Error occurred during sign-in:", error.message);
         }
     };
+    useEffect(() => {
+        const handleRedirectResult = async () => {
+            try {
+                const result = await getRedirectResult(auth);
+                if (result.user) {
+                    localStorage.setItem('isLogged', true);
+                    setloggedIn(true);
+                    navigate('/dashboard');
+                }
+            } catch (error) {
+                console.log("Redirecting err", error.message);
+            }
+        };
+        handleRedirectResult();
+    }, []);
 
     return (
         <div className="flex justify-center items-center h-screen">
@@ -29,7 +42,6 @@ const Login = ({ setloggedIn }) => {
                     </button>
                 </div>
             </div>
-
         </div>
     );
 };

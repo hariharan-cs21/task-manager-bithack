@@ -14,6 +14,7 @@ const TwoColumnLayout = () => {
     const [isSubmitting, setIsSubmitting] = useState(false);
     const [taskAccepted, setTaskAccepted] = useState(false);
     const [tasks, setTasks] = useState([]);
+    const [dueDate, setDueDate] = useState("");
 
 
     const [showForm, setShowForm] = useState(false);
@@ -23,7 +24,7 @@ const TwoColumnLayout = () => {
     };
 
     const submitQuery = async () => {
-        if (Priority && Task && description && assignedTo) {
+        if (Priority && Task && description && assignedTo && dueDate) {
             setIsSubmitting(true);
             try {
                 const queryPerson = {
@@ -36,6 +37,7 @@ const TwoColumnLayout = () => {
                     Task,
                     description,
                     assignedTo,
+                    dueDate,
                     queryPerson,
                 });
                 alert("Uploaded");
@@ -43,15 +45,17 @@ const TwoColumnLayout = () => {
                 setTask("");
                 setdescription("");
                 setAssignedTo("");
+                setDueDate("");
                 setTaskAccepted(true);
             } catch (error) {
                 console.error("Error submitting query:", error);
             }
             setIsSubmitting(false);
         } else {
-            alert("Please fill in all the fields, including Assign To.");
+            alert("Please fill in all the fields, including Assign To and Due Date.");
         }
     };
+
 
     const fetchTasks = async () => {
         try {
@@ -181,6 +185,22 @@ const TwoColumnLayout = () => {
                                     />
                                 </div>
                             </div> */}
+                            <div className="flex items-center mb-6">
+                                <div className="w-1/3">
+                                    <label className="block text-black font-bold text-right mb-1 md:mb-0 pr-4" htmlFor="inline-password">
+                                        Due Date
+                                    </label>
+                                </div>
+                                <div className="w-2/3">
+                                    <input
+                                        onChange={(e) => { setDueDate(e.target.value) }}
+                                        value={dueDate} required
+                                        className="bg-white appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-black leading-tight focus:outline-none rounded-md"
+                                        type='date'
+                                        id="due-date"
+                                    />
+                                </div>
+                            </div>
                             <div className="flex items-center mb-4">
                                 <div className="w-1/3">
                                     <label className="block text-black font-bold text-right mb-1 md:mb-0 pr-4" htmlFor="inline-password">
