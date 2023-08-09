@@ -102,12 +102,14 @@ function Dashboard({ isloggedIn, setloggedIn }) {
                             className="flex items-center px-6 py-3 text-gray-300 hover:bg-gray-700 hover:text-white mb-3 mt-20"
                         >
                             <Link to='/chat'>
-                                <span className='ml-6'>Messenger</span>
+                                <span className='ml-5'>Messenger</span>
                             </Link>
                         </p>
                         <p
                             className="flex items-center px-6 py-3 text-gray-300 hover:bg-gray-700 hover:text-white mb-3"
                         >
+                            <span className='ml-5'>Personal Task</span>
+
                         </p>
                     </nav>
                 </div>

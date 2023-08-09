@@ -30,19 +30,30 @@ const Login = ({ setloggedIn }) => {
     }, []);
 
     return (
-        <div className="flex justify-center items-center h-screen">
-            <div className="bg-white border border-gray-300 rounded-lg shadow-2xl px-6 py-10 max-w-xs mb-2">
-                <div className="mb-6">
-                    <h3 className="text-xl font-bold">Task Manager</h3>
+        <div className="flex justify-center items-center h-screen bg-gradient-to-r from-purple-700 to-indigo-800">
+            <div className="bg-white border border-gray-300 rounded-lg shadow-lg p-10 max-w-md space-y-6">
+                <div className="text-center">
+                    <h2 className="text-4xl font-extrabold text-gray-800">Task Manager</h2>
+                    <p className="text-sm text-gray-500">Effortlessly Organize Your Tasks</p>
                 </div>
                 <div className="flex justify-center items-center">
-                    <button onClick={signIn} className="px-2 py-2 border flex gap-2 border-gray-400 rounded-lg text-black hover:border-gray-500 hover:text-black hover:shadow transition duration-100">
-                        <img className="w-6 h-6" src="https://www.svgrepo.com/show/475656/google-color.svg" loading="lazy" alt="Google logo" />
-                        <span>Login with Google</span>
+                    <button
+                        onClick={signIn}
+                        className="flex items-center gap-4 bg-blue-600 text-white rounded-lg px-6 py-3 hover:bg-blue-700 transition duration-300 focus:outline-none focus:ring-2 focus:ring-blue-400"
+                    >
+                        <img
+                            className="w-8 h-8"
+                            src="https://www.svgrepo.com/show/475656/google-color.svg"
+                            loading="lazy"
+                            alt="Google logo"
+                        />
+                        <span className="text-lg font-semibold">Sign in with Google</span>
                     </button>
                 </div>
             </div>
         </div>
+
+
     );
 };
 
