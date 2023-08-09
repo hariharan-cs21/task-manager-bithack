@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { format } from 'date-fns';
 import {
@@ -18,8 +18,9 @@ const Chat = ({ isloggedIn, user }) => {
     const [joinedGroups, setJoinedGroups] = useState([]);
     const [hashtagGroups, setHashtagGroups] = useState([]);
     const [newGroup, setNewGroup] = useState('');
-    const [refresh, setRefresh] = useState(false);
     const [chatDate, setChatDate] = useState(null);
+    const chatContainerRef = useRef(null);
+
 
 
     const navigate = useNavigate();
@@ -43,13 +44,15 @@ const Chat = ({ isloggedIn, user }) => {
                 setMessage('');
 
                 fetchMessages();
+
             } catch (error) {
                 console.error('Error sending message:', error);
             }
         }
+        setTimeout(() => {
+            scrollToBottom()
+        }, 1000);
     };
-
-
 
     const createNewGroup = async () => {
         if (newGroup && isAdmin) {
@@ -105,22 +108,18 @@ const Chat = ({ isloggedIn, user }) => {
 
     useEffect(() => {
         fetchMessages();
+
     }, [selectedGroup]);
 
     useEffect(() => {
         fetchHashtagGroups();
     }, []);
-    const handleRefresh = () => {
-        setRefresh(true);
-    };
 
-    useEffect(() => {
-        if (refresh) {
-            fetchMessages();
-            setRefresh(false);
+    const scrollToBottom = () => {
+        if (chatContainerRef.current) {
+            chatContainerRef.current.scrollTop = chatContainerRef.current.scrollHeight;
         }
-    }, [refresh, selectedGroup]);
-
+    };
     return (
         <>
             {isloggedIn && (
@@ -182,11 +181,7 @@ const Chat = ({ isloggedIn, user }) => {
                         </div>
                         <div className="flex flex-col flex-auto h-full p-6">
                             <div className="flex flex-col flex-auto flex-shrink-0 rounded-2xl bg-gray-100 h-full p-4 ">
-                                <button onClick={handleRefresh}
-                                    className="flex flex-row justify-center items-center rounded-xl p-1 text-white bg-gray-600 mb-1"
-                                >
-                                    <div ><i className="uil uil-refresh hover:bg-gray-300 text-lg p-1 rounded"></i>Refresh</div>
-                                </button>
+
 
                                 {joinedGroups.includes(selectedGroup) && (
                                     <div className="mb-4">
@@ -196,7 +191,7 @@ const Chat = ({ isloggedIn, user }) => {
                                 )}
                                 {selectedGroup && (
                                     <>
-                                        <div className="flex flex-col h-full overflow-x-auto mb-2">
+                                        <div className="flex flex-col h-full overflow-x-auto mb-2" ref={chatContainerRef}>
                                             {chatDate && (
                                                 <div className="flex justify-center">
                                                     <div className="bg-gray-200 p-2 rounded flex items-center">
