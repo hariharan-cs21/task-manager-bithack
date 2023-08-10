@@ -97,11 +97,11 @@ const Chat = ({ isloggedIn, user }) => {
     useEffect(() => {
         fetchMessages();
 
-    });
+    }, []);
 
     useEffect(() => {
         fetchHashtagGroups();
-    },);
+    }, []);
 
     const scrollToBottom = () => {
         if (chatContainerRef.current) {
@@ -116,8 +116,6 @@ const Chat = ({ isloggedIn, user }) => {
 
                         <div className="flex flex-col py-8 pl-6 pr-2 w-64 bg-white flex-shrink-0">
                             <div className="ml-4 mr-2 py-2 text-large text-white flex flex-col items-center mb-2 bg-gray-600 rounded-lg cursor-pointer" onClick={() => navigate("/dashboard")}>View Dashboard</div>
-
-
 
                             <div className="h-20 w-20 rounded-full border overflow-hidden container mx-auto">
                                 <img

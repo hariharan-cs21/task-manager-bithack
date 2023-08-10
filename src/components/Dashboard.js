@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Body from "./Body";
 import { auth } from "../components/Config/firebaseconfig";
 import { signOut } from "firebase/auth";
@@ -51,11 +51,22 @@ function Dashboard({ isloggedIn, setloggedIn, user }) {
 
     const [isSidebarOpen, setIsSidebarOpen] = useState(false);
     const handleSidebarToggle = () => {
-        setIsSidebarOpen(!isSidebarOpen);
+        setIsSidebarOpen(true);
         setTimeout(() => {
             setIsSidebarOpen(false);
         }, 2800);
     };
+
+    useEffect(() => {
+        const timeoutId = setTimeout(() => {
+            setIsSidebarOpen(false);
+        }, 2800);
+
+        return () => {
+            clearTimeout(timeoutId);
+        };
+    }, []);
+
 
     const [isDropdownOpen, setIsDropdownOpen] = useState(false);
     const toggleDropdown = () => {
@@ -66,6 +77,7 @@ function Dashboard({ isloggedIn, setloggedIn, user }) {
         signOut(auth).then(() => {
             localStorage.clear();
             setloggedIn(false);
+            setIsDropdownOpen(false);
         });
     };
 
@@ -81,24 +93,29 @@ function Dashboard({ isloggedIn, setloggedIn, user }) {
             >
                 <div className="flex flex-col h-full mt-2">
                     <nav className="flex-grow">
+                        <Link to="/dashboard">
+                            <p
+                                className="flex items-center px-6 py-3 text-gray-300 hover:bg-gray-700 hover:text-white mb-3 rounded-xl"
+                            >
+                                <i className="uil uil-dashboard ml-3 text-xl"></i>
+                                <span className='ml-1'>Dashboard</span>
+                            </p>
+                        </Link>
+
+                        <Link to='/chat'>
+                            <p
+                                className="flex items-center px-6 py-3 text-gray-300 hover:bg-gray-700 hover:text-white mt-32 rounded-xl"
+                            >
+                                <i className="uil uil-chat ml-3 text-xl"></i>
+                                <span className='ml-1'>Messenger</span>
+                            </p>
+                        </Link>
+
                         <p
-                            className="flex items-center px-6 py-3 text-gray-300 hover:bg-gray-700 hover:text-white mb-3"
+                            className=" flex items-center px-6 py-3 text-gray-300 hover:bg-gray-700 hover:text-white mb-3 rounded-xl"
                         >
-                            <Link to="/dashboard">
-                                <span className='ml-6'>Dashboard</span>
-                            </Link>
-                        </p>
-                        <p
-                            className="flex items-center px-6 py-3 text-gray-300 hover:bg-gray-700 hover:text-white mb-3 mt-20"
-                        >
-                            <Link to='/chat'>
-                                <span className='ml-5'>Messenger</span>
-                            </Link>
-                        </p>
-                        <p
-                            className="flex items-center px-6 py-3 text-gray-300 hover:bg-gray-700 hover:text-white mb-3"
-                        >
-                            <span className='ml-5'>Personal Task</span>
+                            <i className="uil uil-house-user ml-3 text-xl"></i>
+                            <span className='ml-1'>Personal Task</span>
 
                         </p>
                     </nav>

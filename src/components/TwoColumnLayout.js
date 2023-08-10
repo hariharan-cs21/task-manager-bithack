@@ -115,7 +115,8 @@ const TwoColumnLayout = () => {
 
     useEffect(() => {
         fetchTasks();
-    }, [taskAccepted]);
+    }, []);
+
 
     useEffect(() => {
         setAssignedTo(copiedUser)
@@ -235,9 +236,13 @@ const TwoColumnLayout = () => {
                                             Assign To
                                         </label>
                                     </div>
-                                    <div className="w-2/3">
-                                        <h1>{assignedTo}</h1>
-                                    </div>
+                                    {assignedTo &&
+                                        <div className="w-2/3">
+                                            <div className='bg-white rounded-lg'>
+                                                <p className='p-1 ml-2'>{assignedTo}</p>
+                                            </div>
+                                        </div>
+                                    }
                                 </div>
 
 

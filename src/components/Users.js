@@ -44,7 +44,7 @@ const Users = ({ setCopiedUser }) => {
 
     useEffect(() => {
         fetchUsers();
-    }, []);
+    });
 
     const CopiedEmail = (email) => {
         setCopiedUser(email);

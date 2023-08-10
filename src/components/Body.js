@@ -31,13 +31,14 @@ const Body = ({ isloggedIn, user }) => {
             await updateDoc(taskDocRef, {
                 acceptedBy: currentUserEmail,
             });
-            setTaskAccepted((prev) => !prev);
+            setTaskAccepted(prev => !prev);
             alert('Task accepted successfully.');
         } catch (error) {
             console.error('Error accepting task:', error);
             alert('Error accepting task. Please try again.');
         }
     };
+
     const handleShowNotificationBar = () => {
         setShowNotificationBar(true);
         setShowLayout(false)
