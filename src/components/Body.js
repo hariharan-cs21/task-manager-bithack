@@ -69,7 +69,7 @@ const Body = ({ isloggedIn, user }) => {
                         }`}
                     onClick={handleShowNotificationBar}
                 ></i>
-                {isloggedIn && <p className='ml-1 text-sm mr-3'>Welcome {user?.displayName}</p>}
+                {isloggedIn && <p className='ml-1 text-sm mr-3 bg-green-500 text-white p-1 rounded-lg'>Welcome {user?.displayName}</p>}
             </div>
             {showNotificationBar && <button className="shadow bg-blue-500 focus:shadow-outline focus:outline-none text-white font-bold py-2 px-3 rounded m-auto" onClick={handleLayout}>View Dashboard</button>}
             <div className="overflow-auto flex-1">

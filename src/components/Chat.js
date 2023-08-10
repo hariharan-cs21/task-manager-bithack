@@ -1,6 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { format } from 'date-fns';
 import {
     getDocs,
     collection,
@@ -18,13 +17,9 @@ const Chat = ({ isloggedIn, user }) => {
     const [joinedGroups, setJoinedGroups] = useState([]);
     const [hashtagGroups, setHashtagGroups] = useState([]);
     const [newGroup, setNewGroup] = useState('');
-    const [chatDate, setChatDate] = useState(null);
     const chatContainerRef = useRef(null);
 
-
-
     const navigate = useNavigate();
-
     const chatCollection = collection(db, 'chatCollection');
     const hashtagGroupsCollection = collection(db, 'hashtagGroupsCollection');
 
@@ -80,16 +75,9 @@ const Chat = ({ isloggedIn, user }) => {
             const querySnapshot = await getDocs(q);
             const messageData = querySnapshot.docs.map((doc) => doc.data());
             messageData.sort((a, b) => a.timestamp - b.timestamp);
-
             setMessages(messageData);
-
-            if (messageData.length > 0) {
-                const firstMessageTimestamp = messageData[0].timestamp.toMillis();
-                const formattedDate = format(new Date(firstMessageTimestamp), 'MMMM d, yyyy');
-                setChatDate(formattedDate);
-            }
         } catch (error) {
-            console.error('Error fetching messages:', error);
+            console.error('Error fetching chat:', error);
         }
     };
 
@@ -109,11 +97,11 @@ const Chat = ({ isloggedIn, user }) => {
     useEffect(() => {
         fetchMessages();
 
-    }, [selectedGroup]);
+    });
 
     useEffect(() => {
         fetchHashtagGroups();
-    }, []);
+    },);
 
     const scrollToBottom = () => {
         if (chatContainerRef.current) {
@@ -192,29 +180,26 @@ const Chat = ({ isloggedIn, user }) => {
                                 {selectedGroup && (
                                     <>
                                         <div className="flex flex-col h-full overflow-x-auto mb-2" ref={chatContainerRef}>
-                                            {chatDate && (
-                                                <div className="flex justify-center">
-                                                    <div className="bg-gray-200 p-2 rounded flex items-center">
-                                                        <p className="mr-1 text-black text-sm">{chatDate}</p>
-                                                        <p className="text-black text-sm">{format(new Date(chatDate), 'EEEE')}</p>
-                                                    </div>
-                                                </div>
-                                            )}
+
                                             {messages.map((msg, index) => (
 
                                                 <div key={index} className="col-start-6 col-end-13 p-2 rounded-lg">
 
 
                                                     {auth.currentUser?.uid !== msg.senderId &&
-                                                        <div className='bg-gray-700 max-w-sm inline-block text-white p-2 rounded-lg ml-4'>
-                                                            <p className="text-[11px] text-gray-300 ml-1">{msg.sender}</p>
-                                                            <p className='text-[14px] inline-block text-white rounded-lg'>{msg.text}</p>
-                                                        </div>
+                                                        <React.Fragment>
+
+                                                            <div className='bg-gray-700 max-w-sm inline-block text-white p-2 rounded-lg ml-4'>
+                                                                <p className="text-[11px] text-gray-300 ml-1">{msg.sender}</p>
+                                                                <p className='text-[14px] inline-block text-white rounded-lg'>{msg.text}</p>
+                                                            </div>
+
+                                                        </React.Fragment>
                                                     }
                                                     {auth.currentUser?.uid === msg.senderId &&
+
                                                         <div className='bg-[#7ab4cc] max-w-sm inline-block text-white p-2 rounded-lg float-right mr-4'>
                                                             <p className='text-[14px] inline-block text-white rounded-lg'>{msg.text}</p>
-                                                            {/* {new Date(msg.timestamp.toMillis()).toLocaleString()} */}
                                                         </div>
                                                     }
                                                 </div>
