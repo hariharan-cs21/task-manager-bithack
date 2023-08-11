@@ -38,7 +38,6 @@ const Chat = ({ isloggedIn, user }) => {
                 await addDoc(chatCollection, messageData);
                 setMessage('');
 
-                fetchMessages();
 
             } catch (error) {
                 console.error('Error sending message:', error);
@@ -96,8 +95,7 @@ const Chat = ({ isloggedIn, user }) => {
 
     useEffect(() => {
         fetchMessages();
-
-    }, []);
+    }, [selectedGroup]);
 
     useEffect(() => {
         fetchHashtagGroups();
