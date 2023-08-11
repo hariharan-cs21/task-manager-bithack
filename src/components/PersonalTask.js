@@ -6,7 +6,7 @@ const PersonalTask = ({ user }) => {
 
     return (
         <>
-            <div className="flex items-center justify-between mt-2">
+            <div className="flex items-center justify-between mt-2" >
                 <div className="flex items-center ml-2 cursor-pointer hover:bg-indigo-700 hover:text-white rounded-md p-1 transition duration-300 ease-in-out transform hover:scale-105">
                     <i className="uil uil-home text-xl"></i>
                     <p
@@ -45,6 +45,26 @@ const PersonalTask = ({ user }) => {
             <div className='flex justify-end m-3 p-1'>
                 <p className='cursor-pointer border-double border-4 border-indigo:600 hover:bg-indigo-500 hover:text-white rounded-md p-1 transition duration-300 ease-in-out transform hover:scale-105'>Add task</p>
             </div>
+
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 m-6" style={{ backgroundImage: `url("")` }}>
+                <div className="w-full p-4 bg-white rounded-lg shadow flex-grow">
+                    <h2 className="text-xl font-bold">Task</h2>
+                    <p className="text-gray-600">good</p>
+                    <p className="text-sm text-gray-500">Assigned To: me</p>
+                </div>
+                <div className="w-full p-4 bg-white rounded-lg shadow flex-grow">
+                    <h2 className="text-xl font-bold">Task</h2>
+                    <p className="text-gray-600">good</p>
+                    <p className="text-sm text-gray-500">Assigned To: me</p>
+                </div>
+                <div className="w-full p-4 bg-white rounded-lg shadow flex-grow">
+                    <h2 className="text-xl font-bold">Task</h2>
+                    <p className="text-gray-600">good</p>
+                    <p className="text-sm text-gray-500">Assigned To: me</p>
+                </div>
+            </div>
+
+
         </>
     );
 };
