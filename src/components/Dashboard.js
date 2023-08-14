@@ -78,6 +78,7 @@ function Dashboard({ isloggedIn, setloggedIn, user }) {
             localStorage.clear();
             setloggedIn(false);
             setIsDropdownOpen(false);
+            navigate("/")
         });
     };
 

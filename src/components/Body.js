@@ -4,6 +4,7 @@ import { auth, db } from "../components/Config/firebaseconfig";
 import NotificationBar from './Notify';
 import { updateDoc, doc, getDocs, collection } from 'firebase/firestore';
 import "../App.css"
+import calculateTimeRemaining from "./Utility/duedate"
 
 const Body = ({ isloggedIn, user }) => {
     const [tasks, setTasks] = useState([]);
@@ -75,7 +76,7 @@ const Body = ({ isloggedIn, user }) => {
             {showNotificationBar && <button className="shadow bg-blue-500 focus:shadow-outline focus:outline-none text-white font-bold py-2 px-3 rounded m-auto" onClick={handleLayout}>View Dashboard</button>}
             <div className="overflow-auto flex-1">
 
-                {showNotificationBar && <NotificationBar tasks={tasks} currentUserEmail={currentUserEmail} />}
+                {showNotificationBar && <NotificationBar tasks={tasks} currentUserEmail={currentUserEmail} calculateTimeRemaining={calculateTimeRemaining} />}
 
                 {showLayout && <TwoColumnLayout isloggedIn={isloggedIn} tasks={tasks} currentUserEmail={currentUserEmail} handleAcceptTask={handleAcceptTask} />}
             </div>

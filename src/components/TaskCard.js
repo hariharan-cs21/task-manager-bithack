@@ -1,18 +1,8 @@
 import React, { useState } from 'react';
 
-const TaskCard = ({ tasks, currentUserEmail, isAdmin, handleAcceptTask, handleTransferTask }) => {
+const TaskCard = ({ tasks, currentUserEmail, isAdmin, handleAcceptTask, handleTransferTask, handleDeleteTask, calculateTimeRemaining }) => {
     const userTasks = isAdmin ? tasks : tasks.filter(task => task.assignedTo === currentUserEmail);
     const [transferToEmail, setTransferToEmail] = useState("");
-
-    const calculateTimeRemaining = (dueDate) => {
-        const now = new Date();
-        const due = new Date(dueDate);
-        const timeDiff = due - now;
-        const daysRemaining = Math.floor(timeDiff / (1000 * 60 * 60 * 24));
-        const hoursRemaining = Math.floor((timeDiff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-
-        return `${daysRemaining} days ${hoursRemaining} hours`;
-    };
 
     return (
         <div className='w-full ml-2'>
@@ -56,6 +46,12 @@ const TaskCard = ({ tasks, currentUserEmail, isAdmin, handleAcceptTask, handleTr
                                 className='px-4 py-2 bg-green-500 text-white rounded'
                             >
                                 Transfer
+                            </button>
+                            <button
+                                onClick={() => handleDeleteTask(task.id)}
+                                className='px-4 py-2 bg-red-500 text-white rounded ml-1'
+                            >
+                                Delete
                             </button>
                         </>
                     )}

@@ -1,8 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { auth, db } from './Config/firebaseconfig';
-import { collection, addDoc, getDocs, updateDoc, doc, getDoc } from 'firebase/firestore';
+import { collection, addDoc, getDocs, updateDoc, doc, getDoc, deleteDoc } from 'firebase/firestore';
 import TaskCard from './TaskCard';
 import Users from "./Users"
+import calculateTimeRemaining from "./Utility/duedate"
+
 
 const TwoColumnLayout = () => {
     const [Priority, setPriority] = useState("");
@@ -23,6 +25,17 @@ const TwoColumnLayout = () => {
 
     const toggleForm = () => {
         setShowForm(!showForm);
+    };
+    const handleEditTask = async (taskId, updatedTask) => {
+        try {
+            const taskDocRef = doc(db, "allQueries", taskId);
+            await updateDoc(taskDocRef, updatedTask);
+            alert("Task updated");
+            fetchTasks();
+        } catch (error) {
+            console.error("Error editing task:", error);
+            alert("Error editing task. Please try again.");
+        }
     };
 
     const submitQuery = async () => {
@@ -122,6 +135,20 @@ const TwoColumnLayout = () => {
         setAssignedTo(copiedUser)
     }, [copiedUser])
 
+
+
+    const handleDeleteTask = async (taskId) => {
+        try {
+            const taskDocRef = doc(db, "allQueries", taskId);
+            await deleteDoc(taskDocRef);
+            alert(`Task deleted`);
+            fetchTasks();
+        } catch (error) {
+            console.error("Error deleting task:", error);
+            alert("Error deleting task. Please try again.");
+        }
+    };
+
     const isAdmin = auth.currentUser?.email === "linktothedeveloper@gmail.com";
     return (
         <div className='flex flex-wrap justify-start lg:justify-start mr-4'>
@@ -182,22 +209,7 @@ const TwoColumnLayout = () => {
                                         />
                                     </div>
                                 </div>
-                                {/* <div className="flex items-center mb-6">
-                                <div className="w-1/3">
-                                    <label className="block text-black font-bold text-right mb-1 md:mb-0 pr-4" htmlFor="inline-password">
-                                        Due Date
-                                    </label>
-                                </div>
-                                <div className="w-2/3">
-                                    <input
-                                        onChange={(e) => { setdescription(e.target.value) }}
-                                        value={description} required
-                                        className="bg-white appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-black leading-tight focus:outline-none rounded-md"
-                                        type='date'
-                                        id="inline-password"
-                                    />
-                                </div>
-                            </div> */}
+
                                 <div className="flex items-center mb-6">
                                     <div className="w-1/3">
                                         <label className="block text-black font-bold text-right mb-1 md:mb-0 pr-4" htmlFor="inline-password">
@@ -269,18 +281,19 @@ const TwoColumnLayout = () => {
                             <h2 className="text-1xl md:text-2xl lg:text-2xl font-bold">Assigned Tasks</h2>
                         </div>
 
-
                     }
                 </>
             )}
-
 
             <TaskCard
                 tasks={tasks}
                 currentUserEmail={currentUserEmail}
                 isAdmin={isAdmin}
                 handleAcceptTask={handleAcceptTask}
+                calculateTimeRemaining={calculateTimeRemaining}
                 handleTransferTask={handleTransferTask}
+                handleDeleteTask={handleDeleteTask}
+
             />
         </div>
     );
