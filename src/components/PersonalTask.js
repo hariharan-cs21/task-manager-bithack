@@ -3,7 +3,9 @@ import PersonalTaskCard from './PersonalTaskCard';
 
 const PersonalTask = ({ user }) => {
     return (
+
         <PersonalTaskCard user={user} />
+
     )
 }
 

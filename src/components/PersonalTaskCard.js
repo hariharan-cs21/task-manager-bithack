@@ -29,9 +29,14 @@ const PersonalTaskCard = ({ user }) => {
         task.title.toLowerCase().includes(searchKeyword.toLowerCase()) ||
         task.description.toLowerCase().includes(searchKeyword.toLowerCase())
     );
+    const userTasks = tasks.filter(
+        task => task.queryPerson.id === auth.currentUser?.uid
+    );
 
-    const completedTasks = tasks.filter((task) => task.completed);
-    const progress = (completedTasks.length / tasks.length) * 100;
+    const userCompletedTasks = userTasks.filter(task => task.completed);
+
+    const userProgress = (userCompletedTasks.length / userTasks.length) * 100;
+
 
     const [isAddingTask, setIsAddingTask] = useState(false);
     const [newTaskDetails, setNewTaskDetails] = useState({
@@ -124,28 +129,28 @@ const PersonalTaskCard = ({ user }) => {
 
     return (
 
-        <div className="flex flex-col h-screen bg-gray-100">
-
-            <nav className="bg-blue-700 text-white p-2">
+        <div className="flex flex-col h-screen bg-blue-50" >
+            <nav className="text-blue-800 p-2 bg-white">
                 <div className="flex justify-between items-center">
-                    <div className="flex items-center space-x-1 cursor-pointer" onClick={() => navigate('/dashboard')}>
+                    <div className="flex items-center space-x-1 cursor-pointer  hover:bg-blue-700 p-1 rounded-xl hover:text-white" onClick={() => navigate('/dashboard')}>
                         <i className="uil uil-home text-xl"></i>
                         <p className="font-bold text-lg">Home</p>
                     </div>
                     <div className="relative w-1/3">
                         <input
                             type="text"
-                            className="w-full pl-2 py-1 rounded-xl text-black border-indigo-700 border focus:outline-none focus:border-indigo-500"
+                            className="w-full pl-2 py-1 rounded-xl text-black border-blue-700 border focus:outline-none focus:border-blue-500"
                             placeholder="Search Tasks..."
                             value={searchKeyword}
                             onChange={(e) => setSearchKeyword(e.target.value)}
                             required
                         />
                     </div>
-                    <div className="cursor-pointer hover:shadow-lg transition duration-300 ease-in-out transform hover:scale-105" onClick={() => navigate('/profile')}>
+
+                    <div className="flex items-center cursor-pointer transition duration-300 ease-in-out transform hover:scale-105" onClick={() => navigate('/profile')}>
                         <img
                             src={user?.photoURL}
-                            className="w-10 h-10 rounded-full border-2 border-white hover:border-indigo-600"
+                            className="w-10 h-10 rounded-full border-2 border-white"
                             alt="avatar"
                         />
                     </div>
@@ -153,7 +158,7 @@ const PersonalTaskCard = ({ user }) => {
             </nav>
             <div className="flex justify-end mx-6 my-4">
                 <button
-                    className="bg-indigo-700 hover:bg-indigo-600 text-white px-4 py-2 rounded-md shadow-md transition duration-300 ease-in-out transform hover:scale-105"
+                    className="bg-blue-700 hover:bg-blue-600 text-white px-4 py-2 rounded-md shadow-md transition duration-300 ease-in-out transform hover:scale-105"
                     onClick={openAddTaskModal}
                 >
                     Add Task
@@ -162,18 +167,23 @@ const PersonalTaskCard = ({ user }) => {
 
             <div className="flex justify-between mx-6 mb-4">
                 <div className="space-x-4">
-                    <button className="text-sm text-gray-600 hover:text-indigo-600 focus:outline-none" onClick={() => sortTasks('dueDate')}>
+                    <button className="text-sm text-gray-600 hover:text-blue-600 focus:outline-none" onClick={() => sortTasks('dueDate')}>
                         Sort by Due Date
                     </button>
-                    <button className="text-sm text-gray-600 hover:text-indigo-600 focus:outline-none" onClick={() => sortTasks('priority')}>
+                    <button className="text-sm text-gray-600 hover:text-blue-600 focus:outline-none" onClick={() => sortTasks('priority')}>
                         Sort by Priority
                     </button>
 
                 </div>
                 <div className="flex items-center">
-                    <p className="text-sm text-gray-600 mr-2">Progress: {progress.toFixed(2)}%</p>
+                    <p className="text-sm text-gray-600 mr-2">
+                        {userProgress.toFixed(1)}%
+                    </p>
                     <div className="bg-gray-300 h-2 w-32 rounded-full">
-                        <div className="bg-indigo-600 h-full" style={{ width: `${progress}%` }} />
+                        <div
+                            className="bg-blue-600 h-full rounded-full"
+                            style={{ width: `${userProgress.toFixed(1)}%` }}
+                        />
                     </div>
                 </div>
             </div>
@@ -183,7 +193,7 @@ const PersonalTaskCard = ({ user }) => {
                     <>
                         {
                             task.queryPerson.id === auth.currentUser?.uid &&
-                            <div key={index} className={`bg-white rounded-lg shadow-md p-4 ${task.completed ? 'opacity-50' : ''}`}>
+                            <div key={index} className={`bg-white rounded-xl shadow-md p-5 ${task.completed ? 'opacity-50' : ''}`}>
 
                                 <>
                                     <h2 className="text-xl font-bold mb-2">{task.title}</h2>
@@ -207,8 +217,8 @@ const PersonalTaskCard = ({ user }) => {
                                     <div className="mt-4">
                                         <button
                                             className={`mr-2 px-2 py-1 rounded ${task.completed
-                                                ? 'bg-indigo-600 text-white'
-                                                : 'bg-gray-300 text-gray-600 hover:bg-indigo-600 hover:text-white'
+                                                ? 'bg-blue-600 text-white'
+                                                : 'bg-gray-300 text-gray-600 hover:bg-blue-600 hover:text-white'
                                                 }`}
                                             onClick={() => editTask(index, { ...task, completed: !task.completed })}
                                         >
@@ -290,15 +300,16 @@ const PersonalTaskCard = ({ user }) => {
 
 
 
+
                         <div className="flex justify-end">
                             <button
-                                className="bg-indigo-700 hover:bg-indigo-600 text-white px-4 py-2 rounded-md shadow-md transition duration-300 ease-in-out transform hover:scale-105"
+                                className="bg-blue-700 hover:bg-blue-600 text-white px-4 py-2 rounded-md shadow-md transition duration-300 ease-in-out transform hover:scale-105"
                                 onClick={addNewTask}
                             >
                                 Add
                             </button>
                             <button
-                                className="ml-2 text-gray-600 hover:text-indigo-600"
+                                className="ml-2 text-gray-600 hover:text-blue-600"
                                 onClick={closeAddTaskModal}
                             >
                                 Cancel
@@ -308,8 +319,8 @@ const PersonalTaskCard = ({ user }) => {
                     </div>
 
                 </div>
-
             )}
+
         </div>
     )
 }
