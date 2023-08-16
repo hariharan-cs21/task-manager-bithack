@@ -26,17 +26,7 @@ const TwoColumnLayout = () => {
     const toggleForm = () => {
         setShowForm(!showForm);
     };
-    const handleEditTask = async (taskId, updatedTask) => {
-        try {
-            const taskDocRef = doc(db, "allQueries", taskId);
-            await updateDoc(taskDocRef, updatedTask);
-            alert("Task updated");
-            fetchTasks();
-        } catch (error) {
-            console.error("Error editing task:", error);
-            alert("Error editing task. Please try again.");
-        }
-    };
+
 
     const submitQuery = async () => {
         if (Priority && Task && description && assignedTo && dueDate) {

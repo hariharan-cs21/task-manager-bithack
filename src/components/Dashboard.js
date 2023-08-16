@@ -111,16 +111,17 @@ function Dashboard({ isloggedIn, setloggedIn, user }) {
                                 <span className='ml-1'>Messenger</span>
                             </p>
                         </Link>
+
                         <Link to='/personaltask'>
 
                             <p
-                                className=" flex items-center px-6 py-3 text-gray-300 hover:bg-gray-700 hover:text-white mb-3 rounded-xl"
+                                className="flex items-center px-6 py-3 text-gray-300 hover:bg-gray-700 hover:text-white rounded-xl"
                             >
                                 <i className="uil uil-house-user ml-3 text-xl"></i>
                                 <span className='ml-1'>Personal Task</span>
-
                             </p>
                         </Link>
+
                     </nav>
                 </div>
             </div>

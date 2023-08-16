@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 
-const NotificationBar = ({ tasks, currentUserEmail, calculateTimeRemaining }) => {
+const NotificationBar = ({ tasks, currentUserEmail, calculateTimeRemaining, newEmail }) => {
     const [showDetails, setShowDetails] = useState(false);
     const [selectedTask, setSelectedTask] = useState(null);
 

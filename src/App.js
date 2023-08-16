@@ -21,6 +21,7 @@ function App() {
         <Route path="/chat" element={<Chat isloggedIn={isloggedIn} setloggedIn={setloggedIn} user={user} />} />
         <Route path="/personaltask" element={<PersonalTask isloggedIn={isloggedIn} setloggedIn={setloggedIn} user={user} />} />
 
+
       </Routes>
     </Router>
   );
