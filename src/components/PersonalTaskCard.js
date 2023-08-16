@@ -34,7 +34,14 @@ const PersonalTaskCard = ({ user }) => {
     const progress = (completedTasks.length / tasks.length) * 100;
 
     const [isAddingTask, setIsAddingTask] = useState(false);
-    const [newTaskDetails, setNewTaskDetails] = ([])
+    const [newTaskDetails, setNewTaskDetails] = useState({
+        title: '',
+        description: '',
+        priority: '',
+        category: 'general',
+        dueDate: null,
+        completed: false,
+    });
 
     const openAddTaskModal = () => {
         setIsAddingTask(true);
@@ -102,7 +109,6 @@ const PersonalTaskCard = ({ user }) => {
                     updatedTasks.push(tasks[i]);
                 }
             }
-
             setTasks(updatedTasks);
             alert("Task deleted");
             fetchTasks();
