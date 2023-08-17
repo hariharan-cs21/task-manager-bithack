@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import myaudio from "./despacito.mp3";
 import myaudio2 from "./vellake_anirudh_bgm.mp3";
 import musicIc from "./Music.gif"
@@ -40,6 +40,19 @@ const Music = () => {
         const index = fileNameWithoutExtension.lastIndexOf('.');
         return index !== -1 ? fileNameWithoutExtension.substring(0, index) : fileNameWithoutExtension;
     };
+    useEffect(() => {
+        if (audioRef.current) {
+            audioRef.current.pause();
+            audioRef.current.currentTime = 0;
+
+            if (isPlaying) {
+                audioRef.current.play().catch(error => {
+                    console.error('Error playing audio:', error);
+                });
+            }
+        }
+    }, [isPlaying, audioRef, currentTrackIndex]);
+
 
     return (
         <div className={`fixed bottom-8 right-8 bg-gray-900 text-white rounded-lg shadow-md overflow-hidden transition-width duration-300 ${isCollapsed ? 'w-16' : 'w-64'}`}>
