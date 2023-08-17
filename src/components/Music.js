@@ -1,11 +1,12 @@
 import React, { useState, useRef } from 'react';
 import myaudio from "./despacito.mp3";
 import myaudio2 from "./vellake_anirudh_bgm.mp3";
+import musicIc from "./music.gif"
 
 const Music = () => {
     const [isPlaying, setIsPlaying] = useState(false);
     const [currentTrackIndex, setCurrentTrackIndex] = useState(0);
-    const [isCollapsed, setIsCollapsed] = useState(true); // State to control collapsing
+    const [isCollapsed, setIsCollapsed] = useState(true);
 
     const audioRef = useRef(null);
 
@@ -68,8 +69,8 @@ const Music = () => {
                     </button>
                 </div>
             </div>
-            <div className="bg-gray-800 text-white text-center cursor-pointer py-2" onClick={toggleCollapse}>
-                {isCollapsed ? "Music?" : '▼'}
+            <div className="bg-white text-black text-center cursor-pointer" onClick={toggleCollapse}>
+                {isCollapsed ? <img src={musicIc} /> : '▼'}
             </div>
         </div>
     );
