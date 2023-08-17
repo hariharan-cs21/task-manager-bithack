@@ -2,7 +2,8 @@ import React, { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom';
 import { collection, addDoc, getDocs, deleteDoc, doc } from 'firebase/firestore';
 import { db, auth } from './Config/firebaseconfig';
-import DefaultToast from './toast';
+import ToastWithCloseButton from './toast';
+import '../App.css'
 
 const PersonalTaskCard = ({ user }) => {
     const navigate = useNavigate()
@@ -10,6 +11,8 @@ const PersonalTaskCard = ({ user }) => {
     const [description, setDescription] = useState("")
     const [priority, setPriority] = useState("")
     const [dueDate, setDueDate] = useState("")
+    const [startDate, setstartDate] = useState("")
+
     const [category, setCategory] = useState("")
     const [showBar, setShowBar] = useState(false)
 
@@ -19,12 +22,41 @@ const PersonalTaskCard = ({ user }) => {
 
     const sortTasks = (criterion) => {
         const sortedTasks = [...tasks].sort((a, b) => {
-            if (a[criterion] < b[criterion]) return -1;
-            if (a[criterion] > b[criterion]) return 1;
-            return 0;
+            if (criterion === 'priority') {
+                const priorityValues = { high: 1, medium: 2, low: 3 };
+                return priorityValues[a[criterion]] - priorityValues[b[criterion]];
+            } else {
+                if (a[criterion] < b[criterion]) return -1;
+                if (a[criterion] > b[criterion]) return 1;
+                return 0;
+            }
         });
         setTasks(sortedTasks);
     };
+
+    const calculateTimeRemaining = (startDate, dueDate) => {
+        const start = new Date(startDate);
+        const due = new Date(dueDate);
+
+        const timeDiff = due - start;
+
+        if (timeDiff <= 0) {
+            return "Time ended";
+        }
+
+        const daysRemaining = Math.floor(timeDiff / (1000 * 60 * 60 * 24));
+        const hoursRemaining = Math.floor((timeDiff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+
+        let remainingTime = `${daysRemaining} days ${hoursRemaining} hours`;
+
+        if (daysRemaining === 0 && hoursRemaining < 24) {
+            remainingTime += ` (Less than 24 hours)`;
+        }
+
+        return remainingTime;
+    };
+
+
 
     const filteredTasks = tasks.filter((task) =>
         task.title.toLowerCase().includes(searchKeyword.toLowerCase()) ||
@@ -40,14 +72,6 @@ const PersonalTaskCard = ({ user }) => {
 
 
     const [isAddingTask, setIsAddingTask] = useState(false);
-    const [newTaskDetails, setNewTaskDetails] = useState({
-        title: '',
-        description: '',
-        priority: '',
-        category: 'general',
-        dueDate: null,
-        completed: false,
-    });
 
     const openAddTaskModal = () => {
         setIsAddingTask(true);
@@ -55,14 +79,11 @@ const PersonalTaskCard = ({ user }) => {
 
     const closeAddTaskModal = () => {
         setIsAddingTask(false);
-        setNewTaskDetails({
-            title: '',
-            description: '',
-            priority: 'low',
-            category: 'general',
-            dueDate: null,
-            completed: false,
-        });
+        setDescription("")
+        setCategory("")
+        setDueDate("")
+        setstartDate("")
+        setPriority("")
     };
 
     const personaltasks = collection(db, "mypersonal");
@@ -76,12 +97,18 @@ const PersonalTaskCard = ({ user }) => {
             };
             const newTask = {
                 title: title, description: description, category: category, priority: priority, dueDate:
-                    dueDate, queryPerson
+                    dueDate, startDate: startDate, queryPerson
             }
             await addDoc(personaltasks, newTask);
             setTasks([...tasks, newTask]);
-            closeAddTaskModal();
+
             setShowBar(true)
+            setDescription("")
+            setCategory("")
+            setDueDate("")
+            setstartDate("")
+            setPriority("")
+            closeAddTaskModal();
         } catch (error) {
             console.error('Error adding task', error);
         }
@@ -128,6 +155,12 @@ const PersonalTaskCard = ({ user }) => {
         fetchTasks();
     }, []);
 
+    useEffect(() => {
+        const timeoutId = setTimeout(() => {
+            setShowBar(false);
+        }, 4000);
+        return () => clearTimeout(timeoutId);
+    }, [showBar])
 
     return (
 
@@ -167,13 +200,11 @@ const PersonalTaskCard = ({ user }) => {
                 >
                     Add Task
                 </button>
-                {showBar &&
-                    <DefaultToast title={title} />
-                }
+                {showBar && <ToastWithCloseButton title={title} />}
+
+
             </div>
-
-
-            <div className="flex justify-between mx-6 mb-4">
+            <div className="flex justify-between mx-6 mb-2">
                 <div className="space-x-4">
                     <button className="text-sm text-gray-600 hover:text-blue-600 focus:outline-none" onClick={() => sortTasks('dueDate')}>
                         Sort by Due Date
@@ -196,7 +227,7 @@ const PersonalTaskCard = ({ user }) => {
                 </div>
             </div>
 
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mx-6 mb-12">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mx-6 mb-12 scroll-smooth overflow-y-scroll">
                 {filteredTasks.map((task, index) => (
                     <>
                         {
@@ -204,8 +235,13 @@ const PersonalTaskCard = ({ user }) => {
                             <div key={index} className={`bg-white rounded-xl shadow-md p-5 ${task.completed ? 'opacity-50' : ''}`}>
 
                                 <>
-                                    <h2 className="text-xl font-bold mb-2">{task.title}</h2>
-                                    <p className="text-gray-600 mb-4">{task.description}</p>
+                                    <div className='flex justify-between'>
+                                        <h2 className="text-xl font-bold mb-2">{task.title}</h2>
+                                        {task.dueDate && (
+                                            <p className=" text-sm text-gray-600">Due: {new Date(task.dueDate).toLocaleDateString()}</p>
+                                        )}
+                                    </div>
+                                    <p className="text-gray-600 mb-2">{task.description}</p>
                                     <div className="flex mt-2">
                                         <span className={`text-xs font-semibold py-1 px-2 rounded-full ${task.priority === 'high'
                                             ? 'bg-red-500 text-white'
@@ -219,9 +255,14 @@ const PersonalTaskCard = ({ user }) => {
                                             {task.category}
                                         </span>
                                     </div>
-                                    {task.dueDate && (
-                                        <p className="mt-2 text-sm text-gray-600">Due: {new Date(task.dueDate).toLocaleDateString()}</p>
+                                    {task.startDate && (
+                                        <p className="mt-2 text-sm text-gray-600">Start: {new Date(task.startDate).toLocaleDateString()}</p>
                                     )}
+                                    <p className='text-sm'>
+                                        Time left
+                                        : {calculateTimeRemaining(task.startDate, task.dueDate)}
+                                    </p>
+
                                     <div className="mt-4">
                                         <button
                                             className={`mr-2 px-2 py-1 rounded ${task.completed
@@ -248,13 +289,10 @@ const PersonalTaskCard = ({ user }) => {
             </div>
 
 
-
-
             {isAddingTask && (
                 <div className="fixed inset-0 flex items-center justify-center bg-gray-700 bg-opacity-50">
                     <div className="bg-white rounded-lg shadow-lg p-6 w-96">
-                        <h2 className="text-xl font-semibold mb-4">Add New Task</h2>
-                        <div className="mb-4">
+                        <div className="mb-2">
                             <label className="block font-medium text-sm mb-1">Title:</label>
                             <input
                                 className="w-full border border-gray-300 rounded-md p-2"
@@ -264,7 +302,7 @@ const PersonalTaskCard = ({ user }) => {
                                 onChange={(e) => { setTitle(e.target.value) }}
                             />
                         </div>
-                        <div className="mb-4">
+                        <div className="mb-2">
                             <label className="block font-medium text-sm mb-1">Description:</label>
                             <textarea
                                 className="w-full border border-gray-300 rounded-md p-2"
@@ -275,7 +313,7 @@ const PersonalTaskCard = ({ user }) => {
                             />
 
                         </div>
-                        <div className="mb-4">
+                        <div className="mb-2">
                             <label className="block font-medium text-sm mb-1">Priority:</label>
                             <select
                                 className="w-full border border-gray-300 rounded-md p-2"
@@ -283,12 +321,14 @@ const PersonalTaskCard = ({ user }) => {
                                 value={priority}
                                 onChange={e => setPriority(e.target.value)}
                             >
+                                <option value=""></option>
+
                                 <option value="high">High</option>
                                 <option value="medium">Medium</option>
                                 <option value="low">Low</option>
                             </select>
                         </div>
-                        <div className="mb-4">
+                        <div className="mb-2">
                             <label className="block font-medium text-sm mb-1">Category:</label>
                             <input
                                 className="w-full border border-gray-300 rounded-md p-2"
@@ -298,7 +338,17 @@ const PersonalTaskCard = ({ user }) => {
                                 onChange={(e) => setCategory(e.target.value)}
                             />
                         </div>
-                        <div className="mb-4">
+                        <div className="mb-2">
+                            <label className="block font-medium text-sm mb-1">Start Date:</label>
+                            <input
+                                className="w-full border border-gray-300 rounded-md p-2"
+                                type="date"
+                                name="dueDate"
+                                onChange={(e) => { setstartDate(e.target.value) }}
+                                value={startDate}
+                            />
+                        </div>
+                        <div className="mb-2">
                             <label className="block font-medium text-sm mb-1">Due Date:</label>
                             <input
                                 className="w-full border border-gray-300 rounded-md p-2"

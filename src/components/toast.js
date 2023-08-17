@@ -37,7 +37,7 @@ export default function ToastWithCloseButton({ title }) {
                             <HiFire className="h-4 w-4" />
                         </div>
                         <div className="ml-2 text-xs font-normal">
-                            Task : {title} Added
+                            New Task : {title} Added
                         </div>
                     </div>
                     <button
