@@ -4,6 +4,7 @@ import { collection, addDoc, getDocs, deleteDoc, doc, updateDoc } from 'firebase
 import { db, auth } from './Config/firebaseconfig';
 import ToastWithCloseButton from './toast';
 import '../App.css'
+import Music from './Music';
 
 const PersonalTaskCard = ({ user }) => {
     const navigate = useNavigate()
@@ -219,6 +220,7 @@ const PersonalTaskCard = ({ user }) => {
                 </div>
 
             </nav>
+            <Music />
 
             <div className="flex justify-end mx-6 my-4">
 

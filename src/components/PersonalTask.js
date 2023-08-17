@@ -6,6 +6,7 @@ const PersonalTask = ({ user }) => {
 
         <PersonalTaskCard user={user} />
 
+
     )
 }
 
