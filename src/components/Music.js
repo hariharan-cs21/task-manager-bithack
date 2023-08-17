@@ -1,7 +1,13 @@
 import React, { useState, useRef, useEffect } from 'react';
 import myaudio from "./despacito.mp3";
 import myaudio2 from "./vellake_anirudh_bgm.mp3";
+import myaudio3 from "./perfect.mp3";
+import myaudio4 from "./dzanum.mp3";
+import myaudio5 from "./Manithan - Poi Vazhva.mp3"
+
+
 import musicIc from "./Music.gif"
+
 
 const Music = () => {
     const [isPlaying, setIsPlaying] = useState(false);
@@ -10,7 +16,7 @@ const Music = () => {
 
     const audioRef = useRef(null);
 
-    const tracks = [myaudio, myaudio2];
+    const tracks = [myaudio, myaudio2, myaudio3, myaudio4, myaudio5];
 
     const playPauseHandler = () => {
         setIsPlaying(prevState => !prevState);

@@ -204,6 +204,7 @@ const PersonalTaskCard = ({ user }) => {
                         </div>
 
                     </div>
+
                     <div className='cursor-pointer flex items-center text-black hover:bg-blue-700 p-1 px-2 rounded-xl hover:text-white font-bold text-blue-700'>
                         <i className="uil uil-bell text-2xl"></i><p className='text-sm'>Updates</p>
                     </div>
