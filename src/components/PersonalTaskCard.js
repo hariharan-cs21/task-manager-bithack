@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom';
-import { collection, addDoc, getDocs, deleteDoc, doc } from 'firebase/firestore';
+import { collection, addDoc, getDocs, deleteDoc, doc, updateDoc } from 'firebase/firestore';
 import { db, auth } from './Config/firebaseconfig';
 import ToastWithCloseButton from './toast';
 import '../App.css'
@@ -127,11 +127,20 @@ const PersonalTaskCard = ({ user }) => {
 
 
 
-    const editTask = (index, updatedTask) => {
-        const updatedTasks = [...tasks];
-        updatedTasks[index] = updatedTask;
-        setTasks(updatedTasks);
+    const editTask = async (index, updatedTask) => {
+        try {
+            const taskDocRef = doc(db, 'mypersonal', updatedTask.id);
+            await updateDoc(taskDocRef, { completed: updatedTask.completed });
+
+            const updatedTasks = [...tasks];
+            updatedTasks[index] = updatedTask;
+            setTasks(updatedTasks);
+        } catch (error) {
+            console.error('Error updating task:', error);
+            alert('Error updating task. Please try again.');
+        }
     };
+
 
     const handleDeleteTask = async (index, taskId) => {
         try {
@@ -273,6 +282,7 @@ const PersonalTaskCard = ({ user }) => {
                                         >
                                             {task.completed ? 'Mark Incomplete' : 'Mark Complete'}
                                         </button>
+
                                         <button
                                             className="px-2 py-1 rounded bg-red-600 text-white hover:bg-red-500"
                                             onClick={() => handleDeleteTask(index, task.id)}
