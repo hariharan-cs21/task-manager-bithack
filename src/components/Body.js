@@ -5,6 +5,8 @@ import NotificationBar from './Notify';
 import { updateDoc, doc, getDocs, collection } from 'firebase/firestore';
 import "../App.css"
 import calculateTimeRemaining from "./Utility/duedate"
+import myaudio from "./iphone_sound.mp3"
+
 
 const Body = ({ isloggedIn, user }) => {
     const [tasks, setTasks] = useState([]);
@@ -42,7 +44,8 @@ const Body = ({ isloggedIn, user }) => {
 
     const handleShowNotificationBar = () => {
         setShowNotificationBar(true);
-        setShowLayout(false)
+        setShowLayout(false);
+        playAudio();
     };
     const handleLayout = () => {
         setShowNotificationBar(false);
@@ -63,14 +66,24 @@ const Body = ({ isloggedIn, user }) => {
         };
     }, []);
 
+    const playAudio = () => {
+        const audio = new Audio(myaudio);
+        audio.play();
+    };
+
     return (
         <>
             <div className='flex items-center justify-end'>
+
+                <audio className='hidden'>
+                    <source src={myaudio} type='audio/ogg' />
+                </audio>
+
                 <i
-                    className={`uil uil-bell text-3xl text-green-500 hover:text-blue-400 cursor-pointer transition duration-300 transform hover:scale-110 ${showVibration ? 'animate-bell' : ''
-                        }`}
+                    className={`uil uil-bell text-3xl text-green-500 hover:text-blue-400 cursor-pointer transition duration-300 transform hover:scale-110 ${showVibration ? 'animate-bell' : ''}`}
                     onClick={handleShowNotificationBar}
                 ></i>
+
                 {isloggedIn && <p className='ml-1 text-sm mr-3 bg-green-500 text-white p-1 rounded-lg'>Welcome {user?.displayName}</p>}
             </div>
             {showNotificationBar && <button className="shadow bg-blue-500 focus:shadow-outline focus:outline-none text-white font-bold py-2 px-3 rounded m-auto" onClick={handleLayout}>View Dashboard</button>}

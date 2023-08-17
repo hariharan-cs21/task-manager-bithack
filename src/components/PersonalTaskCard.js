@@ -35,8 +35,16 @@ const PersonalTaskCard = ({ user }) => {
     };
 
     const calculateTimeRemaining = (startDate, dueDate) => {
+        if (!startDate || !dueDate) {
+            return "Dates not provided";
+        }
+
         const start = new Date(startDate);
         const due = new Date(dueDate);
+
+        if (isNaN(start) || isNaN(due)) {
+            return "Invalid dates";
+        }
 
         const timeDiff = due - start;
 
@@ -55,7 +63,6 @@ const PersonalTaskCard = ({ user }) => {
 
         return remainingTime;
     };
-
 
 
     const filteredTasks = tasks.filter((task) =>
