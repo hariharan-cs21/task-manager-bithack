@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 
-const NotificationBar = ({ tasks, currentUserEmail, calculateTimeRemaining, newEmail }) => {
+const NotificationBar = ({ tasks, currentUserEmail, calculateTimeRemaining }) => {
     const [showDetails, setShowDetails] = useState(false);
     const [selectedTask, setSelectedTask] = useState(null);
 
@@ -13,7 +13,10 @@ const NotificationBar = ({ tasks, currentUserEmail, calculateTimeRemaining, newE
         setSelectedTask(task);
         setShowDetails(true);
         const remainingTime = calculateTimeRemaining(task.dueDate);
-        if (remainingTime.includes('Less than 24 hours')) {
+
+        if (remainingTime === "Time ended") {
+            alert('Time has ended for this task.');
+        } else if (remainingTime.includes('Less than 24 hours')) {
             alert('This task has less than 24 hours remaining.');
         }
     };

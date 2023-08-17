@@ -1,8 +1,12 @@
-
 const calculateTimeRemaining = (dueDate) => {
     const now = new Date();
     const due = new Date(dueDate);
     const timeDiff = due - now;
+
+    if (timeDiff <= 0) {
+        return "Time ended";
+    }
+
     const daysRemaining = Math.floor(timeDiff / (1000 * 60 * 60 * 24));
     const hoursRemaining = Math.floor((timeDiff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
 
@@ -11,6 +15,8 @@ const calculateTimeRemaining = (dueDate) => {
     if (daysRemaining === 0 && hoursRemaining < 24) {
         remainingTime += ` (Less than 24 hours)`;
     }
+
     return remainingTime;
 };
+
 export default calculateTimeRemaining

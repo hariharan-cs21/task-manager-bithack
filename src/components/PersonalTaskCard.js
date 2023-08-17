@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom';
 import { collection, addDoc, getDocs, deleteDoc, doc } from 'firebase/firestore';
 import { db, auth } from './Config/firebaseconfig';
+import DefaultToast from './toast';
 
 const PersonalTaskCard = ({ user }) => {
     const navigate = useNavigate()
@@ -10,7 +11,7 @@ const PersonalTaskCard = ({ user }) => {
     const [priority, setPriority] = useState("")
     const [dueDate, setDueDate] = useState("")
     const [category, setCategory] = useState("")
-
+    const [showBar, setShowBar] = useState(false)
 
     const [tasks, setTasks] = useState([]);
 
@@ -80,6 +81,7 @@ const PersonalTaskCard = ({ user }) => {
             await addDoc(personaltasks, newTask);
             setTasks([...tasks, newTask]);
             closeAddTaskModal();
+            setShowBar(true)
         } catch (error) {
             console.error('Error adding task', error);
         }
@@ -156,14 +158,20 @@ const PersonalTaskCard = ({ user }) => {
                     </div>
                 </div>
             </nav>
+
             <div className="flex justify-end mx-6 my-4">
+
                 <button
-                    className="bg-blue-700 hover:bg-blue-600 text-white px-4 py-2 rounded-md shadow-md transition duration-300 ease-in-out transform hover:scale-105"
+                    className="ml-2 h-12 bg-blue-700 hover:bg-blue-600 text-white px-4 py-2 rounded-md shadow-md transition duration-300 ease-in-out transform hover:scale-105"
                     onClick={openAddTaskModal}
                 >
                     Add Task
                 </button>
+                {showBar &&
+                    <DefaultToast title={title} />
+                }
             </div>
+
 
             <div className="flex justify-between mx-6 mb-4">
                 <div className="space-x-4">
@@ -238,6 +246,9 @@ const PersonalTaskCard = ({ user }) => {
                     </>
                 ))}
             </div>
+
+
+
 
             {isAddingTask && (
                 <div className="fixed inset-0 flex items-center justify-center bg-gray-700 bg-opacity-50">
@@ -319,7 +330,9 @@ const PersonalTaskCard = ({ user }) => {
                     </div>
 
                 </div>
+
             )}
+
 
         </div>
     )
