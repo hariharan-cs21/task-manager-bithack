@@ -55,7 +55,7 @@ const PersonalTaskCard = ({ user }) => {
         const daysRemaining = Math.floor(timeDiff / (1000 * 60 * 60 * 24));
         const hoursRemaining = Math.floor((timeDiff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
 
-        let remainingTime = `${daysRemaining} days ${hoursRemaining} hours`;
+        let remainingTime = `${daysRemaining} days`;
 
         if (daysRemaining === 0 && hoursRemaining < 24) {
             remainingTime += ` (Less than 24 hours)`;
@@ -183,20 +183,30 @@ const PersonalTaskCard = ({ user }) => {
         <div className="flex flex-col h-screen bg-blue-50" >
             <nav className="text-blue-800 p-2 bg-white">
                 <div className="flex justify-between items-center">
+
+
                     <div className="flex items-center space-x-1 cursor-pointer  hover:bg-blue-700 p-1 rounded-xl hover:text-white" onClick={() => navigate('/dashboard')}>
-                        <i className="uil uil-home text-xl"></i>
+                        <i className="uil uil-estate text-xl"></i>
                         <p className="font-bold text-lg">Home</p>
                     </div>
-                    <div className="relative w-1/3">
-                        <input
-                            type="text"
-                            className="w-full pl-2 py-1 rounded-xl text-black border-blue-700 border focus:outline-none focus:border-blue-500"
-                            placeholder="Search Tasks..."
-                            value={searchKeyword}
-                            onChange={(e) => setSearchKeyword(e.target.value)}
-                            required
-                        />
+                    <div className="relative w-2/5 ml-8">
+                        <div className='flex justify-between items-center'>
+                            <input
+                                type="text"
+                                className="w-full pl-2 py-1 rounded-xl text-black border-blue-700 border focus:outline-none focus:border-blue-500"
+                                placeholder="Search Tasks..."
+                                value={searchKeyword}
+                                onChange={(e) => setSearchKeyword(e.target.value)}
+                                required
+                            />
+
+                        </div>
+
                     </div>
+                    <div className='cursor-pointer flex items-center text-black hover:bg-blue-700 p-1 px-2 rounded-xl hover:text-white font-bold text-blue-700'>
+                        <i className="uil uil-bell text-2xl"></i><p className='text-sm'>Updates</p>
+                    </div>
+
 
                     <div className="flex items-center cursor-pointer transition duration-300 ease-in-out transform hover:scale-105" onClick={() => navigate('/profile')}>
                         <img
@@ -205,7 +215,9 @@ const PersonalTaskCard = ({ user }) => {
                             alt="avatar"
                         />
                     </div>
+
                 </div>
+
             </nav>
 
             <div className="flex justify-end mx-6 my-4">
