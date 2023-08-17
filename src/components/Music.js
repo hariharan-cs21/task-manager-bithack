@@ -1,7 +1,7 @@
 import React, { useState, useRef } from 'react';
 import myaudio from "./despacito.mp3";
 import myaudio2 from "./vellake_anirudh_bgm.mp3";
-import musicIc from "./music.gif"
+import musicIc from "./Music.gif"
 
 const Music = () => {
     const [isPlaying, setIsPlaying] = useState(false);
@@ -70,8 +70,9 @@ const Music = () => {
                 </div>
             </div>
             <div className="bg-white text-black text-center cursor-pointer" onClick={toggleCollapse}>
-                {isCollapsed ? <img src={musicIc} /> : '▼'}
+                {isCollapsed ? <img src={musicIc} alt='music' /> : '▼'}
             </div>
+
         </div>
     );
 };
