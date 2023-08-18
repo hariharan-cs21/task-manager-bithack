@@ -34,20 +34,19 @@ const PersonalTaskCard = ({ user }) => {
         });
         setTasks(sortedTasks);
     };
-
-    const calculateTimeRemaining = (startDate, dueDate) => {
-        if (!startDate || !dueDate) {
-            return "Dates not provided";
+    const calculateTimeRemaining = (dueDate) => {
+        if (!dueDate) {
+            return "Due date not provided";
         }
 
-        const start = new Date(startDate);
+        const now = new Date();
         const due = new Date(dueDate);
 
-        if (isNaN(start) || isNaN(due)) {
-            return "Invalid dates";
+        if (isNaN(due)) {
+            return "Invalid date provided";
         }
 
-        const timeDiff = due - start;
+        const timeDiff = due - now;
 
         if (timeDiff <= 0) {
             return "Time ended";
@@ -55,15 +54,13 @@ const PersonalTaskCard = ({ user }) => {
 
         const daysRemaining = Math.floor(timeDiff / (1000 * 60 * 60 * 24));
         const hoursRemaining = Math.floor((timeDiff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+        const minutesRemaining = Math.floor((timeDiff % (1000 * 60 * 60)) / (1000 * 60));
 
-        let remainingTime = `${daysRemaining} days`;
-
-        if (daysRemaining === 0 && hoursRemaining < 24) {
-            remainingTime += ` (Less than 24 hours)`;
-        }
-
-        return remainingTime;
+        return `${daysRemaining}d : ${hoursRemaining}h : ${minutesRemaining}m `;
     };
+
+
+
 
 
     const filteredTasks = tasks.filter((task) =>
@@ -168,6 +165,11 @@ const PersonalTaskCard = ({ user }) => {
             alert("Error deleting task. Please try again.");
         }
     };
+    function formatDate(date) {
+        const options = { day: 'numeric', month: 'long', year: 'numeric' };
+        return new Intl.DateTimeFormat('en-US', options).format(date);
+    }
+
     useEffect(() => {
         fetchTasks();
     }, []);
@@ -269,7 +271,9 @@ const PersonalTaskCard = ({ user }) => {
                                     <div className='flex justify-between'>
                                         <h2 className="text-xl font-bold mb-2">{task.title}</h2>
                                         {task.dueDate && (
-                                            <p className=" text-sm text-gray-600">Due: {new Date(task.dueDate).toLocaleDateString()}</p>
+                                            <p className="text-sm font-bold text-black">
+                                                Due: {formatDate(new Date(task.dueDate))}
+                                            </p>
                                         )}
                                     </div>
                                     <p className="text-gray-600 mb-2">{task.description}</p>
@@ -287,12 +291,16 @@ const PersonalTaskCard = ({ user }) => {
                                         </span>
                                     </div>
                                     {task.startDate && (
-                                        <p className="mt-2 text-sm text-gray-600">Start: {new Date(task.startDate).toLocaleDateString()}</p>
+                                        <p className="mt-2 text-sm text-gray-600">Start: {formatDate(new Date(task.startDate))}</p>
                                     )}
-                                    <p className='text-sm'>
-                                        Time left
-                                        : {calculateTimeRemaining(task.startDate, task.dueDate)}
-                                    </p>
+
+                                    {task.dueDate && (
+                                        <p className='text-sm'>
+                                            Time left: {calculateTimeRemaining(task.dueDate)}
+                                        </p>
+                                    )}
+
+
 
                                     <div className="mt-4">
                                         <button
