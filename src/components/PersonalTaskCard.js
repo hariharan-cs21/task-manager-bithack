@@ -5,6 +5,7 @@ import { db, auth } from './Config/firebaseconfig';
 import ToastWithCloseButton from './toast';
 import '../App.css'
 import Music from './Music';
+import PersonalNotify from './PersonalNotify';
 
 const PersonalTaskCard = ({ user }) => {
     const navigate = useNavigate()
@@ -16,10 +17,18 @@ const PersonalTaskCard = ({ user }) => {
 
     const [category, setCategory] = useState("")
     const [showBar, setShowBar] = useState(false)
+    const [showNotificationBar, setshowNotificationBar] = useState(false)
+    const [showLayout, setshowLayout] = useState(false)
 
     const [tasks, setTasks] = useState([]);
 
     const [searchKeyword, setSearchKeyword] = useState('');
+
+    const handleNotification = () => {
+        setshowNotificationBar(true)
+        setshowLayout(false)
+    }
+
 
     const sortTasks = (criterion) => {
         const sortedTasks = [...tasks].sort((a, b) => {
@@ -172,7 +181,10 @@ const PersonalTaskCard = ({ user }) => {
 
     useEffect(() => {
         fetchTasks();
+        setshowNotificationBar(false)
+        setshowLayout(true)
     }, []);
+
 
     useEffect(() => {
         const timeoutId = setTimeout(() => {
@@ -207,16 +219,18 @@ const PersonalTaskCard = ({ user }) => {
 
                     </div>
 
-                    <div className='cursor-pointer flex items-center text-black hover:bg-blue-700 p-1 px-2 rounded-xl hover:text-white font-bold text-blue-700'>
-                        <i className="uil uil-bell text-2xl"></i><p className='text-sm'>Updates</p>
-                    </div>
 
 
-                    <div className="flex items-center cursor-pointer transition duration-300 ease-in-out transform hover:scale-105" onClick={() => navigate('/profile')}>
+
+                    <div className="flex items-center cursor-pointer transition duration-300 ease-in-out transform hover:scale-105" >
+                        <div className='cursor-pointer flex items-center text-black hover:bg-blue-700 p-1 px-1 rounded-xl hover:text-white font-bold text-blue-700 mr-2' onClick={handleNotification}>
+                            <i className="uil uil-bell text-2xl"></i>
+                        </div>
                         <img
                             src={user?.photoURL}
                             className="w-10 h-10 rounded-full border-2 border-white"
                             alt="avatar"
+                            onClick={() => navigate('/profile')}
                         />
                     </div>
 
@@ -235,99 +249,108 @@ const PersonalTaskCard = ({ user }) => {
                 </button>
                 {showBar && <ToastWithCloseButton title={title} />}
 
-
             </div>
-            <div className="flex justify-between mx-6 mb-2">
-                <div className="space-x-4">
-                    <button className="text-sm text-gray-600 hover:text-blue-600 focus:outline-none" onClick={() => sortTasks('dueDate')}>
-                        Sort by Due Date
-                    </button>
-                    <button className="text-sm text-gray-600 hover:text-blue-600 focus:outline-none" onClick={() => sortTasks('priority')}>
-                        Sort by Priority
-                    </button>
+            {showNotificationBar && <PersonalNotify
+                setshowLayout={setshowLayout}
+                showNotificationBar={showNotificationBar}
+                setshowNotificationBar={setshowNotificationBar}
+                tasks={tasks} />}
 
-                </div>
-                <div className="flex items-center">
-                    <p className="text-sm text-gray-600 mr-2">
-                        {userProgress.toFixed(1)}%
-                    </p>
-                    <div className="bg-gray-300 h-2 w-32 rounded-full">
-                        <div
-                            className="bg-blue-600 h-full rounded-full"
-                            style={{ width: `${userProgress.toFixed(1)}%` }}
-                        />
-                    </div>
-                </div>
-            </div>
+            {showLayout &&
+                <>
+                    <div className="flex justify-between mx-6 mb-2">
+                        <div className="space-x-4">
+                            <button className="text-sm text-gray-600 hover:text-blue-600 focus:outline-none" onClick={() => sortTasks('dueDate')}>
+                                Sort by Due Date
+                            </button>
+                            <button className="text-sm text-gray-600 hover:text-blue-600 focus:outline-none" onClick={() => sortTasks('priority')}>
+                                Sort by Priority
+                            </button>
 
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mx-6 mb-12 scroll-smooth overflow-y-scroll">
-                {filteredTasks.map((task, index) => (
-                    <>
-                        {
-                            task.queryPerson.id === auth.currentUser?.uid &&
-                            <div key={index} className={`bg-white rounded-xl shadow-md p-5 ${task.completed ? 'opacity-50' : ''}`}>
-
-                                <>
-                                    <div className='flex justify-between'>
-                                        <h2 className="text-xl font-bold mb-2">{task.title}</h2>
-                                        {task.dueDate && (
-                                            <p className="text-sm font-bold text-black">
-                                                Due: {formatDate(new Date(task.dueDate))}
-                                            </p>
-                                        )}
-                                    </div>
-                                    <p className="text-gray-600 mb-2">{task.description}</p>
-                                    <div className="flex mt-2">
-                                        <span className={`text-xs font-semibold py-1 px-2 rounded-full ${task.priority === 'high'
-                                            ? 'bg-red-500 text-white'
-                                            : task.priority === 'medium'
-                                                ? 'bg-yellow-500 text-gray-900'
-                                                : 'bg-green-500 text-white'
-                                            }`}>
-                                            {task.priority}
-                                        </span>
-                                        <span className="text-xs font-semibold py-1 px-2 ml-2 bg-blue-500 text-white rounded-full">
-                                            {task.category}
-                                        </span>
-                                    </div>
-                                    {task.startDate && (
-                                        <p className="mt-2 text-sm text-gray-600">Start: {formatDate(new Date(task.startDate))}</p>
-                                    )}
-
-                                    {task.dueDate && (
-                                        <p className='text-sm'>
-                                            Time left: {calculateTimeRemaining(task.dueDate)}
-                                        </p>
-                                    )}
-
-
-
-                                    <div className="mt-4">
-                                        <button
-                                            className={`mr-2 px-2 py-1 rounded ${task.completed
-                                                ? 'bg-blue-600 text-white'
-                                                : 'bg-gray-300 text-gray-600 hover:bg-blue-600 hover:text-white'
-                                                }`}
-                                            onClick={() => editTask(index, { ...task, completed: !task.completed })}
-                                        >
-                                            {task.completed ? 'Mark Incomplete' : 'Mark Complete'}
-                                        </button>
-
-                                        <button
-                                            className="px-2 py-1 rounded bg-red-600 text-white hover:bg-red-500"
-                                            onClick={() => handleDeleteTask(index, task.id)}
-                                        >
-                                            Delete
-                                        </button>
-                                    </div>
-                                </>
-
+                        </div>
+                        <div className="flex items-center">
+                            <p className="text-sm text-gray-600 mr-2">
+                                {userProgress.toFixed(1)}%
+                            </p>
+                            <div className="bg-gray-300 h-2 w-32 rounded-full">
+                                <div
+                                    className="bg-blue-600 h-full rounded-full"
+                                    style={{ width: `${userProgress.toFixed(1)}%` }}
+                                />
                             </div>
-                        }
-                    </>
-                ))}
-            </div>
+                        </div>
+                    </div>
 
+
+                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mx-6 mb-12 scroll-smooth overflow-y-scroll">
+                        {filteredTasks.map((task, index) => (
+                            <>
+                                {
+                                    task.queryPerson.id === auth.currentUser?.uid &&
+                                    <div key={index} className={`bg-white rounded-xl shadow-md p-5 ${task.completed ? 'opacity-50' : ''}`}>
+
+                                        <>
+                                            <div className='flex justify-between'>
+                                                <h2 className="text-xl font-bold mb-2">{task.title}</h2>
+                                                {task.dueDate && (
+                                                    <p className="text-sm font-bold text-black">
+                                                        Due: {formatDate(new Date(task.dueDate))}
+                                                    </p>
+                                                )}
+                                            </div>
+                                            <p className="text-gray-600 mb-2">{task.description}</p>
+                                            <div className="flex mt-2">
+                                                <span className={`text-xs font-semibold py-1 px-2 rounded-full ${task.priority === 'high'
+                                                    ? 'bg-red-500 text-white'
+                                                    : task.priority === 'medium'
+                                                        ? 'bg-yellow-500 text-gray-900'
+                                                        : 'bg-green-500 text-white'
+                                                    }`}>
+                                                    {task.priority}
+                                                </span>
+                                                <span className="text-xs font-semibold py-1 px-2 ml-2 bg-blue-500 text-white rounded-full">
+                                                    {task.category}
+                                                </span>
+                                            </div>
+                                            {task.startDate && (
+                                                <p className="mt-2 text-sm text-gray-600">Start: {formatDate(new Date(task.startDate))}</p>
+                                            )}
+
+                                            {task.dueDate && (
+                                                <p className='text-sm'>
+                                                    Time left: {calculateTimeRemaining(task.dueDate)}
+                                                </p>
+                                            )}
+
+
+
+                                            <div className="mt-4">
+                                                <button
+                                                    className={`mr-2 px-2 py-1 rounded ${task.completed
+                                                        ? 'bg-blue-600 text-white'
+                                                        : 'bg-gray-300 text-gray-600 hover:bg-blue-600 hover:text-white'
+                                                        }`}
+                                                    onClick={() => editTask(index, { ...task, completed: !task.completed })}
+                                                >
+                                                    {task.completed ? 'Mark Incomplete' : 'Mark Complete'}
+                                                </button>
+
+                                                <button
+                                                    className="px-2 py-1 rounded bg-red-600 text-white hover:bg-red-500"
+                                                    onClick={() => handleDeleteTask(index, task.id)}
+                                                >
+                                                    Delete
+                                                </button>
+                                            </div>
+                                        </>
+
+                                    </div>
+                                }
+                            </>
+                        ))}
+                    </div>
+                </>
+            }
 
             {isAddingTask && (
                 <div className="fixed inset-0 flex items-center justify-center bg-gray-700 bg-opacity-50">

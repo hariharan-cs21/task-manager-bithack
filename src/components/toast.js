@@ -32,7 +32,7 @@ export default function ToastWithCloseButton({ title }) {
                             }
                         `}
                     </style>
-                    <div className="flex items-center p-2 rounded-lg bg-cyan-100 text-cyan-500 dark:bg-cyan-800 dark:text-cyan-200">
+                    <div className="flex items-center p-2 rounded-lg bg-blue-100 text-cyan-500 dark:bg-cyan-800 dark:text-cyan-200">
                         <div className="h-6 w-6 flex items-center justify-center rounded-lg bg-cyan-100 text-cyan-500 dark:bg-cyan-800 dark:text-cyan-200">
                             <HiFire className="h-4 w-4" />
                         </div>

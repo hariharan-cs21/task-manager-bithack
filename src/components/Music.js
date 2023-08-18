@@ -4,8 +4,6 @@ import myaudio2 from "./vellake_anirudh_bgm.mp3";
 import myaudio3 from "./perfect.mp3";
 import myaudio4 from "./dzanum.mp3";
 import myaudio5 from "./Manithan - Poi Vazhva.mp3"
-
-
 import musicIc from "./Music.gif"
 
 
@@ -61,7 +59,7 @@ const Music = () => {
 
 
     return (
-        <div className={`fixed bottom-8 right-8 bg-gray-900 text-white rounded-lg shadow-md overflow-hidden transition-width duration-300 ${isCollapsed ? 'w-16' : 'w-64'}`}>
+        <div className={`fixed bottom-8 right-8 border-[1px] border-black bg-transparent-900 text-black rounded-lg shadow-md overflow-hidden transition-width duration-300 ${isCollapsed ? 'w-16' : 'w-64'}`}>
             <div className={`p-4 ${isCollapsed ? 'hidden' : ''}`}>
                 <h2 className="text-lg font-semibold mb-1">Now Playing</h2>
                 <p className="mb-2" style={{ textTransform: "capitalize" }}>{extractFileName(tracks[currentTrackIndex])}</p>
@@ -69,19 +67,19 @@ const Music = () => {
 
                 <div className="flex justify-between items-center">
                     <button
-                        className="px-4 py-1 mt-2  text-sm bg-gray-800 rounded-lg hover:bg-gray-700"
+                        className="px-4 py-1 mt-2 text-white text-sm bg-gray-800 rounded-lg hover:bg-gray-700"
                         onClick={prevTrackHandler}
                     >
                         Prev
                     </button>
                     <button
-                        className="px-4 py-1 mt-2 text-lg bg-blue-500 rounded-full hover:bg-blue-400"
+                        className="px-4 py-1 mt-2 text-lg bg-blue-500 rounded-full text-white hover:bg-blue-400"
                         onClick={playPauseHandler}
                     >
                         {isPlaying ? 'Pause' : 'Play'}
                     </button>
                     <button
-                        className="px-4 py-1 mt-2 text-sm bg-gray-800 rounded-lg hover:bg-gray-700"
+                        className="px-4 py-1 mt-2 text-sm text-white bg-gray-800 rounded-lg hover:bg-gray-700"
                         onClick={nextTrackHandler}
                     >
                         Next
