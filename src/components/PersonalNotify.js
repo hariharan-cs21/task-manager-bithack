@@ -1,4 +1,5 @@
 import React from 'react';
+import { auth } from './Config/firebaseconfig';
 
 const PersonalNotify = ({ setshowLayout, setshowNotificationBar, showNotificationBar, tasks }) => {
     function formatDate(date) {
@@ -24,19 +25,29 @@ const PersonalNotify = ({ setshowLayout, setshowNotificationBar, showNotificatio
 
                 </div>
                 <div>
+
                     {tasks.map((task, index) => (
-                        <div key={index} className="border-b border-gray-300 py-4">
-                            <p className="text-gray-800 text-lg rounded-lg w-32 font-semibold  p-1 bg-blue-100  font-bold border border-blue-700">{task.title}</p>
-                            <div className="flex  items-center mt-2">
-                                <p className="p-1 rounded-lg text-gray-700 " style={{ textTransform: "capitalize" }}>Priority : {task.priority}</p>
-                                <div className='flex'>
-                                    <p className='mr-1'>|</p>
-                                    <p className="rounded-lg text-gray-700 "> Due : {formatDate(new Date(task.dueDate))}</p>
+                        <>
+                            {task.queryPerson.id === auth.currentUser.uid &&
+
+                                <div key={index} className="border-b border-gray-300 py-4">
+                                    <>
+                                        <p className="text-gray-800 text-lg rounded-lg w-32 font-semibold  p-1 bg-blue-100  font-bold border border-blue-700">{task.title}</p>
+                                        <div className="flex  items-center mt-2">
+
+                                            <p className="p-1 rounded-lg text-gray-700 " style={{ textTransform: "capitalize" }}>Priority : {task.priority}</p>
+                                            <div className='flex'>
+                                                <p className='mr-1'>|</p>
+                                                <p className="rounded-lg text-gray-700 "> Due : {formatDate(new Date(task.dueDate))}</p>
+                                            </div>
+                                        </div>
+                                    </>
+
                                 </div>
-                            </div>
-                        </div>
+                            }
+                        </>
                     ))}
-                </div>
+                </div >
             </div>
         </div>
     );
