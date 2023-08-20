@@ -1,10 +1,8 @@
 import React, { useState } from 'react';
 
-const NotificationBar = ({ tasks, currentUserEmail, calculateTimeRemaining }) => {
+const NotificationBar = ({ tasks, currentUserEmail, calculateTimeRemaining, isAdmin }) => {
     const [showDetails, setShowDetails] = useState(false);
     const [selectedTask, setSelectedTask] = useState(null);
-
-    const isAdmin = currentUserEmail === 'linktothedeveloper@gmail.com';
 
     const userTasks = tasks.filter(task => task.assignedTo === currentUserEmail);
     const allTasks = isAdmin ? tasks : [];

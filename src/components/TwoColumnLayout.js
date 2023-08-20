@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { auth, db } from './Config/firebaseconfig';
-import { collection, addDoc, getDocs, updateDoc, doc, getDoc, deleteDoc } from 'firebase/firestore';
+import { collection, addDoc, getDocs, updateDoc, doc, getDoc, deleteDoc, where, query } from 'firebase/firestore';
 import TaskCard from './TaskCard';
 import Users from "./Users"
 import calculateTimeRemaining from "./Utility/duedate"
@@ -139,7 +139,35 @@ const TwoColumnLayout = () => {
         }
     };
 
-    const isAdmin = auth.currentUser?.email === "linktothedeveloper@gmail.com";
+    const [adminEmails, setAdminEmails] = useState([]);
+    const [isAdmin, setIsAdmin] = useState(false);
+
+    useEffect(() => {
+        const fetchUserRole = async () => {
+            if (auth.currentUser) {
+                const userRolesDoc = doc(db, "users", auth.currentUser.uid);
+                try {
+                    const myroleSnapshot = await getDoc(userRolesDoc);
+                    const myrole = myroleSnapshot.data().role;
+
+                    if (myrole === "admin" || myrole === "superAdmin") {
+                        setIsAdmin(true);
+                        const adminQuerySnapshot = await getDocs(
+                            query(collection(db, "users"), where("role", "==", "admin"))
+                        );
+                        const adminEmailArray = adminQuerySnapshot.docs.map(doc => doc.data().email);
+                        setAdminEmails(adminEmailArray);
+                        console.log(adminEmailArray);
+                    }
+                } catch (error) {
+                    console.error("Error fetching user role:", error);
+                }
+            }
+        };
+        fetchUserRole();
+    }, [auth.currentUser]);
+
+
     return (
         <div className='flex flex-wrap justify-start lg:justify-start mr-4'>
             {isAdmin && (

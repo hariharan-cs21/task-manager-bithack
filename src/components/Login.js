@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
-import { auth, provider } from './Config/firebaseconfig';
+import { auth, provider, db } from './Config/firebaseconfig';
 import { signInWithRedirect, getRedirectResult } from 'firebase/auth';
 import { useNavigate } from 'react-router-dom';
-import Myanim from './Myanim';
+import { doc, setDoc, getDoc } from 'firebase/firestore';
 
 const Login = ({ setloggedIn }) => {
     const [isLoading, setIsLoading] = useState(true);
@@ -16,14 +16,39 @@ const Login = ({ setloggedIn }) => {
         }
     };
 
+    const determineUserRole = (user) => {
+        const superAdminEmail = "linktothedeveloper@gmail.com";
+
+        if (user.email === superAdminEmail) {
+            return "superAdmin";
+        }
+        return "user";
+    };
+
     useEffect(() => {
         const handleRedirectResult = async () => {
             try {
-                const result = await getRedirectResult(auth);
-                if (result.user) {
+                await getRedirectResult(auth);
+                if (auth.currentUser) {
+                    const user = auth.currentUser;
+                    const userEmail = user.email;
+                    const userRef = doc(db, 'users', user.uid);
+
+                    const existingRoleSnapshot = await getDoc(userRef);
+                    const existingRole = existingRoleSnapshot.exists()
+                        ? existingRoleSnapshot.data().role
+                        : '';
+
+                    const role = existingRole || determineUserRole(user);
+
+                    await setDoc(userRef, {
+                        email: userEmail,
+                        role: role
+                    });
+
                     localStorage.setItem('isLogged', true);
                     setloggedIn(true);
-                    navigate('/dashboard');
+                    navigate("/dashboard");
                 } else {
                     setIsLoading(false);
                 }
@@ -34,10 +59,6 @@ const Login = ({ setloggedIn }) => {
         };
         handleRedirectResult();
     }, []);
-
-    if (isLoading) {
-        return null;
-    }
 
     return (
         <div className="flex flex-col md:flex-row h-screen bg-blue-200">
@@ -61,11 +82,6 @@ const Login = ({ setloggedIn }) => {
                             <span className="text-lg font-semibold">Sign in with Google</span>
                         </button>
                     </div>
-                </div>
-            </div>
-            <div className="w-full md:w-1/2 bg-blue-50 flex items-center justify-center">
-                <div style={{ height: '99%', width: '100%' }}>
-                    <Myanim />
                 </div>
             </div>
         </div>

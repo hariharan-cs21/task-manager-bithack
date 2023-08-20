@@ -1,8 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import Body from "./Body";
-import { auth } from "../components/Config/firebaseconfig";
+import { auth, db } from "../components/Config/firebaseconfig";
 import { signOut } from "firebase/auth";
 import { Link, useNavigate } from 'react-router-dom';
+import { doc, getDoc } from 'firebase/firestore';
+import MakeAdmin from './MakeAdmin';
 
 function SidebarButton({ isOpen, onClick }) {
     return (
@@ -86,6 +88,29 @@ function Dashboard({ isloggedIn, setloggedIn, user }) {
         navigate("/profile");
     };
 
+    const [isAdmin, setIsAdmin] = useState(false);
+    useEffect(() => {
+        const fetchUserRole = async () => {
+            if (auth.currentUser) {
+                const userRolesDoc = doc(db, "users", auth.currentUser.uid);
+                try {
+                    const myroleSnapshot = await getDoc(userRolesDoc);
+                    const myrole = myroleSnapshot.data().role;
+                    setIsAdmin(myrole === "superAdmin");
+                } catch (error) {
+                    console.error("Error fetching user role:", error);
+                }
+            }
+        };
+        fetchUserRole();
+    }, [auth.currentUser]);
+    const [showAdmin, setshowAdmin] = useState(false)
+    const [showBody, setshowBody] = useState(true)
+    const toggleShowAdmin = () => {
+        setshowAdmin(!showAdmin);
+        setshowBody(showAdmin);
+    };
+
     return (
         <div className="flex h-screen bg-gray-200">
             <div
@@ -93,12 +118,12 @@ function Dashboard({ isloggedIn, setloggedIn, user }) {
                     } lg:relative lg:translate-x-0 lg:flex-shrink-0 lg:w-48`}
             >
                 <div className="flex flex-col h-full mt-2">
-                    <nav className="flex-grow">
+                    <nav className="flex-grow font-bold">
                         <Link to="/dashboard">
                             <p
                                 className="flex items-center px-6 py-3 text-gray-300 hover:bg-gray-700 hover:text-white mb-3 rounded-xl"
                             >
-                                <i className="uil uil-dashboard ml-3 text-xl"></i>
+                                <i className="uil uil-dashboard ml-2 text-xl"></i>
                                 <span className='ml-1'>Dashboard</span>
                             </p>
                         </Link>
@@ -107,21 +132,28 @@ function Dashboard({ isloggedIn, setloggedIn, user }) {
                             <p
                                 className="flex items-center px-6 py-3 text-gray-300 hover:bg-gray-700 hover:text-white mt-32 rounded-xl"
                             >
-                                <i className="uil uil-chat ml-3 text-xl"></i>
+                                <i className="uil uil-chat ml-2 text-xl"></i>
                                 <span className='ml-1'>Messenger</span>
                             </p>
                         </Link>
+
 
                         <Link to='/personaltask'>
 
                             <p
                                 className="flex items-center px-6 py-3 text-gray-300 hover:bg-gray-700 hover:text-white rounded-xl"
                             >
-                                <i className="uil uil-house-user ml-3 text-xl"></i>
+                                <i className="uil uil-house-user ml-2 text-xl"></i>
                                 <span className='ml-1'>Personal Task</span>
                             </p>
                         </Link>
-
+                        {isAdmin && (
+                            <p
+                                className="flex items-center cursor-pointer px-6 py-3 ml-6 text-gray-300 hover:bg-gray-700 hover:text-white rounded-xl"
+                                onClick={toggleShowAdmin}>
+                                {showAdmin ? "Tasks" : "Make Admin"}
+                            </p>
+                        )}
                     </nav>
                 </div>
             </div>
@@ -155,7 +187,12 @@ function Dashboard({ isloggedIn, setloggedIn, user }) {
                         </option>
                     </div>
                 )}
-                <Body isloggedIn={isloggedIn} user={user} />
+                {showAdmin && <MakeAdmin />}
+                {isAdmin ?
+                    <>
+                        {showBody && <Body isloggedIn={isloggedIn} user={user} isAdmin={isAdmin} />}</> :
+                    <Body isloggedIn={isloggedIn} user={user} isAdmin={isAdmin} />
+                }
             </div>
         </div>
     );

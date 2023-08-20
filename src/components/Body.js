@@ -8,7 +8,7 @@ import calculateTimeRemaining from "./Utility/duedate"
 import myaudio from "./iphone_sound.mp3"
 
 
-const Body = ({ isloggedIn, user }) => {
+const Body = ({ isloggedIn, user, isAdmin }) => {
     const [tasks, setTasks] = useState([]);
     const [taskAccepted, setTaskAccepted] = useState(false);
     const currentUserEmail = auth.currentUser?.email || '';
@@ -89,8 +89,7 @@ const Body = ({ isloggedIn, user }) => {
             {showNotificationBar && <button className="shadow bg-blue-500 focus:shadow-outline focus:outline-none text-white font-bold py-2 px-3 rounded m-auto" onClick={handleLayout}>View Dashboard</button>}
             <div className="overflow-auto flex-1">
 
-                {showNotificationBar && <NotificationBar tasks={tasks} currentUserEmail={currentUserEmail} calculateTimeRemaining={calculateTimeRemaining} />}
-
+                {showNotificationBar && <NotificationBar tasks={tasks} currentUserEmail={currentUserEmail} calculateTimeRemaining={calculateTimeRemaining} isAdmin={isAdmin} />}
                 {showLayout && <TwoColumnLayout isloggedIn={isloggedIn} tasks={tasks} currentUserEmail={currentUserEmail} handleAcceptTask={handleAcceptTask} />}
             </div>
         </>

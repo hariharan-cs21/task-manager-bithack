@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import {
     getDocs,
-    collection,
+    collection, getDoc, doc,
     serverTimestamp,
     addDoc,
     query,
@@ -18,12 +18,9 @@ const Chat = ({ isloggedIn, user }) => {
     const [hashtagGroups, setHashtagGroups] = useState([]);
     const [newGroup, setNewGroup] = useState('');
     const chatContainerRef = useRef(null);
-
     const navigate = useNavigate();
     const chatCollection = collection(db, 'chatCollection');
     const hashtagGroupsCollection = collection(db, 'hashtagGroupsCollection');
-
-    const isAdmin = auth.currentUser?.email === 'linktothedeveloper@gmail.com';
 
     const sendMessage = async () => {
         if (message && selectedGroup) {
@@ -103,6 +100,35 @@ const Chat = ({ isloggedIn, user }) => {
             chatContainerRef.current.scrollTop = chatContainerRef.current.scrollHeight;
         }
     };
+
+    const [adminEmails, setAdminEmails] = useState([]);
+    const [isAdmin, setIsAdmin] = useState(false);
+
+    useEffect(() => {
+        const fetchUserRole = async () => {
+            if (auth.currentUser) {
+                const userRolesDoc = doc(db, "users", auth.currentUser.uid);
+                try {
+                    const myroleSnapshot = await getDoc(userRolesDoc);
+                    const myrole = myroleSnapshot.data().role;
+
+                    if (myrole === "admin" || myrole === "superAdmin") {
+                        setIsAdmin(true);
+                        const adminQuerySnapshot = await getDocs(
+                            query(collection(db, "users"), where("role", "==", "admin"))
+                        );
+                        const adminEmailArray = adminQuerySnapshot.docs.map(doc => doc.data().email);
+                        setAdminEmails(adminEmailArray);
+                        console.log(adminEmailArray);
+                    }
+                } catch (error) {
+                    console.error("Error fetching user role:", error);
+                }
+            }
+        };
+        fetchUserRole();
+    }, [auth.currentUser]);
+
     return (
         <>
             {isloggedIn && (
