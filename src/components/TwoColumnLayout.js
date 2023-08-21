@@ -157,7 +157,6 @@ const TwoColumnLayout = () => {
                         );
                         const adminEmailArray = adminQuerySnapshot.docs.map(doc => doc.data().email);
                         setAdminEmails(adminEmailArray);
-                        console.log(adminEmailArray);
                     }
                 } catch (error) {
                     console.error("Error fetching user role:", error);
@@ -262,7 +261,7 @@ const TwoColumnLayout = () => {
 
                                 <div className="flex items-center mb-4">
                                     <div className="w-1/3">
-                                        <label className="block text-black font-bold text-right mb-1 md:mb-0 pr-4" htmlFor="inline-password">
+                                        <label className="block text-black font-bold text-right mb-1 md:mb-0 pr-4" >
                                             Assign To
                                         </label>
                                     </div>

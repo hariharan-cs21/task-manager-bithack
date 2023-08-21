@@ -5,7 +5,7 @@ import copy from 'clipboard-copy';
 
 const Users = ({ setCopiedUser }) => {
     const [addedUser, setAddedUser] = useState(false);
-    const usersCollection = collection(db, 'usersCollection');
+    const usersCollection = collection(db, 'users');
     const [enteredEmail, setEnteredEmail] = useState("");
     const [usersData, setUsersData] = useState([]);
 
@@ -17,20 +17,7 @@ const Users = ({ setCopiedUser }) => {
         setEnteredEmail(e.target.value);
     };
 
-    const EmailAddfunc = async (e) => {
-        if (e.key === 'Enter') {
-            try {
-                await addDoc(usersCollection, {
-                    email: enteredEmail,
-                });
-                alert("Added User");
-                setEnteredEmail("");
-                fetchUsers();
-            } catch (error) {
-                console.error("Error adding user:", error);
-            }
-        }
-    };
+
 
     const fetchUsers = async () => {
         try {
@@ -44,7 +31,8 @@ const Users = ({ setCopiedUser }) => {
 
     useEffect(() => {
         fetchUsers();
-    });
+        handleAddUser()
+    }, []);
 
     const CopiedEmail = (email) => {
         setCopiedUser(email);
@@ -53,23 +41,23 @@ const Users = ({ setCopiedUser }) => {
 
     return (
         <>
-            <div className="bg-green-300 rounded-lg p-1 w-20 ml-2">
-                <h2 className="ml-2 text-sm md:text-sm lg:text-sm font-bold cursor-pointer" onClick={handleAddUser}>Add User</h2>
-            </div>
-            {addedUser &&
-                <input placeholder='Add an Email' className='p-1 m-1' onChange={handleChange}
-                    value={enteredEmail} onKeyDown={EmailAddfunc}></input>
-            }
-            {addedUser &&
-                <div className='bg-gray-300 p-2 rounded-lg mt-2'>
-                    {usersData.map((item) => (
-                        <div key={item.id} className='flex justify-between p-1 m-1'>
-                            <h2 className='text-sm p-0.5'>{item.email}</h2>
-                            <button className='bg-white rounded-lg p-0.5 text-sm' onClick={() => CopiedEmail(item.email)}>Assign</button>
+            {usersData.length > 0 && addedUser && (
+                <div className='bg-gray-100 p-2 rounded-md mt-4 ml-2'>
+                    {usersData.filter(item => item.role === 'user' || item.role === 'admin').map((item) => (
+                        <div key={item.id} className='ml-2 flex justify-between items-center p-2 my-2 border-b border-gray-300'>
+                            <div className='text-sm'>
+                                <p className='font-semibold'>{item.email}</p>
+                                <p className='text-gray-500'>{item.role}</p>
+                            </div>
+                            <button className='bg-gray-200 hover:bg-gray-300 text-gray-700 rounded-md py-1 ml-1 mb-3 px-3 text-xs font-semibold' onClick={() => CopiedEmail(item.email)}>
+                                Assign
+                            </button>
                         </div>
                     ))}
                 </div>
-            }
+            )}
+
+
         </>
     );
 }

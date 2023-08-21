@@ -3,7 +3,7 @@ import Body from "./Body";
 import { auth, db } from "../components/Config/firebaseconfig";
 import { signOut } from "firebase/auth";
 import { Link, useNavigate } from 'react-router-dom';
-import { doc, getDoc } from 'firebase/firestore';
+import { doc, getDoc, where, collection, query, getDocs } from 'firebase/firestore';
 import MakeAdmin from './MakeAdmin';
 
 function SidebarButton({ isOpen, onClick }) {
@@ -87,6 +87,7 @@ function Dashboard({ isloggedIn, setloggedIn, user }) {
     const handleProfile = () => {
         navigate("/profile");
     };
+    const [adminEmails, setAdminEmails] = useState([]);
 
     const [isAdmin, setIsAdmin] = useState(false);
     useEffect(() => {
@@ -96,7 +97,15 @@ function Dashboard({ isloggedIn, setloggedIn, user }) {
                 try {
                     const myroleSnapshot = await getDoc(userRolesDoc);
                     const myrole = myroleSnapshot.data().role;
-                    setIsAdmin(myrole === "superAdmin");
+
+                    if (myrole === "admin" || myrole === "superAdmin") {
+                        setIsAdmin(true);
+                        const adminQuerySnapshot = await getDocs(
+                            query(collection(db, "users"), where("role", "==", "admin"))
+                        );
+                        const adminEmailArray = adminQuerySnapshot.docs.map(doc => doc.data().email);
+                        setAdminEmails(adminEmailArray);
+                    }
                 } catch (error) {
                     console.error("Error fetching user role:", error);
                 }
@@ -151,7 +160,7 @@ function Dashboard({ isloggedIn, setloggedIn, user }) {
                             <p
                                 className="flex items-center cursor-pointer px-6 py-3 ml-6 text-gray-300 hover:bg-gray-700 hover:text-white rounded-xl"
                                 onClick={toggleShowAdmin}>
-                                {showAdmin ? "Tasks" : "Make Admin"}
+                                {showAdmin ? "Tasks" : "Admin Access"}
                             </p>
                         )}
                     </nav>
