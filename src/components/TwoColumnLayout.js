@@ -26,6 +26,15 @@ const TwoColumnLayout = () => {
     const toggleForm = () => {
         setShowForm(!showForm);
     };
+    const [subtask, setSubtask] = useState("");
+    const [subtasks, setSubtasks] = useState([]);
+
+    const addSubtask = () => {
+        if (subtask.trim() !== "") {
+            setSubtasks([...subtasks, { title: subtask, checked: false }]);
+            setSubtask("");
+        }
+    };
 
 
     const submitQuery = async () => {
@@ -37,14 +46,19 @@ const TwoColumnLayout = () => {
                     id: auth.currentUser.uid,
                     email: auth.currentUser.email,
                 };
-                await addDoc(queryCollection, {
+                const newTaskData = {
                     Priority,
                     Task,
                     description,
                     assignedTo,
                     dueDate,
                     queryPerson,
-                });
+                    subtasks,
+                    progress: 0,
+                };
+
+                await addDoc(queryCollection, newTaskData);
+
                 alert("Uploaded");
                 setPriority("");
                 setTask("");
@@ -142,6 +156,7 @@ const TwoColumnLayout = () => {
     const [adminEmails, setAdminEmails] = useState([]);
     const [isAdmin, setIsAdmin] = useState(false);
 
+
     useEffect(() => {
         const fetchUserRole = async () => {
             if (auth.currentUser) {
@@ -166,6 +181,37 @@ const TwoColumnLayout = () => {
         fetchUserRole();
     }, [auth.currentUser]);
 
+    const handleSubtaskCheckboxChange = async (taskId, subtaskIndex) => {
+        try {
+            const taskDocRef = doc(db, "allQueries", taskId);
+            const taskSnapshot = await getDoc(taskDocRef);
+            const taskData = taskSnapshot.data();
+
+            const updatedSubtasks = taskData.subtasks.map((subtask, index) => ({
+                ...subtask,
+                checked: index === subtaskIndex ? !subtask.checked : subtask.checked,
+            }));
+
+            const progress = calculateProgress(updatedSubtasks);
+            await updateDoc(taskDocRef, {
+                subtasks: updatedSubtasks,
+                progress,
+            });
+
+            fetchTasks();
+        } catch (error) {
+            console.error("Error updating subtask checkbox:", error);
+        }
+    };
+    const calculateProgress = (subtasks) => {
+        const checkedSubtasksCount = subtasks.filter((subtask) => subtask.checked).length;
+        const totalSubtasksCount = subtasks.length;
+        return totalSubtasksCount > 0 ? (checkedSubtasksCount / totalSubtasksCount) * 100 : 0;
+    };
+    const removeSubtask = (indexToRemove) => {
+        const updatedSubtasks = subtasks.filter((_, index) => index !== indexToRemove);
+        setSubtasks(updatedSubtasks);
+    };
 
     return (
         <div className='flex flex-wrap justify-start lg:justify-start mr-4'>
@@ -192,17 +238,16 @@ const TwoColumnLayout = () => {
                             <form className="w-full max-w-lg mt-6">
                                 <div className="flex items-center mb-6">
                                     <div className="w-1/3">
-                                        <label className="block text-black font-bold text-right mb-1 md:mb-0 pr-4" htmlFor="inline-full-name">
+                                        <label className="block text-black font-bold text-right mb-1 md:mb-0 pr-4" htmlFor="priority">
                                             Priority
                                         </label>
                                     </div>
-
                                     <div className="w-2/3">
                                         <select
-                                            onChange={(e) => { setPriority(e.target.value) }}
+                                            onChange={(e) => setPriority(e.target.value)}
                                             value={Priority}
                                             className="bg-white appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-black leading-tight focus:outline-none focus:bg-white focus:border-blue-500 rounded-md pl-8"
-                                            id="grid-state"
+                                            id="priority"
                                         >
                                             <option></option>
                                             <option>High</option>
@@ -211,47 +256,51 @@ const TwoColumnLayout = () => {
                                         </select>
                                     </div>
                                 </div>
+
                                 <div className="flex items-center mb-6">
                                     <div className="w-1/3">
-                                        <label className="block text-black font-bold text-right mb-1 md:mb-0 pr-4" htmlFor="inline-password">
+                                        <label className="block text-black font-bold text-right mb-1 md:mb-0 pr-4" htmlFor="task">
                                             Task
                                         </label>
                                     </div>
                                     <div className="w-2/3">
                                         <input
-                                            onChange={(e) => { setTask(e.target.value) }}
-                                            value={Task} required
+                                            onChange={(e) => setTask(e.target.value)}
+                                            value={Task}
+                                            required
                                             className="bg-white appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-black leading-tight focus:outline-none rounded-md"
-                                            id="inline-password"
+                                            id="task"
                                         />
                                     </div>
                                 </div>
 
                                 <div className="flex items-center mb-6">
                                     <div className="w-1/3">
-                                        <label className="block text-black font-bold text-right mb-1 md:mb-0 pr-4" htmlFor="inline-password">
+                                        <label className="block text-black font-bold text-right mb-1 md:mb-0 pr-4" htmlFor="due-date">
                                             Due Date
                                         </label>
                                     </div>
                                     <div className="w-2/3">
                                         <input
-                                            onChange={(e) => { setDueDate(e.target.value) }}
-                                            value={dueDate} required
+                                            onChange={(e) => setDueDate(e.target.value)}
+                                            value={dueDate}
+                                            required
                                             className="bg-white appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-black leading-tight focus:outline-none rounded-md"
-                                            type='date'
+                                            type="date"
                                             id="due-date"
                                         />
                                     </div>
                                 </div>
+
                                 <div className="flex items-center mb-4">
                                     <div className="w-1/3">
-                                        <label className="block text-black font-bold text-right mb-1 md:mb-0 pr-4" htmlFor="inline-password">
+                                        <label className="block text-black font-bold text-right mb-1 md:mb-0 pr-4" htmlFor="description">
                                             Description
                                         </label>
                                     </div>
                                     <div className="w-2/3">
                                         <textarea
-                                            onChange={(e) => { setdescription(e.target.value) }}
+                                            onChange={(e) => setdescription(e.target.value)}
                                             value={description}
                                             className="rounded-md resize-none border-2 border-gray-200 focus:border-blue-500 w-full h-40 py-2 px-4 text-black leading-tight focus:outline-none"
                                             id="description"
@@ -265,29 +314,66 @@ const TwoColumnLayout = () => {
                                             Assign To
                                         </label>
                                     </div>
-                                    {assignedTo &&
+                                    {assignedTo && (
                                         <div className="w-2/3">
                                             <div className='bg-white rounded-lg'>
                                                 <p className='p-1 ml-2'>{assignedTo}</p>
                                             </div>
                                         </div>
-                                    }
+                                    )}
                                 </div>
 
+                                <div className="flex items-center mb-6">
+                                    <div className="w-1/3">
+                                        <label className="block text-black font-bold text-right mb-1 md:mb-0 pr-4" >
+                                            Subtask
+                                        </label>
+                                    </div>
+                                    <div className="w-full flex">
+                                        <input
+                                            onChange={(e) => setSubtask(e.target.value)}
+                                            value={subtask}
+                                            className="bg-white appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-black leading-tight focus:outline-none rounded-md"
+                                            id="subtask"
+                                        />
+                                        <button
+                                            onClick={addSubtask}
+                                            className="w-2/3 px-2 py-1 bg-blue-500 text-white rounded ml-2"
+                                            type="button"
+                                        >
+                                            Add SubTask
+                                        </button>
+                                    </div>
+                                    {subtasks.length > 0 && (
+                                        <div>
+                                            <ul className="list-disc list-inside ml-4">
+                                                {subtasks.map((subtask, index) => (
+                                                    <li key={index} className="text-gray-700 flex items-center">
+                                                        <span className="mr-2">{subtask.title}</span>
+                                                        <button
+                                                            onClick={() => removeSubtask(index)}
+                                                            className="text-red-600"
+                                                        >
+                                                            Remove
+                                                        </button>
+                                                    </li>
+                                                ))}
+                                            </ul>
+                                        </div>
+                                    )}
+                                </div>
 
                                 <div className="flex items-center mb-4">
                                     <div className="w-2/3">
                                         <button
                                             onClick={submitQuery}
-                                            className="shadow bg-blue-500 focus:shadow-outline focus:outline-none text-white font-bold py-2 px-3 rounded mx-10"
+                                            className="shadow bg-blue-500 focus:shadow-outline focus:outline-none text-white font-ld py-2 px-3 rounded mx-10"
                                             type="button"
                                             disabled={isSubmitting}
                                         >
                                             {isSubmitting ? 'Assigning...' : 'Assign Task'}
                                         </button>
-
                                     </div>
-
                                 </div>
                             </form>
                         </div>
@@ -310,7 +396,7 @@ const TwoColumnLayout = () => {
                 calculateTimeRemaining={calculateTimeRemaining}
                 handleTransferTask={handleTransferTask}
                 handleDeleteTask={handleDeleteTask}
-
+                handleSubtaskCheckboxChange={handleSubtaskCheckboxChange}
             />
         </div>
     );

@@ -48,7 +48,6 @@ const MakeAdmin = () => {
 
     const handleMakeAdmin = async () => {
         if (!isAdmin) {
-            console.log("Only superAdmin can change roles.");
             return;
         }
 
@@ -106,7 +105,10 @@ const MakeAdmin = () => {
             alert("Error demoting user:", error);
         }
     };
-
+    useEffect(() => {
+        handleDemoteUser()
+        handleMakeAdmin()
+    }, [])
     const adminUserEmails = userDetails.filter(user => user.role === 'admin');
     const regularUserEmails = userDetails.filter(user => user.role === 'user')
     return (

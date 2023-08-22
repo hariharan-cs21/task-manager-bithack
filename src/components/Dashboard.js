@@ -130,7 +130,7 @@ function Dashboard({ isloggedIn, setloggedIn, user }) {
                     <nav className="flex-grow font-bold">
                         <Link to="/dashboard">
                             <p
-                                className="flex items-center px-6 py-3 text-gray-300 hover:bg-gray-700 hover:text-white mb-3 rounded-xl"
+                                className="flex items-center px-6 py-3 text-gray-300 mb-3 rounded-xl"
                             >
                                 <i className="uil uil-dashboard ml-2 text-xl"></i>
                                 <span className='ml-1'>Dashboard</span>
@@ -141,8 +141,8 @@ function Dashboard({ isloggedIn, setloggedIn, user }) {
                             <p
                                 className="flex items-center px-6 py-3 text-gray-300 hover:bg-gray-700 hover:text-white mt-32 rounded-xl"
                             >
-                                <i className="uil uil-chat ml-2 text-xl"></i>
-                                <span className='ml-1'>Messenger</span>
+                                <i className="uil uil-chat ml-2 text-2xl mr-1"></i>
+                                <span className='ml-1 '>Messenger</span>
                             </p>
                         </Link>
 
@@ -152,15 +152,16 @@ function Dashboard({ isloggedIn, setloggedIn, user }) {
                             <p
                                 className="flex items-center px-6 py-3 text-gray-300 hover:bg-gray-700 hover:text-white rounded-xl"
                             >
-                                <i className="uil uil-house-user ml-2 text-xl"></i>
-                                <span className='ml-1'>Personal Task</span>
+                                <i className="uil uil-house-user ml-2 text-2xl"></i>
+                                <span className='ml-1 '>Personal Task</span>
                             </p>
                         </Link>
                         {isAdmin && (
                             <p
-                                className="flex items-center cursor-pointer px-6 py-3 ml-6 text-gray-300 hover:bg-gray-700 hover:text-white rounded-xl"
-                                onClick={toggleShowAdmin}>
-                                {showAdmin ? "Tasks" : "Admin Access"}
+                                className="flex items-center cursor-pointer px-6 py-3 ml-2 text-gray-300 hover:bg-gray-700 hover:text-white rounded-xl"
+                                onClick={toggleShowAdmin}
+                            >
+                                {showAdmin ? <><i className="uil uil-code-branch mr-1 text-2xl"></i> Tasks</> : <><i className="uil uil-lock-access mr-1 text-2xl"></i> Admin Access</>}
                             </p>
                         )}
                     </nav>
