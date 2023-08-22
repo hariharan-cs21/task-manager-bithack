@@ -380,9 +380,7 @@ const TwoColumnLayout = () => {
 
 
                     ) :
-                        <div className="mb-3 mt-4 mx-auto w-[90%] md:w-[30%] lg:w-[30%] p-1 bg-gradient-to-br from-blue-500 to-indigo-500 rounded-lg shadow-lg text-white text-center">
-                            <h2 className="text-1xl md:text-2xl lg:text-2xl font-bold">Assigned Tasks</h2>
-                        </div>
+                        null
 
                     }
                 </>

@@ -79,7 +79,6 @@ const MakeAdmin = () => {
     };
     const handleDemoteUser = async () => {
         if (!isAdmin) {
-            console.log("Only superAdmin can demote users.");
             return;
         }
 
