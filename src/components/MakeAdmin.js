@@ -110,7 +110,7 @@ const MakeAdmin = () => {
     const adminUserEmails = userDetails.filter(user => user.role === 'admin');
     const regularUserEmails = userDetails.filter(user => user.role === 'user')
     return (
-        <div className="flex items-center justify-center h-screen bg-gray-100">
+        <div className="bg-slate-50 flex items-center justify-center h-screen bg-gray-100">
             <div className=" p-8 rounded-lg w-full max-w-6xl h-[80vh] overflow-y-auto flex flex-col sm:flex-row">
                 <div className='flex flex-col'>
                     <div className='flex flex-row'>
@@ -164,7 +164,7 @@ const MakeAdmin = () => {
 
                     {(isAdmin || isJustAdmin) && (
                         <div className="w-full sm:w-full pl-4 mt-4">
-                            <h2 className="text-2xl font-semibold mb-4">User Roles</h2>
+                            <h2 className="text-2xl font-semibold mb-4">Users</h2>
                             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                                 {adminUserEmails.map((user, index) => (
                                     <div key={index} className="bg-blue-100 p-4 rounded-md">
