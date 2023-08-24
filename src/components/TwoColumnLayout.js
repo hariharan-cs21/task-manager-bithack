@@ -67,7 +67,7 @@ const TwoColumnLayout = () => {
                         Priority : ${Priority}
                         You have been assigned a new task: ${Task}
                         Due : ${dueDate}
-                        Visit the site for more details : https://tinyurl.com/mrxnpcbv
+                        Visit the site for more details.
                     `,
                 };
 
