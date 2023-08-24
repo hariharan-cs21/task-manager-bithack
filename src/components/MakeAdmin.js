@@ -1,16 +1,16 @@
 import React, { useState, useEffect } from 'react';
 import { db, auth } from './Config/firebaseconfig';
-import { doc, getDoc, updateDoc, getDocs, collection, addDoc } from 'firebase/firestore';
+import { doc, getDoc, updateDoc, getDocs, collection } from 'firebase/firestore';
 
 const MakeAdmin = () => {
     const [currentUserRole, setCurrentUserRole] = useState('');
     const [isAdmin, setIsAdmin] = useState(false);
+    const [email, setEmail] = useState('');
     const [isJustAdmin, setIsJustAdmin] = useState(false);
     const [userDetails, setUserDetails] = useState([]);
     const [selectedUser, setSelectedUser] = useState('');
     const [selectedUserDemote, setSelectedUserDemote] = useState('');
-    const [newUserEmail, setNewUserEmail] = useState('');
-    const [newUserRole, setNewUserRole] = useState('user');
+
 
     useEffect(() => {
         const fetchUserRole = async () => {
@@ -108,42 +108,6 @@ const MakeAdmin = () => {
         handleDemoteUser()
         handleMakeAdmin()
     }, [])
-
-    const handleAddUser = async () => {
-        if (!isAdmin) {
-            return;
-        }
-
-        if (!newUserEmail || !newUserRole) {
-            alert("Please enter email and role for the new user.");
-            return;
-        }
-
-        console.log('Adding new user:', newUserEmail, newUserRole);
-
-        try {
-            const userCollection = collection(db, 'users');
-            const userQuerySnapshot = await getDocs(userCollection);
-            const existingUser = userQuerySnapshot.docs.find(doc => doc.data().email === newUserEmail);
-
-            if (existingUser) {
-                alert(`User with email ${newUserEmail} already exists.`);
-                return;
-            }
-
-            await addDoc(userCollection, {
-                email: newUserEmail,
-                role: newUserRole,
-            });
-
-            alert(`User with email ${newUserEmail} and role ${newUserRole} added successfully.`);
-            setNewUserEmail('');
-            setNewUserRole('user');
-        } catch (error) {
-            alert(`Error adding new user: ${error.message}`);
-        }
-    };
-
     const adminUserEmails = userDetails.filter(user => user.role === 'admin');
     const regularUserEmails = userDetails.filter(user => user.role === 'user')
     return (
@@ -198,31 +162,7 @@ const MakeAdmin = () => {
                             </div>
                         )}
                     </div>
-                    {isAdmin && <div>
-                        <h2 className="text-2xl font-semibold mb-4">Add New User</h2>
-                        <input
-                            type="email"
-                            placeholder="Email"
-                            value={newUserEmail}
-                            onChange={(e) => setNewUserEmail(e.target.value)}
-                            className="w-full px-4 py-2 rounded-lg border border-gray-300 focus:outline-none focus:border-blue-500"
-                        />
-                        <select
-                            value={newUserRole}
-                            onChange={(e) => setNewUserRole(e.target.value)}
-                            className="w-full mt-2 px-4 py-2 rounded-lg border border-gray-300 focus:outline-none focus:border-blue-500"
-                        >
-                            <option value="user">User</option>
-                            <option value="admin">Admin</option>
-                        </select>
-                        <button
-                            className="mt-4 px-6 py-2 bg-green-500 text-white rounded-lg hover:bg-green-600 cursor-pointer"
-                            onClick={handleAddUser}
-                        >
-                            Add User
-                        </button>
-                    </div>
-                    }
+
                     {(isAdmin || isJustAdmin) && (
                         <div className="w-full sm:w-full pl-4 mt-4">
                             <h2 className="text-2xl font-semibold mb-4">Users</h2>
