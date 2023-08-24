@@ -24,12 +24,10 @@ const TaskCard = ({
         }
     };
     const sortTasksByPriority = (tasks) => {
-        console.log("Tasks before sorting:", tasks);
         const sortedTasks = tasks.slice().sort((a, b) => {
             const priorityOrder = { High: 1, Medium: 2, Low: 3 };
             return priorityOrder[a.Priority] - priorityOrder[b.Priority];
         });
-        console.log("Tasks after sorting:", sortedTasks);
         return sortedTasks;
     };
 
@@ -120,18 +118,20 @@ const TaskCard = ({
                                 className='px-4 py-2 border rounded mb-2 md:mb-0 md:mr-2'
                                 onChange={(e) => setTransferToEmail(e.target.value)}
                             />
-                            <button
-                                onClick={() => handleTransferTask(task.id, transferToEmail)}
-                                className='px-4 py-2 bg-green-500 text-white rounded'
-                            >
-                                Transfer
-                            </button>
-                            <button
-                                onClick={() => handleDeleteTask(task.id)}
-                                className='px-4 py-2 bg-red-500 text-white rounded md:ml-2'
-                            >
-                                Delete
-                            </button>
+                            <div className='flex justify-between gap-2'>
+                                <button
+                                    onClick={() => handleTransferTask(task.id, transferToEmail)}
+                                    className='px-4 py-2 bg-green-500 text-white rounded'
+                                >
+                                    Transfer
+                                </button>
+                                <button
+                                    onClick={() => handleDeleteTask(task.id)}
+                                    className='px-4 py-2 bg-red-500 text-white rounded md:ml-2'
+                                >
+                                    Delete
+                                </button>
+                            </div>
                         </div>
                     )}
                 </div>

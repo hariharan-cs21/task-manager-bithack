@@ -4,6 +4,7 @@ import { collection, addDoc, getDocs, updateDoc, doc, getDoc, deleteDoc, where, 
 import TaskCard from './TaskCard';
 import Users from "./Users"
 import calculateTimeRemaining from "./Utility/duedate"
+import emailjs from '@emailjs/browser';
 
 
 const TwoColumnLayout = () => {
@@ -58,6 +59,19 @@ const TwoColumnLayout = () => {
                 };
 
                 await addDoc(queryCollection, newTaskData);
+
+                const emailParams = {
+                    to_email: assignedTo,
+                    subject: 'New Task Assigned',
+                    message: `
+                        Priority : ${Priority}
+                        You have been assigned a new task: ${Task}
+                        Due : ${dueDate}
+                        Visit the site for more details : https://tinyurl.com/mrxnpcbv
+                    `,
+                };
+
+                await emailjs.send('service_eavgtrc', 'template_0dnmf4f', emailParams, 'rfs9ncfRYsufYCkcL');
 
                 alert("Uploaded");
                 setPriority("");
