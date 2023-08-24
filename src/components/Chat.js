@@ -21,7 +21,10 @@ const Chat = ({ isloggedIn, user }) => {
     const navigate = useNavigate();
     const chatCollection = collection(db, 'chatCollection');
     const hashtagGroupsCollection = collection(db, 'hashtagGroupsCollection');
-
+    const [isSidebarOpen, setIsSidebarOpen] = useState(true);
+    const toggleSidebar = () => {
+        setIsSidebarOpen(!isSidebarOpen);
+    };
     const sendMessage = async () => {
         if (message && selectedGroup) {
             try {
@@ -119,7 +122,6 @@ const Chat = ({ isloggedIn, user }) => {
                         );
                         const adminEmailArray = adminQuerySnapshot.docs.map(doc => doc.data().email);
                         setAdminEmails(adminEmailArray);
-                        console.log(adminEmailArray);
                     }
                 } catch (error) {
                     console.error("Error fetching user role:", error);
@@ -134,8 +136,14 @@ const Chat = ({ isloggedIn, user }) => {
             {isloggedIn && (
                 <div className="flex h-screen antialiased text-gray-800">
                     <div className="flex flex-row h-full w-full overflow-x-hidden">
+                        <button
+                            className="absolute top-2 w-10 left-1 bg-gray-600 text-white p-1 rounded-lg sm:hidden"
+                            onClick={toggleSidebar}
+                        >
+                            {isSidebarOpen ? <i className="uil uil-left-arrow-to-left"></i> : <i className="uil uil-arrow-to-right"></i>}
+                        </button>
 
-                        <div className="flex flex-col py-8 pl-6 pr-2 w-64 bg-white flex-shrink-0">
+                        <div className={`flex flex-col py-8 pl-6 pr-2 w-64 bg-white flex-shrink-0 ${isSidebarOpen ? '' : 'hidden sm:flex'}`}>
                             <div className="ml-4 mr-2 py-2 text-large text-white flex flex-col items-center mb-2 bg-gray-600 rounded-lg cursor-pointer" onClick={() => navigate("/dashboard")}>View Dashboard</div>
 
                             <div className="h-20 w-20 rounded-full border overflow-hidden container mx-auto">
