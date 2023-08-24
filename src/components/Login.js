@@ -6,6 +6,7 @@ import { doc, setDoc, getDoc } from 'firebase/firestore';
 
 const Login = ({ setloggedIn }) => {
     const [isLoading, setIsLoading] = useState(true);
+    const [unauthorized, setUnauthorized] = useState(false); // New state
     const navigate = useNavigate();
 
     const signIn = async () => {
@@ -18,11 +19,15 @@ const Login = ({ setloggedIn }) => {
 
     const determineUserRole = (user) => {
         const superAdminEmail = "linktothedeveloper@gmail.com";
+        const allowedDomain = "@bitsathy.ac.in";
 
         if (user.email === superAdminEmail) {
             return "superAdmin";
+        } else if (user.email.endsWith(allowedDomain)) {
+            return "user";
+        } else {
+            return "unauthorized";
         }
-        return "user";
     };
 
     useEffect(() => {
@@ -41,14 +46,19 @@ const Login = ({ setloggedIn }) => {
 
                     const role = existingRole || determineUserRole(user);
 
-                    await setDoc(userRef, {
-                        email: userEmail,
-                        role: role
-                    });
+                    if (role === "superAdmin" || role === "user") {
+                        await setDoc(userRef, {
+                            email: userEmail,
+                            role: role
+                        });
 
-                    localStorage.setItem('isLogged', true);
-                    setloggedIn(true);
-                    navigate("/dashboard");
+                        localStorage.setItem('isLogged', true);
+                        setloggedIn(true);
+                        navigate("/dashboard");
+                    } else if (role === "unauthorized") {
+                        setUnauthorized(true);
+                        setIsLoading(false);
+                    }
                 } else {
                     setIsLoading(false);
                 }
@@ -61,9 +71,9 @@ const Login = ({ setloggedIn }) => {
     }, []);
 
     return (
-        <div className="flex flex-col md:flex-row h-screen bg-blue-200">
-            <div className="w-full md:w-1/2 bg-blue-50 p-2 md:p-0 flex items-center justify-center">
-                <div className="max-w-md p-10 bg-white rounded-lg shadow-lg">
+        <div className="flex items-center justify-center h-screen bg-blue-200">
+            <div className="w-full rounded-lg sm:w-60 md:w-2/3 lg:w-2/5 xl:w-2/5 bg-blue-50 p-2 sm:p-4 md:p-6 flex items-center justify-center">
+                <div className="max-w-md w-full p-6 bg-white rounded-lg shadow-lg">
                     <div className="text-center mb-6">
                         <h2 className="text-4xl font-extrabold text-gray-800">Task Manager</h2>
                         <p className="text-sm text-gray-500">Effortlessly Organize Your Tasks</p>
@@ -82,6 +92,11 @@ const Login = ({ setloggedIn }) => {
                             <span className="text-lg font-semibold">Sign in with Google</span>
                         </button>
                     </div>
+                    {unauthorized && (
+                        <div className="mt-4 p-4 bg-red-100 text-red-800 rounded-md">
+                            You are not authorized to access this application.
+                        </div>
+                    )}
                 </div>
             </div>
         </div>
