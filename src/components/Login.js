@@ -6,7 +6,7 @@ import { doc, setDoc, getDoc } from 'firebase/firestore';
 
 const Login = ({ setloggedIn }) => {
     const [isLoading, setIsLoading] = useState(true);
-    const [unauthorized, setUnauthorized] = useState(false); // New state
+    const [unauthorized, setUnauthorized] = useState(false);
     const navigate = useNavigate();
 
     const signIn = async () => {
@@ -19,14 +19,11 @@ const Login = ({ setloggedIn }) => {
 
     const determineUserRole = (user) => {
         const superAdminEmail = "linktothedeveloper@gmail.com";
-        const allowedDomain = "@bitsathy.ac.in";
 
         if (user.email === superAdminEmail) {
             return "superAdmin";
-        } else if (user.email.endsWith(allowedDomain)) {
-            return "user";
         } else {
-            return "unauthorized";
+            return "user";
         }
     };
 

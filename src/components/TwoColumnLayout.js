@@ -40,6 +40,11 @@ const TwoColumnLayout = () => {
 
     const submitQuery = async () => {
         if (Priority && Task && description && assignedTo && dueDate) {
+            if (subtasks.length === 0) {
+                alert("Please add at least one subtask.");
+                return;
+            }
+
             setIsSubmitting(true);
             try {
                 const queryPerson = {
