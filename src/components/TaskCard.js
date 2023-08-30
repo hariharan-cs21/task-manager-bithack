@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { auth, db, storage } from './Config/firebaseconfig';
 import { uploadBytes, ref, getDownloadURL } from 'firebase/storage';
 import { v4 } from 'uuid';
-import { collection, addDoc, getDocs, updateDoc, doc } from 'firebase/firestore';
+import { collection, addDoc, getDocs } from 'firebase/firestore';
 
 const TaskCard = ({
     tasks,

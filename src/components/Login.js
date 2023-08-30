@@ -6,7 +6,6 @@ import { doc, setDoc, getDoc } from 'firebase/firestore';
 
 const Login = ({ setloggedIn }) => {
     const [isLoading, setIsLoading] = useState(true);
-    const [unauthorized, setUnauthorized] = useState(false);
     const navigate = useNavigate();
 
     const signIn = async () => {
@@ -49,28 +48,25 @@ const Login = ({ setloggedIn }) => {
                             role: role
                         });
 
-                        localStorage.setItem('isLogged', true);
+                        localStorage.setItem('isLogged', 'true');
                         setloggedIn(true);
                         navigate("/dashboard");
-                    } else if (role === "unauthorized") {
-                        setUnauthorized(true);
-                        setIsLoading(false);
                     }
                 } else {
                     setIsLoading(false);
                 }
             } catch (error) {
-                console.log("Redirecting err", error.message);
+                console.log("Redirecting error", error.message);
                 setIsLoading(false);
             }
         };
         handleRedirectResult();
-    }, []);
+    }, [navigate, setloggedIn]);
+
     if (isLoading) {
         return (
-            <div className="flex items-center justify-center h-screen bg-gradient-to-r from-purple-500 to-indigo-700">
+            <div className="flex items-center justify-center h-screen">
                 <div className="bg-white p-8 rounded-lg shadow-md">
-                    <div className="text-3xl font-bold text-gray-800 mb-4">Welcome</div>
                     <div className="flex items-center space-x-4">
                         <div className="w-8 h-8 rounded-full bg-blue-500 flex items-center justify-center">
                             <svg className="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
@@ -107,11 +103,7 @@ const Login = ({ setloggedIn }) => {
                             <span className="text-lg font-semibold">Sign in with Google</span>
                         </button>
                     </div>
-                    {unauthorized && (
-                        <div className="mt-4 p-4 bg-red-100 text-red-800 rounded-md">
-                            You are not authorized to access this application.
-                        </div>
-                    )}
+
                 </div>
             </div>
         </div>
