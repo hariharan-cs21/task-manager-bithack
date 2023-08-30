@@ -66,11 +66,29 @@ const Login = ({ setloggedIn }) => {
         };
         handleRedirectResult();
     }, []);
+    if (isLoading) {
+        return (
+            <div className="flex items-center justify-center h-screen bg-gradient-to-r from-purple-500 to-indigo-700">
+                <div className="bg-white p-8 rounded-lg shadow-md">
+                    <div className="text-3xl font-bold text-gray-800 mb-4">Welcome</div>
+                    <div className="flex items-center space-x-4">
+                        <div className="w-8 h-8 rounded-full bg-blue-500 flex items-center justify-center">
+                            <svg className="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 13l4 4L19 7"></path>
+                            </svg>
+                        </div>
+                        <div className="text-xl font-medium text-gray-700">Signing you in...</div>
+                    </div>
+                </div>
+            </div>
+
+        );
+    }
 
     return (
         <div className="flex items-center justify-center h-screen bg-blue-200">
-            <div className="w-full rounded-lg sm:w-60 md:w-2/3 lg:w-2/5 xl:w-2/5 bg-blue-50 p-2 sm:p-4 md:p-6 flex items-center justify-center">
-                <div className="max-w-md w-full p-6 bg-white rounded-lg shadow-lg">
+            <div className="w-full rounded-lg sm:w-60 md:w-2/3 lg:w-2/5 xl:w-1/3 bg-blue-50 p-2 sm:p-4 md:p-6 flex items-center justify-center">
+                <div className="max-w-md w-full p-8 bg-white rounded-lg shadow-lg">
                     <div className="text-center mb-6">
                         <h2 className="text-4xl font-extrabold text-gray-800">Task Manager</h2>
                         <p className="text-sm text-gray-500">Effortlessly Organize Your Tasks</p>
