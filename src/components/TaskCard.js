@@ -100,7 +100,7 @@ const TaskCard = ({
                 <div>
                     <h3 className="text-xl font-bold mb-3">Pending Tasks</h3>
                     {pendingTasks.map((task) => (
-                        <div key={task.id} className="p-4 bg-white rounded-lg shadow mb-4 overflow-x-auto max-w-md">
+                        <div key={task.id} className="p-4 bg-white rounded-lg shadow mb-4 overflow-x-auto max-w-md ml-2">
                             <div className="flex flex-wrap items-center">
                                 <div className="flex-grow">
                                     <div onClick={() => toggleExpand(task.id)} className="cursor-pointer p-1">
