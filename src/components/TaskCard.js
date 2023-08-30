@@ -11,6 +11,7 @@ const TaskCard = ({
     handleAcceptTask,
     handleTransferTask,
     handleDeleteTask,
+    handleRejectTask, setRejectionMessage, rejectionMessage,
     calculateTimeRemaining,
     handleSubtaskCheckboxChange,
 }) => {
@@ -85,6 +86,8 @@ const TaskCard = ({
 
 
 
+
+
     return (
         <div className="w-full ml-2 overflow-x-auto scrollbar-thin scrollbar-thumb-gray-400 scrollbar-track-gray-200">
             <button
@@ -107,9 +110,23 @@ const TaskCard = ({
                                                 <span className={`text-sm font-semibold ${task.Priority === 'High' ? 'text-red-500' : 'text-green-500'}`}>
                                                     {task.Priority}
                                                 </span>
+
                                                 <span className="text-sm text-gray-500 ml-2">| Due : {task.dueDate}</span>
+
                                             </div>
                                         </div>
+                                        {task.status === 'rejected' &&
+                                            (
+                                                (auth.currentUser.email === task.assignedTo && task.rejectedBy === auth.currentUser.email) ||
+                                                isAdmin
+                                            ) && (
+                                                <div className="mt-4">
+                                                    <p className="text-sm font-semibold text-red-500">
+                                                        Rejection reason: {task.rejectionMessage}
+                                                    </p>
+                                                </div>
+                                            )}
+
                                         <div className="h-1 bg-gray-300 rounded">
                                             <div className={`h-full bg-${task.acceptedBy ? 'green' : 'orange'}-500 rounded`} style={{ width: `${task.progress}%` }} />
                                         </div>
@@ -140,7 +157,7 @@ const TaskCard = ({
                                                                     <div className="text-xs text-gray-600">{selectedFileName}</div>
                                                                 )}
                                                                 <button
-                                                                    className="ml-3 inline-flex items-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-red-500 hover:bg-red-600"
+                                                                    className="ml-3 inline-flex items-center px-1 py-1 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-red-500 hover:bg-red-600"
                                                                     onClick={() => {
                                                                         setImageUpload(null);
                                                                         setSelectedFileName('');
@@ -149,7 +166,7 @@ const TaskCard = ({
                                                                     Remove
                                                                 </button>
                                                                 <button
-                                                                    className="ml-3 inline-flex items-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-green-500 hover:bg-green-600"
+                                                                    className="ml-3 inline-flex items-center px-1 py-1 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-green-500 hover:bg-green-600"
                                                                     onClick={() => uploadFile(task)}
                                                                 >
                                                                     Upload
@@ -157,9 +174,12 @@ const TaskCard = ({
                                                             </div>
                                                         </div>
                                                     )}
-                                                    {task.imagesData && task.imagesData.length > 0 && (
+
+                                                    {task.imagesData && task.imagesData.length >= 0 && (
                                                         <div className="mt-4">
-                                                            <p className="text-sm font-semibold">Attachments</p>
+                                                            {task.imagesData.length === 0 ?
+                                                                <p className="text-sm font-semibold">No Files uploaded</p> :
+                                                                <p className="text-sm font-semibold">Attachments: </p>}
                                                             {task.imagesData.map((imageData, index) => (
                                                                 <div key={index} className="mt-2">
                                                                     <a href={imageData.imageUrl} download={imageData.fileName} className="text-green-600 hover:text-green-800">
@@ -200,11 +220,29 @@ const TaskCard = ({
                                 {!task.acceptedBy && currentUserEmail === task.assignedTo && (
                                     <button
                                         onClick={() => handleAcceptTask(task.id)}
-                                        className="px-3 py-1 bg-blue-500 text-white rounded"
+                                        className="px-3 mt-1 py-1 bg-blue-500 text-white rounded"
                                     >
                                         Accept
                                     </button>
                                 )}
+                                {!task.acceptedBy && currentUserEmail === task.assignedTo && (
+                                    <>
+                                        <input
+                                            type='text'
+                                            required
+                                            placeholder='Reason for Rejection'
+                                            className='border'
+                                            onChange={(e) => setRejectionMessage(e.target.value)}
+                                        />
+                                        <button
+                                            className="bg-red-500 text-white py-1 px-1 rounded ml-1"
+                                            onClick={() => handleRejectTask(task.id, rejectionMessage)}
+                                        >
+                                            Reject
+                                        </button>
+                                    </>
+                                )}
+
                             </div>
                             {isAdmin && (
                                 <div className="mt-4 flex flex-col md:flex-row items-center">
@@ -270,23 +308,21 @@ const TaskCard = ({
                                                 <p className="text-sm text-gray-500">Accepted By: {task.acceptedBy}</p>
                                             )}
                                             <div className="mt-4">
-                                                <div className="border p-4 rounded-lg bg-white shadow-md">
 
-                                                    {task.imageUrls && task.imageUrls.length > 0 && (
-                                                        <div className="mt-4">
-                                                            <p className="text-sm font-semibold">Attachments</p>
-                                                            {task.imageUrls.map((url, index) => (
-                                                                <div key={index} className="mt-2">
-                                                                    <a href={url} download={`image-${index + 1}.jpg`} className="text-green-600 hover:text-green-800">
-                                                                        View Attachment {index + 1}
-                                                                    </a>
-                                                                </div>
-                                                            ))}
-                                                        </div>
-                                                    )}
+                                                {task.imageUrls && task.imageUrls.length > 0 && (
+                                                    <div className="mt-4">
+                                                        <p className="text-sm font-semibold">Attachments</p>
+                                                        {task.imageUrls.map((url, index) => (
+                                                            <div key={index} className="mt-2">
+                                                                <a href={url} download={`image-${index + 1}.jpg`} className="text-green-600 hover:text-green-800">
+                                                                    View Attachment {index + 1}
+                                                                </a>
+                                                            </div>
+                                                        ))}
+                                                    </div>
+                                                )}
 
 
-                                                </div>
                                             </div>
                                             {task.subtasks && task.subtasks.length > 0 && (
                                                 <div className="mt-4">
@@ -313,14 +349,8 @@ const TaskCard = ({
                                         </div>
                                     )}
                                 </div>
-                                {!task.acceptedBy && currentUserEmail === task.assignedTo && (
-                                    <button
-                                        onClick={() => handleAcceptTask(task.id)}
-                                        className="px-3 py-1 bg-blue-500 text-white rounded"
-                                    >
-                                        Accept
-                                    </button>
-                                )}
+
+
                             </div>
 
                             {isAdmin && (
@@ -331,12 +361,7 @@ const TaskCard = ({
                                     >
                                         Delete
                                     </button>
-                                    {/* <button
-                                        onClick={() => handleCloseTask(task)}
-                                        className="px-4 py-2 bg-yellow-500 text-white rounded md:ml-2"
-                                    >
-                                        Close
-                                    </button> */}
+
                                 </>
                             )}
                         </div>

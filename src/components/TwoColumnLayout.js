@@ -55,6 +55,7 @@ const TwoColumnLayout = () => {
                 const newTaskData = {
                     Priority,
                     Task,
+                    status: 'pending',
                     description,
                     assignedTo,
                     dueDate,
@@ -112,6 +113,9 @@ const TwoColumnLayout = () => {
             await updateDoc(taskDocRef, {
                 assignedTo: assignedTo,
                 acceptedBy: null,
+                status: 'pending',
+                rejectionMessage: null,
+                rejectedBy: null,
             });
             alert(`Task transferred to ${assignedTo}`);
             fetchTasks();
@@ -120,6 +124,8 @@ const TwoColumnLayout = () => {
             alert("Error transferring task. Please try again.");
         }
     };
+
+
     const handleAcceptTask = async (taskId) => {
         try {
             const taskDocRef = doc(db, "allQueries", taskId);
@@ -127,13 +133,24 @@ const TwoColumnLayout = () => {
             const taskData = taskSnapshot.data();
             const currentUserEmail = auth.currentUser?.email;
 
+            if (taskData.status === 'rejected') {
+                alert("This task has been rejected. You can't accept it.");
+                return;
+            }
+
             if (taskData.assignedTo !== currentUserEmail) {
                 alert("You are not assigned to this task.");
                 return;
             }
 
+            if (taskData.status === 'completed') {
+                alert("This task has already been completed. You can't accept it.");
+                return;
+            }
+
             await updateDoc(taskDocRef, {
                 acceptedBy: currentUserEmail,
+                status: 'accepted',
             });
 
             const updatedTaskSnapshot = await getDoc(taskDocRef);
@@ -149,6 +166,7 @@ const TwoColumnLayout = () => {
         }
     };
 
+
     useEffect(() => {
         fetchTasks();
     }, []);
@@ -158,6 +176,23 @@ const TwoColumnLayout = () => {
         setAssignedTo(copiedUser)
     }, [copiedUser])
 
+
+    const [rejectionMessage, setRejectionMessage] = useState('');
+    const handleRejectTask = async (taskId, rejectionMessage) => {
+        try {
+            const taskDocRef = doc(db, "allQueries", taskId);
+            await updateDoc(taskDocRef, {
+                status: 'rejected',
+                rejectionMessage: rejectionMessage,
+                rejectedBy: auth.currentUser.email,
+            });
+            alert("Task rejected");
+            fetchTasks();
+        } catch (error) {
+            console.error("Error rejecting task:", error);
+            alert("Error rejecting task. Please try again.");
+        }
+    };
 
 
     const handleDeleteTask = async (taskId) => {
@@ -409,10 +444,13 @@ const TwoColumnLayout = () => {
                 tasks={tasks}
                 currentUserEmail={currentUserEmail}
                 isAdmin={isAdmin}
+                handleRejectTask={handleRejectTask}
                 handleAcceptTask={handleAcceptTask}
                 calculateTimeRemaining={calculateTimeRemaining}
                 handleTransferTask={handleTransferTask}
+                rejectionMessage={rejectionMessage}
                 handleDeleteTask={handleDeleteTask}
+                setRejectionMessage={setRejectionMessage}
                 handleSubtaskCheckboxChange={handleSubtaskCheckboxChange}
             />
         </div>
