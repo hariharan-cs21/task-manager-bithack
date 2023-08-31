@@ -1,11 +1,17 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { auth } from '../components/Config/firebaseconfig';
 import { useNavigate } from 'react-router-dom';
 import { signOut } from 'firebase/auth';
 
-const Profile = ({ user, setloggedIn }) => {
+const Profile = ({ user, setloggedIn, isloggedIn }) => {
     const dateOfEmailCreation = user?.metadata?.creationTime ? new Date(user.metadata.creationTime) : null;
     let navigate = useNavigate()
+    useEffect(() => {
+        if (!isloggedIn) {
+            navigate("/")
+        }
+    })
+
     const LogutUser = () => {
         signOut(auth).then(() => {
             localStorage.clear()

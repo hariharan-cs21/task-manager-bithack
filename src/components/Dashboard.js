@@ -49,7 +49,11 @@ function SidebarButton({ isOpen, onClick }) {
 
 function Dashboard({ isloggedIn, setloggedIn, user }) {
     let navigate = useNavigate();
-
+    useEffect(() => {
+        if (!isloggedIn) {
+            navigate("/")
+        }
+    })
 
     const [isSidebarOpen, setIsSidebarOpen] = useState(false);
     const handleSidebarToggle = () => {
@@ -113,12 +117,15 @@ function Dashboard({ isloggedIn, setloggedIn, user }) {
         };
         fetchUserRole();
     }, [auth.currentUser]);
+
     const [showAdmin, setshowAdmin] = useState(false)
     const [showBody, setshowBody] = useState(true)
     const toggleShowAdmin = () => {
         setshowAdmin(!showAdmin);
         setshowBody(showAdmin);
     };
+
+
 
     return (
         <div className="flex h-screen bg-gray-200">
@@ -164,6 +171,15 @@ function Dashboard({ isloggedIn, setloggedIn, user }) {
                                 {showAdmin ? <><i className="uil uil-code-branch mr-1 text-2xl"></i> Tasks</> : <><i className="uil uil-lock-access mr-1 text-2xl"></i> Admin Access</>}
                             </p>
                         )}
+                        <Link to='/colloborate'>
+
+                            <p
+                                className="flex cursor-pointer items-center px-6 py-3 text-gray-300 hover:bg-gray-700 hover:text-white rounded-xl"
+                            >
+                                <i className="uil uil-users-alt ml-2 text-2xl"></i>
+                                <span className='ml-1 '>Collaboration</span>
+                            </p>
+                        </Link>
                     </nav>
                 </div>
             </div>

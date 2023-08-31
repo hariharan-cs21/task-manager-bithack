@@ -130,6 +130,11 @@ const Chat = ({ isloggedIn, user }) => {
         };
         fetchUserRole();
     }, [auth.currentUser]);
+    useEffect(() => {
+        if (!isloggedIn) {
+            navigate("/")
+        }
+    })
 
     return (
         <>

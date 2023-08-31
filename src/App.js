@@ -8,6 +8,7 @@ import { useAuthState } from 'react-firebase-hooks/auth';
 import Profile from './components/Profile';
 import Chat from './components/Chat';
 import PersonalTask from './components/PersonalTask';
+import DashboardLayout from './components/DashboardLayout';
 
 function App() {
   const [isloggedIn, setloggedIn] = useState(localStorage.getItem("isLogged"));
@@ -19,7 +20,6 @@ function App() {
     const handleStatusChange = () => {
       setIsOnline(navigator.onLine);
     };
-
     window.addEventListener('online', handleStatusChange);
     window.addEventListener('offline', handleStatusChange);
     return () => {
@@ -33,6 +33,7 @@ function App() {
       {isOnline ?
         <Router>
           <Routes>
+
             <Route path="/" element={<Login setloggedIn={setloggedIn} />} />
             <Route path="/profile" element={<Profile isloggedIn={isloggedIn} user={user} setloggedIn={setloggedIn} />} />
             <Route path="/dashboard" element={<Dashboard isloggedIn={isloggedIn} setloggedIn={setloggedIn} user={user} />} />
@@ -48,6 +49,8 @@ function App() {
               }
             />
             <Route path="/personaltask" element={<PersonalTask isloggedIn={isloggedIn} setloggedIn={setloggedIn} user={user} />} />
+            <Route path="/colloborate" element={<DashboardLayout user={user} setloggedIn={setloggedIn} />} />
+
           </Routes>
         </Router>
         :
