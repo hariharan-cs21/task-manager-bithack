@@ -33,6 +33,7 @@ const Login = ({ setloggedIn }) => {
                 if (auth.currentUser) {
                     const user = auth.currentUser;
                     const userEmail = user.email;
+                    const username = user.displayName;
                     const userRef = doc(db, 'users', user.uid);
 
                     const existingRoleSnapshot = await getDoc(userRef);
@@ -44,6 +45,7 @@ const Login = ({ setloggedIn }) => {
 
                     if (role === "superAdmin" || role === "user") {
                         await setDoc(userRef, {
+                            name: username,
                             email: userEmail,
                             role: role
                         });

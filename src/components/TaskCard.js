@@ -82,24 +82,60 @@ const TaskCard = ({
         };
         fetchImageUrls();
     }, [tasks]);
+    const [searchInput, setSearchInput] = useState('');
+    const [searchButtonClicked, setSearchButtonClicked] = useState(false);
 
+    const handleSearchButtonClick = () => {
+        setSearchButtonClicked(true);
+    };
 
+    const filterTasks = (tasks, searchInput) => {
+        if (!searchInput) {
+            return tasks;
+        }
 
+        const lowerCaseSearch = searchInput.toLowerCase();
+        return tasks.filter(task => {
+            return (
+                task.Task.toLowerCase().includes(lowerCaseSearch) ||
+                task.description.toLowerCase().includes(lowerCaseSearch)
+            );
+        });
+    };
 
-
+    const filteredTasks = searchButtonClicked
+        ? filterTasks(pendingTasks, searchInput)
+        : pendingTasks;
 
     return (
         <div className="w-full ml-2 overflow-x-auto scrollbar-thin scrollbar-thumb-gray-400 scrollbar-track-gray-200">
-            <button
-                onClick={() => setSortPriority(!sortPriority)}
-                className="px-4 py-2 bg-blue-500 text-white rounded mb-3"
-            >
-                {sortPriority ? 'Sort by Default' : 'Sort by Priority'}
-            </button>
+            <div className='flex'>
+                <input
+                    type="text"
+                    placeholder="Search tasks"
+                    className="border p-1 rounded mb-3 w-1/2 ml-6"
+                    value={searchInput}
+                    onChange={(e) => setSearchInput(e.target.value)}
+                />
+                <button
+                    onClick={handleSearchButtonClick}
+                    className="ml-4 mb-3"
+                >
+                    Search
+                </button>
+                <button
+                    onClick={() => setSortPriority(!sortPriority)}
+                    className="ml-4 mb-3"
+                >
+                    {sortPriority ? 'Sort by Default' : 'Sort by Priority'}
+                </button>
+            </div>
+
             <div className="grid md:grid-cols-2 gap-4">
+
                 <div>
                     <h3 className="text-xl font-bold mb-3">Pending Tasks</h3>
-                    {pendingTasks.map((task) => (
+                    {filteredTasks.map((task) => (
                         <div key={task.id} className="p-4 bg-white rounded-lg shadow mb-4 overflow-x-auto max-w-md ml-2">
                             <div className="flex flex-wrap items-center">
                                 <div className="flex-grow">
@@ -139,6 +175,7 @@ const TaskCard = ({
                                             <p className="text-sm text-gray-500">Assigned To: {task.assignedTo}</p>
                                             {task.acceptedBy && (
                                                 <p className="text-sm text-gray-500">Accepted By: {task.acceptedBy}</p>
+
                                             )}
                                             <div className="mt-4">
                                                 <div className="border p-4 rounded-lg bg-white shadow-md">

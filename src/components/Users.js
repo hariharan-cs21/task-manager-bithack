@@ -46,6 +46,8 @@ const Users = ({ setCopiedUser }) => {
                     {usersData.filter(item => item.role === 'user' || item.role === 'admin').map((item) => (
                         <div key={item.id} className='ml-2 flex justify-between items-center p-2 my-2 border-b border-gray-300'>
                             <div className='text-sm'>
+                                <p className='font-semibold'>{item.name}</p>
+
                                 <p className='font-semibold'>{item.email}</p>
                                 <p className='text-gray-500'>{item.role}</p>
                             </div>

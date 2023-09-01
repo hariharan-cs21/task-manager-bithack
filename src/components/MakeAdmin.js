@@ -33,6 +33,7 @@ const MakeAdmin = () => {
                 const details = querySnapshot.docs
                     .filter(doc => doc.data().role === 'admin' || doc.data().role === 'user')
                     .map(doc => ({
+                        name: doc.data().name,
                         email: doc.data().email,
                         role: doc.data().role,
                     }));
@@ -126,7 +127,7 @@ const MakeAdmin = () => {
                                     >
                                         <option value="">Select a user</option>
                                         {regularUserEmails.map((user, index) => (
-                                            <option key={index} value={user.email}>{user.email}</option>
+                                            <option key={index} value={user.email}>{user.name} : {user.email}</option>
                                         ))}
                                     </select>
                                     <button
@@ -149,7 +150,7 @@ const MakeAdmin = () => {
                                     >
                                         <option value="">Select an admin to demote</option>
                                         {adminUserEmails.map((user, index) => (
-                                            <option key={index} value={user.email}>{user.email}</option>
+                                            <option key={index} value={user.email}>{user.name} : {user.email}</option>
                                         ))}
                                     </select>
                                     <button

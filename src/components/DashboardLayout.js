@@ -1,12 +1,16 @@
 import React, { useState, useEffect } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import Collaboration from './Colloboration';
 
-const DashboardLayout = ({ user, setloggedIn, isloggedIn }) => {
-    const [sidebarOpen, setSidebarOpen] = useState(true);
+const DashboardLayout = ({ user, setloggedIn }) => {
+    const [sidebarOpen, setSidebarOpen] = useState(false);
 
     const toggleSidebar = () => {
         setSidebarOpen(!sidebarOpen);
+        setTimeout(() => {
+            setSidebarOpen(false);
+
+        }, 3000);
     };
 
     useEffect(() => {
@@ -51,10 +55,22 @@ const DashboardLayout = ({ user, setloggedIn, isloggedIn }) => {
 
             <div className="flex flex-col flex-1">
                 <button
-                    className="fixed top-3 left-1 p-2 rounded-md w-6 h-6 lg:hidden"
+                    className="fixed mt-4 left-2 p-1 rounded-md w-6 h-6 lg:hidden"
                     onClick={toggleSidebar}
                 >
-                    {sidebarOpen ? null : <i className="uil uil-ellipsis-v"></i>}
+                    {sidebarOpen ? null : <svg
+                        className="w-6 h-6"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        xmlns="http://www.w3.org/2000/svg"
+                    >
+                        <path
+                            d="M4 6H20M4 12H20M4 18H20"
+                            stroke="currentColor"
+                            strokeWidth="2"
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                        /></svg>}
                 </button>
 
                 <Collaboration user={user} setloggedIn={setloggedIn} />
