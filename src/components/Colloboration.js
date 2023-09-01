@@ -1,8 +1,10 @@
 import { signOut } from 'firebase/auth';
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { auth } from './Config/firebaseconfig';
+import { auth, db } from './Config/firebaseconfig';
 import colab from "./colab.gif"
+import { collection, addDoc, getDocs, query } from 'firebase/firestore';
+import CollobTask from "./CollobTask"
 
 const Collaboration = ({ user, setloggedIn }) => {
     const [isDropdownOpen, setIsDropdownOpen] = useState(false);
@@ -35,7 +37,91 @@ const Collaboration = ({ user, setloggedIn }) => {
         setShowForm(false)
         setunShowForm(true)
     }
+    const [Priority, setPriority] = useState("");
+    const [assignedTo, setAssignedTo] = useState([]);
+    const [Task, setTask] = useState("");
+    const [description, setdescription] = useState("");
+    const [taskAccepted, setTaskAccepted] = useState(false);
+    const [dueDate, setDueDate] = useState("");
 
+    const [usersData, setUsersData] = useState([]);
+    const usersCollection = collection(db, 'users');
+
+    const filteredUsersData = usersData.filter(userData => userData.email !== isadmin);
+
+    const fetchUsers = async () => {
+        try {
+            const querySnapshot = await getDocs(usersCollection);
+            const userData = querySnapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
+            setUsersData(userData);
+        } catch (error) {
+            console.error('Error fetching users:', error);
+        }
+    };
+
+
+
+    const submitTask = async () => {
+        if (Priority && Task && description && assignedTo.length > 0 && dueDate) {
+            try {
+                const queryPerson = {
+                    name: auth.currentUser.displayName,
+                    id: auth.currentUser.uid,
+                    email: auth.currentUser.email,
+                };
+
+                const assignedUsers = assignedTo.map((email) => {
+                    const user = usersData.find((userData) => userData.email === email);
+                    return { name: user.name, email: user.email };
+                });
+
+                const collabTask = {
+                    Priority,
+                    Task,
+                    status: 'pending',
+                    description,
+                    assignedTo: assignedUsers,
+                    dueDate,
+                    queryPerson,
+                };
+
+                const taskCollection = collection(db, 'collobTasks');
+                await addDoc(taskCollection, collabTask);
+
+                alert('Task has been submitted successfully.');
+                setPriority('');
+                setTask('');
+                setdescription('');
+                setAssignedTo([]);
+                setDueDate('');
+                setTaskAccepted(true);
+            } catch (error) {
+                console.error('Error submitting task:', error);
+            }
+        } else {
+            alert('Please fill in all the fields, including Assign To and Due Date.');
+        }
+    };
+
+    useEffect(() => {
+        fetchUsers();
+    }, []);
+    const [tasks, setTasks] = useState([]);
+
+    const fetchTasks = async () => {
+        try {
+            const tasksQuery = query(collection(db, 'collobTasks'));
+            const querySnapshot = await getDocs(tasksQuery);
+            const taskData = querySnapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
+            setTasks(taskData);
+        } catch (error) {
+            console.error('Error fetching tasks:', error);
+        }
+    };
+
+    useEffect(() => {
+        fetchTasks();
+    }, []);
     return (
         <div>
             <nav className="bg-white p-4">
@@ -80,62 +166,27 @@ const Collaboration = ({ user, setloggedIn }) => {
                 <div className='md:w-1/2 overflow-y-auto '>
                     <div className='p-6 rounded-lg' style={{ maxHeight: '85vh', overflowY: "scroll" }}>
 
-                        <div className='space-y-4 sm:h-full '>
-                            <div className='bg-white p-6 rounded-lg shadow-md border border-blue-600'>
-                                <h3 className='text-2xl font-semibold mb-2'>Task Title</h3>
-                                <p className='text-gray-700 mb-4'>
-                                    Description of the task goes here. It can be a detailed explanation of the task that needs to be accomplished.
-                                </p>
-                                <div className='flex justify-between items-center'>
-                                    <span className='text-sm text-gray-500'>Due Date: 2023-09-15</span>
-                                    <span className='text-sm text-gray-500'>Priority: High</span>
-                                </div>
-                                <div className='mt-3'>
-                                    <span className='text-sm text-gray-500'>Collaborators: user@example.com, user2@example.com</span>
-                                </div>
+                        {tasks.length > 0 && (
+                            <div>
+                                {user?.email === isadmin ? (
+                                    tasks.map((task) => (
+                                        <div key={task.id}>
+                                            <CollobTask task={task} isAssignedUser={false} />
+                                        </div>
+                                    ))
+                                ) : (
+                                    tasks
+                                        .filter((task) => task.assignedTo.some((collaborator) => collaborator.email === user?.email))
+                                        .map((task) => (
+                                            <div key={task.id}>
+                                                <CollobTask task={task} isAssignedUser={true} />
+                                            </div>
+                                        ))
+                                )}
                             </div>
-                            <div className='bg-white p-6 rounded-lg shadow-md border border-blue-600'>
-                                <h3 className='text-2xl font-semibold mb-2'>Task Title</h3>
-                                <p className='text-gray-700 mb-4'>
-                                    Description of the task goes here. It can be a detailed explanation of the task that needs to be accomplished.
-                                </p>
-                                <div className='flex justify-between items-center'>
-                                    <span className='text-sm text-gray-500'>Due Date: 2023-09-15</span>
-                                    <span className='text-sm text-gray-500'>Priority: High</span>
-                                </div>
-                                <div className='mt-3'>
-                                    <span className='text-sm text-gray-500'>Collaborators: user@example.com, user2@example.com</span>
-                                </div>
-                            </div>
-                            <div className='bg-white p-6 rounded-lg shadow-md border border-blue-600'>
-                                <h3 className='text-2xl font-semibold mb-2'>Task Title</h3>
-                                <p className='text-gray-700 mb-4'>
-                                    Description of the task goes here. It can be a detailed explanation of the task that needs to be accomplished.
-                                </p>
-                                <div className='flex justify-between items-center'>
-                                    <span className='text-sm text-gray-500'>Due Date: 2023-09-15</span>
-                                    <span className='text-sm text-gray-500'>Priority: High</span>
-                                </div>
-                                <div className='mt-3'>
-                                    <span className='text-sm text-gray-500'>Collaborators: user@example.com, user2@example.com</span>
-                                </div>
-                            </div>
-                            <div className='bg-white p-6 rounded-lg shadow-md border border-blue-600'>
-                                <h3 className='text-2xl font-semibold mb-2'>Task Title</h3>
-                                <p className='text-gray-700 mb-4'>
-                                    Description of the task goes here. It can be a detailed explanation of the task that needs to be accomplished.
-                                </p>
-                                <div className='flex justify-between items-center'>
-                                    <span className='text-sm text-gray-500'>Due Date: 2023-09-15</span>
-                                    <span className='text-sm text-gray-500'>Priority: High</span>
-                                </div>
-                                <div className='mt-3'>
-                                    <span className='text-sm text-gray-500'>Collaborators: user@example.com, user2@example.com</span>
-                                </div>
-                            </div>
+                        )}
 
 
-                        </div>
                     </div>
                 </div>
 
@@ -150,7 +201,7 @@ const Collaboration = ({ user, setloggedIn }) => {
                                     <button className='w-24 bg-gray-800 rounded-md p-2 text-white' onClick={onUnformClick}>Close</button>
                                 )}
                                 {showForm &&
-                                    <div className="p-6 shadow-md rounded-lg  bg-white mt-4" style={{ maxHeight: "78vh", overflowY: "auto" }}>
+                                    <div className="p-6 shadow-md rounded-lg bg-white mt-4" style={{ maxHeight: "78vh", overflowY: "auto" }}>
                                         <form className="space-y-4">
                                             <div className="flex flex-col">
                                                 <label htmlFor="title" className="text-sm font-medium mb-1 text-gray-600">
@@ -160,6 +211,8 @@ const Collaboration = ({ user, setloggedIn }) => {
                                                     type="text"
                                                     id="title"
                                                     className="border border-gray-300 rounded-lg p-2 focus:outline-none focus:border-indigo-500"
+                                                    value={Task}
+                                                    onChange={(e) => setTask(e.target.value)}
                                                 />
                                             </div>
                                             <div className="flex flex-col">
@@ -170,6 +223,8 @@ const Collaboration = ({ user, setloggedIn }) => {
                                                     id="description"
                                                     className="border border-gray-300 rounded-lg p-2 focus:outline-none focus:border-indigo-500"
                                                     rows="4"
+                                                    value={description}
+                                                    onChange={(e) => setdescription(e.target.value)}
                                                 />
                                             </div>
                                             <div className="flex flex-col">
@@ -180,6 +235,8 @@ const Collaboration = ({ user, setloggedIn }) => {
                                                     type="date"
                                                     id="dueDate"
                                                     className="rounded-lg border border-gray-300 rounded p-2 focus:outline-none focus:border-indigo-500"
+                                                    value={dueDate}
+                                                    onChange={(e) => setDueDate(e.target.value)}
                                                 />
                                             </div>
                                             <div className="flex flex-col">
@@ -189,6 +246,8 @@ const Collaboration = ({ user, setloggedIn }) => {
                                                 <select
                                                     id="priority"
                                                     className="rounded-lg border border-gray-300 rounded p-2 focus:outline-none focus:border-indigo-500"
+                                                    value={Priority}
+                                                    onChange={(e) => setPriority(e.target.value)}
                                                 >
                                                     <option value="low">Low</option>
                                                     <option value="medium">Medium</option>
@@ -199,25 +258,39 @@ const Collaboration = ({ user, setloggedIn }) => {
                                                 <label htmlFor="collaborators" className="font-medium mb-1">
                                                     Collaborators
                                                 </label>
-                                                <input
-                                                    type="text"
+                                                <select
                                                     id="collaborators"
                                                     className="rounded-lg border border-gray-300 rounded p-2 focus:outline-none focus:border-indigo-500"
-                                                    placeholder="Add collaborators' emails"
-                                                />
-                                                <p className="text-sm text-gray-500 mt-1">
-                                                    Separate emails with commas
-                                                </p>
+                                                    multiple
+                                                    value={assignedTo}
+                                                    onChange={(e) => {
+                                                        const selectedOptions = Array.from(e.target.selectedOptions, (option) => option.value);
+                                                        setAssignedTo(selectedOptions);
+                                                    }}
+                                                >
+                                                    {filteredUsersData.length > 0 ? (
+                                                        filteredUsersData.map((userData) => (
+                                                            <option key={userData.id} value={userData.email}>
+                                                                {userData.name} : {userData.email}
+                                                            </option>
+                                                        ))
+                                                    ) : (
+                                                        <option value="">No users available</option>
+                                                    )}
+                                                </select>
                                             </div>
                                             <div className="flex justify-end">
-                                                <button className="bg-blue-500 hover:bg-blue-600 text-white py-2 px-4 rounded">
+                                                <button
+                                                    className="bg-blue-500 hover:bg-blue-600 text-white py-2 px-4 rounded"
+                                                    onClick={submitTask}
+                                                    type="button"
+                                                >
                                                     Assign
                                                 </button>
+
                                             </div>
                                         </form>
                                     </div>
-
-
                                 }
                             </div>
                         </div>
