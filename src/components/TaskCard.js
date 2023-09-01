@@ -108,8 +108,8 @@ const TaskCard = ({
         : pendingTasks;
 
     return (
-        <div className="w-full ml-2 overflow-x-auto scrollbar-thin scrollbar-thumb-gray-400 scrollbar-track-gray-200">
-            <div className='flex'>
+        <div className="w-full ml-2 overflow-x-auto">
+            <div className='flex items-center mb-4'>
                 <input
                     type="text"
                     placeholder="Search tasks"
@@ -119,16 +119,17 @@ const TaskCard = ({
                 />
                 <button
                     onClick={handleSearchButtonClick}
-                    className="ml-4 mb-3"
+                    className="ml-4 mb-3 px-4 py-2 bg-blue-500 hover:bg-blue-600 text-white font-semibold rounded-lg transition duration-300"
                 >
                     Search
                 </button>
                 <button
                     onClick={() => setSortPriority(!sortPriority)}
-                    className="ml-4 mb-3"
+                    className="ml-4 mb-3 px-4 py-2 bg-gray-200 hover:bg-gray-300 text-gray-800 font-semibold rounded-lg border border-gray-300 transition duration-300"
                 >
                     {sortPriority ? 'Sort by Default' : 'Sort by Priority'}
                 </button>
+
             </div>
 
             <div className="grid md:grid-cols-2 gap-4">
@@ -136,7 +137,7 @@ const TaskCard = ({
                 <div>
                     <h3 className="text-xl font-bold mb-3">Pending Tasks</h3>
                     {filteredTasks.map((task) => (
-                        <div key={task.id} className="p-4 bg-white rounded-lg shadow mb-4 overflow-x-auto max-w-md ml-2">
+                        <div key={task.id} className="p-4 bg-white rounded-lg shadow-md mb-4 overflow-x-auto max-w-md ml-2">
                             <div className="flex flex-wrap items-center">
                                 <div className="flex-grow">
                                     <div onClick={() => toggleExpand(task.id)} className="cursor-pointer p-1">
@@ -317,7 +318,7 @@ const TaskCard = ({
                     {completedTasks.map((task) => (
 
 
-                        <div key={task.id} className="p-4 bg-white rounded-lg shadow mb-4 overflow-x-auto max-w-md">
+                        <div key={task.id} className="p-4 bg-white rounded-lg shadow-md mb-4 overflow-x-auto max-w-md">
 
                             <div className="flex flex-wrap items-center">
                                 <div className="flex-grow">
