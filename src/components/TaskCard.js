@@ -3,6 +3,28 @@ import { auth, db, storage } from './Config/firebaseconfig';
 import { uploadBytes, ref, getDownloadURL } from 'firebase/storage';
 import { v4 } from 'uuid';
 import { collection, addDoc, getDocs } from 'firebase/firestore';
+const TaskCountsDialog = ({ taskCountsByUser, onClose }) => (
+    <div className="fixed inset-0 flex items-center justify-center z-50">
+        <div className="bg-white p-4 rounded-lg shadow-md max-w-md">
+            <h3 className="text-lg font-semibold mb-2">Task Counts</h3>
+            <ul>
+                {Object.entries(taskCountsByUser).map(([userEmail, counts]) => (
+                    <li key={userEmail} style={{ textTransform: "capitalize" }}>
+                        {userEmail}:
+                        Completed: {counts.completed} tasks
+                        Pending: {counts.pending} tasks
+                    </li>
+                ))}
+            </ul>
+            <button
+                className="mt-4 px-4 py-2 bg-blue-500 text-white font-semibold rounded-lg hover:bg-blue-600"
+                onClick={onClose}
+            >
+                Close
+            </button>
+        </div>
+    </div>
+);
 
 const TaskCard = ({
     tasks,
@@ -107,8 +129,29 @@ const TaskCard = ({
         ? filterTasks(pendingTasks, searchInput)
         : pendingTasks;
 
+    const taskCountsByUser = {};
+
+    tasks.forEach((task) => {
+        const assignedTo = task.assignedTo;
+        if (assignedTo) {
+            const emailParts = assignedTo.split('.');
+            const emailToShow = emailParts[0];
+
+            if (!taskCountsByUser[emailToShow]) {
+                taskCountsByUser[emailToShow] = { completed: 0, pending: 0 };
+            }
+            if (task.progress === 100 && task.imagesData && task.imagesData.length > 0) {
+                taskCountsByUser[emailToShow].completed++;
+            } else {
+                taskCountsByUser[emailToShow].pending++;
+            }
+        }
+    });
+
     return (
-        <div className="w-full ml-2 overflow-x-auto">
+
+        <div className="w-full overflow-x-auto">
+
             <div className='flex items-center mb-4'>
                 <input
                     type="text"
@@ -131,14 +174,35 @@ const TaskCard = ({
                 </button>
 
             </div>
+            {isAdmin && (
+                <div className="p-4 bg-white rounded-lg shadow-md mb-4 max-w-md ml-2">
+                    <ul>
+                        {Object.entries(taskCountsByUser).map(([userEmail, counts]) => (
+                            <li key={userEmail} style={{ textTransform: "capitalize" }}>
+                                <div className='flex'>
+                                    <p>
+                                        {userEmail}: </p>
+                                    <p className='ml-1'>Completed:</p><p className='ml-1'>{counts.completed} </p>
+                                    <p className='ml-1'>
+                                        Pending:</p><p className='ml-1'> {counts.pending}</p>
+                                </div>
+                            </li>
+                        ))}
 
-            <div className="grid md:grid-cols-2 gap-4">
+                    </ul>
+                </div>
+            )}
+
+            <div className="grid grid-cols-1 ml-2 md:grid-cols-2 gap-4">
 
                 <div>
                     <h3 className="text-xl font-bold mb-3">Pending Tasks</h3>
                     {filteredTasks.map((task) => (
-                        <div key={task.id} className="p-4 bg-white rounded-lg shadow-md mb-4 overflow-x-auto max-w-md ml-2">
-                            <div className="flex flex-wrap items-center">
+                        <div
+                            key={task.id}
+                            className={`p-4 bg-white rounded-lg shadow-md mb-4 ${expandedTaskId === task.id ? 'border-2 border-blue-500' : ''
+                                }`}
+                        >                            <div className="flex flex-wrap items-center">
                                 <div className="flex-grow">
                                     <div onClick={() => toggleExpand(task.id)} className="cursor-pointer p-1">
                                         <div className="flex justify-between items-center mb-3">
@@ -318,8 +382,11 @@ const TaskCard = ({
                     {completedTasks.map((task) => (
 
 
-                        <div key={task.id} className="p-4 bg-white rounded-lg shadow-md mb-4 overflow-x-auto max-w-md">
-
+                        <div
+                            key={task.id}
+                            className={`p-4 bg-white rounded-lg shadow-md mb-4 ${expandedTaskId === task.id ? 'border-2 border-blue-500' : ''
+                                }`}
+                        >
                             <div className="flex flex-wrap items-center">
                                 <div className="flex-grow">
                                     <div onClick={() => toggleExpand(task.id)} className="cursor-pointer p-1">
