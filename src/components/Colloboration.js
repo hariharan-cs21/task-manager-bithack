@@ -87,6 +87,7 @@ const Collaboration = ({ user, setloggedIn }) => {
                     assignedTo: assignedUsers,
                     dueDate,
                     queryPerson,
+                    completed: false,
                     subtasks: [],
                 };
 
@@ -193,7 +194,7 @@ const Collaboration = ({ user, setloggedIn }) => {
                     </div>
                 </div>
                 {(auth.currentUser?.email !== isadmin) && (
-                    <div className="p-6 shadow-md rounded-lg bg-white mt-4" style={{ maxHeight: "300px", overflowY: "auto" }}>
+                    <div className="p-6 shadow-md rounded-lg bg-white" style={{ maxHeight: "300px", overflowY: "auto" }}>
                         <Notebook user={user} />
                     </div>
                 )}

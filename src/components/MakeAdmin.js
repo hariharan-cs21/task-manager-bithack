@@ -112,83 +112,101 @@ const MakeAdmin = () => {
     const adminUserEmails = userDetails.filter(user => user.role === 'admin');
     const regularUserEmails = userDetails.filter(user => user.role === 'user')
     return (
-        <div className="bg-slate-50 flex items-center justify-center h-screen bg-gray-100">
-            <div className=" p-8 rounded-lg w-full max-w-6xl h-[80vh] overflow-y-auto flex flex-col sm:flex-row">
-                <div className='flex flex-col'>
-                    <div className='flex flex-row'>
-                        {(isAdmin) && (
-                            <div className="w-full sm:w-1/2 pr-4">
-                                <div>
-                                    <h2 className="text-2xl font-semibold mb-4">Make User as Admin</h2>
-                                    <select
-                                        value={selectedUser}
-                                        onChange={(e) => setSelectedUser(e.target.value)}
-                                        className="w-full px-4 py-2 rounded-lg border border-gray-300 focus:outline-none focus:border-blue-500"
-                                    >
-                                        <option value="">Select a user</option>
-                                        {regularUserEmails.map((user, index) => (
-                                            <option key={index} value={user.email}>{user.name} : {user.email}</option>
-                                        ))}
-                                    </select>
-                                    <button
-                                        className="mt-4 px-6 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 cursor-pointer"
-                                        onClick={handleMakeAdmin}
-                                    >
-                                        Make Admin
-                                    </button>
-                                </div>
+        <div className="bg-gray-100 h-full flex flex-col justify-center items-center" style={{ overflowY: "auto" }}>
+            <div className="container mx-auto p-4 rounded-lg bg-white shadow-lg">
+                <h1 className="text-xl mb-2 font-semibold text-center text-blue-700">Admin Management</h1>
+                {isAdmin && (
+                    <div className="mb-8">
+                        <h2 className="text-xl font-semibold mb-4 text-blue-600">Make User as Admin</h2>
+                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                            <div>
+                                <select
+                                    value={selectedUser}
+                                    onChange={(e) => setSelectedUser(e.target.value)}
+                                    className="w-full p-3 border rounded-lg focus:outline-none shadow-md"
+                                >
+                                    <option value="">Select a user</option>
+                                    {regularUserEmails.map((user, index) => (
+                                        <option key={index} value={user.email}>
+                                            {user.name} : {user.email}
+                                        </option>
+                                    ))}
+                                </select>
                             </div>
-                        )}
-                        {isAdmin && (
-                            <div className="w-full sm:w-1/2 pl-4">
-                                <div>
-                                    <h2 className="text-2xl font-semibold mb-4">Demote Admin to User</h2>
-                                    <select
-                                        value={selectedUserDemote}
-                                        onChange={(e) => setSelectedUserDemote(e.target.value)}
-                                        className="w-full px-4 py-2 rounded-lg border border-gray-300 focus:outline-none focus:border-blue-500"
-                                    >
-                                        <option value="">Select an admin to demote</option>
-                                        {adminUserEmails.map((user, index) => (
-                                            <option key={index} value={user.email}>{user.name} : {user.email}</option>
-                                        ))}
-                                    </select>
-                                    <button
-                                        className="mt-4 px-6 py-2 bg-red-500 text-white rounded-lg hover:bg-red-600 cursor-pointer"
-                                        onClick={handleDemoteUser}
-                                    >
-                                        Demote User
-                                    </button>
-                                </div>
-                            </div>
-                        )}
-                    </div>
-
-                    {(isAdmin || isJustAdmin) && (
-                        <div className="w-full sm:w-full pl-4 mt-4">
-                            <h2 className="text-2xl font-semibold mb-4">Users</h2>
-                            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                                {adminUserEmails.map((user, index) => (
-                                    <div key={index} className="bg-blue-100 p-4 rounded-md">
-                                        <p className="text-blue-700 font-semibold">{user.email}</p>
-                                        <p className="text-gray-600">Role: {user.role}</p>
-                                    </div>
-                                ))}
-                                {regularUserEmails.map((user, index) => (
-                                    <div key={index} className="bg-green-100 p-4 rounded-md">
-                                        <p className="text-blue-700 font-semibold">{user.name}</p>
-                                        <p className="text-green-700 font-semibold">{user.email}</p>
-                                        <p className="text-gray-600">Role: {user.role}</p>
-                                    </div>
-                                ))}
+                            <div className="flex justify-center items-center">
+                                <button
+                                    className="px-3 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 focus:outline-none"
+                                    onClick={handleMakeAdmin}
+                                >
+                                    Make Admin
+                                </button>
                             </div>
                         </div>
-                    )}
-                </div>
+                    </div>
+                )}
+                {isAdmin && (
+                    <div>
+                        <h2 className="text-xl font-semibold mb-4 text-blue-600">Demote Admin to User</h2>
+                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                            <div>
+                                <select
+                                    value={selectedUserDemote}
+                                    onChange={(e) => setSelectedUserDemote(e.target.value)}
+                                    className="w-full p-3 border rounded-lg focus:outline-none shadow-md"
+                                >
+                                    <option value="">Select an admin to demote</option>
+                                    {adminUserEmails.map((user, index) => (
+                                        <option key={index} value={user.email}>
+                                            {user.name} : {user.email}
+                                        </option>
+                                    ))}
+                                </select>
+                            </div>
+                            <div className="flex justify-center items-center">
+                                <button
+                                    className="px-3 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 focus:outline-none"
+                                    onClick={handleDemoteUser}
+                                >
+                                    Demote User
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                )}
+                {(isAdmin || isJustAdmin) && (
+                    <div className="mt-4">
+                        <h2 className="text-xl font-semibold mb-4 text-blue-600">Users</h2>
+                        <div className="overflow-x-auto">
+                            <table className="w-full border-collapse border border-gray-300">
+                                <thead>
+                                    <tr className="bg-blue-100">
+                                        <th className="border border-gray-300 p-3">Name</th>
+                                        <th className="border border-gray-300 p-3">Email</th>
+                                        <th className="border border-gray-300 p-3">Role</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {adminUserEmails.map((user, index) => (
+                                        <tr key={index}>
+                                            <td className="border border-gray-300 p-3">{user.name}</td>
+                                            <td className="border border-gray-300 p-3">{user.email}</td>
+                                            <td className="border border-gray-300 p-3">{user.role}</td>
+                                        </tr>
+                                    ))}
+                                    {regularUserEmails.map((user, index) => (
+                                        <tr key={index}>
+                                            <td className="border border-gray-300 p-3">{user.name}</td>
+                                            <td className="border border-gray-300 p-3">{user.email}</td>
+                                            <td className="border border-gray-300 p-3">{user.role}</td>
+                                        </tr>
+                                    ))}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                )}
             </div>
         </div>
-
-
     );
 };
 export default MakeAdmin;

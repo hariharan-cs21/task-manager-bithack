@@ -11,6 +11,8 @@ const CollobTask = ({ task, tasks, isAssignedUser, updateTask }) => {
     const currentUserEmail = auth.currentUser?.email;
     const [editedTask, setEditedTask] = useState({ ...task });
     const [attachments, setAttachments] = useState({});
+    const [comments, setComments] = useState([]);
+    const [newComment, setNewComment] = useState('');
 
     const uploadFile = async (task) => {
         if (imageUpload == null) return;
@@ -34,17 +36,25 @@ const CollobTask = ({ task, tasks, isAssignedUser, updateTask }) => {
         }
     };
 
-    const handleUpdateTask = async () => {
+    const handleCompleteTask = async () => {
         try {
             if (currentUserEmail === adminEmail) {
                 const taskDocRef = doc(db, 'collobTasks', task.id);
 
-                await updateDoc(taskDocRef, editedTask);
+                const updatedTask = {
+                    ...editedTask,
+                    completed: !editedTask.completed,
+                };
+
+                await updateDoc(taskDocRef, updatedTask);
+
+                setEditedTask(updatedTask);
+
                 if (updateTask) {
-                    updateTask(editedTask);
+                    updateTask(updatedTask);
                 }
 
-                alert('Task updated successfully.');
+                alert(`Task ${updatedTask.completed ? 'completed' : 'marked as incomplete'} successfully.`);
             } else {
                 alert('You do not have permission to edit this task.');
             }
@@ -86,8 +96,62 @@ const CollobTask = ({ task, tasks, isAssignedUser, updateTask }) => {
         fetchImageUrls();
     }, [tasks]);
 
+    const addComment = async () => {
+        try {
+            if (newComment.trim() === '') return;
+
+            const commentData = {
+                text: newComment,
+                user: currentUserEmail,
+                timestamp: new Date().toISOString(),
+            };
+
+            const taskCommentsCollection = collection(db, `collab/${task.id}/comments`);
+            await addDoc(taskCommentsCollection, commentData);
+
+            setComments([...comments, commentData]);
+            setNewComment('');
+        } catch (error) {
+            console.error('Error adding comment:', error);
+        }
+    };
+
+    useEffect(() => {
+        const fetchComments = async () => {
+            try {
+                const taskCommentsCollection = collection(db, `collab/${task.id}/comments`);
+                const querySnapshot = await getDocs(taskCommentsCollection);
+                const commentsData = querySnapshot.docs.map((doc) => doc.data());
+
+                setComments(commentsData);
+            } catch (error) {
+                console.error('Error fetching comments:', error);
+            }
+        };
+
+        fetchComments();
+    }, [task.id]);
+    const handleUpdateTask = async () => {
+        try {
+            if (currentUserEmail === adminEmail) {
+                const taskDocRef = doc(db, 'collobTasks', task.id);
+
+                await updateDoc(taskDocRef, editedTask);
+                if (updateTask) {
+                    updateTask(editedTask);
+                }
+
+                alert('Task updated successfully.');
+            } else {
+                alert('You do not have permission to edit this task.');
+            }
+        } catch (error) {
+            console.error('Error updating task:', error);
+        }
+    };
+
     return (
-        <div className={`bg-white mb-6   rounded-lg p-4 shadow-lg ${currentUserEmail === adminEmail ? 'border border-blue-500' : ''}`}>
+        <div className={`bg-white mb-6 rounded-lg p-4 shadow-lg ${currentUserEmail === adminEmail ? 'border border-blue-500' : ''} ${task.status === 'true' ? 'filter blur-md' : ''}`}>
             <div className="flex justify-between">
                 <div className="w-2/3">
                     <h2 className="text-xl font-semibold text-gray-800 mb-1">
@@ -183,6 +247,22 @@ const CollobTask = ({ task, tasks, isAssignedUser, updateTask }) => {
                     </div>
                 </div>
             )}
+
+            {/* Add the task completion UI here */}
+            <div className="mt-4">
+                {currentUserEmail === adminEmail && (
+                    <div className="flex items-center">
+                        <input
+                            type="checkbox"
+                            checked={editedTask.completed}
+                            onChange={handleCompleteTask}
+                            className="mr-2 cursor-pointer"
+                        />
+                        <label className="text-sm font-medium">Mark as Completed</label>
+                    </div>
+                )}
+            </div>
+
             <div className="mt-4">
                 {attachments[task.id] && attachments[task.id].length === 0 ? (
                     <p className="text-sm font-semibold">No Files uploaded</p>
@@ -200,7 +280,30 @@ const CollobTask = ({ task, tasks, isAssignedUser, updateTask }) => {
                     </div>
                 )}
             </div>
-
+            <div className="mt-4">
+                <label className="block text-sm font-medium text-gray-700">Comments</label>
+                {comments.map((comment, index) => (
+                    <div key={index} className="mt-2">
+                        {comment.text}
+                    </div>
+                ))}
+                {isAssignedUser && (
+                    <div className="flex mt-2">
+                        <textarea
+                            value={newComment}
+                            onChange={(e) => setNewComment(e.target.value)}
+                            rows={2}
+                            className="w-full resize-none border-b border-transparent hover:border-blue-500 transition-all duration-300"
+                        />
+                        <button
+                            className="ml-2 inline-flex items-center p-1 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-green-500 hover:bg-green-600"
+                            onClick={addComment}
+                        >
+                            Comment
+                        </button>
+                    </div>
+                )}
+            </div>
             <div className="mt-4 text-sm text-gray-500">
                 Collaborators:<br />
                 {task.assignedTo.map((collaborator, index) => (
