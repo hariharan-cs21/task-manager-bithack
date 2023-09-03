@@ -3,28 +3,6 @@ import { auth, db, storage } from './Config/firebaseconfig';
 import { uploadBytes, ref, getDownloadURL } from 'firebase/storage';
 import { v4 } from 'uuid';
 import { collection, addDoc, getDocs } from 'firebase/firestore';
-const TaskCountsDialog = ({ taskCountsByUser, onClose }) => (
-    <div className="fixed inset-0 flex items-center justify-center z-50">
-        <div className="bg-white p-4 rounded-lg shadow-md max-w-md">
-            <h3 className="text-lg font-semibold mb-2">Task Counts</h3>
-            <ul>
-                {Object.entries(taskCountsByUser).map(([userEmail, counts]) => (
-                    <li key={userEmail} style={{ textTransform: "capitalize" }}>
-                        {userEmail}:
-                        Completed: {counts.completed} tasks
-                        Pending: {counts.pending} tasks
-                    </li>
-                ))}
-            </ul>
-            <button
-                className="mt-4 px-4 py-2 bg-blue-500 text-white font-semibold rounded-lg hover:bg-blue-600"
-                onClick={onClose}
-            >
-                Close
-            </button>
-        </div>
-    </div>
-);
 
 const TaskCard = ({
     tasks,

@@ -4,7 +4,8 @@ import { useNavigate } from 'react-router-dom';
 import { auth, db } from './Config/firebaseconfig';
 import colab from "./colab.gif"
 import { collection, addDoc, getDocs, query } from 'firebase/firestore';
-import CollobTask from "./CollobTask"
+import CollobTask from "./CollobTask";
+import Notebook from './Notebook';
 
 const Collaboration = ({ user, setloggedIn }) => {
     const [isDropdownOpen, setIsDropdownOpen] = useState(false);
@@ -28,14 +29,19 @@ const Collaboration = ({ user, setloggedIn }) => {
     };
     const [showForm, setShowForm] = useState(false)
     const [unShowForm, setunShowForm] = useState(true)
+    const [showNotebook, setShowNotebook] = useState(false);
+
 
     const onFormClick = () => {
         setShowForm(true)
         setunShowForm(false)
+        setShowNotebook(false);
+
     }
     const onUnformClick = () => {
         setShowForm(false)
         setunShowForm(true)
+        setShowNotebook(true);
     }
     const [Priority, setPriority] = useState("");
     const [assignedTo, setAssignedTo] = useState([]);
@@ -59,8 +65,6 @@ const Collaboration = ({ user, setloggedIn }) => {
         }
     };
 
-
-
     const submitTask = async () => {
         if (Priority && Task && description && assignedTo.length > 0 && dueDate) {
             try {
@@ -83,6 +87,7 @@ const Collaboration = ({ user, setloggedIn }) => {
                     assignedTo: assignedUsers,
                     dueDate,
                     queryPerson,
+                    subtasks: [],
                 };
 
                 const taskCollection = collection(db, 'collobTasks');
@@ -122,6 +127,7 @@ const Collaboration = ({ user, setloggedIn }) => {
     useEffect(() => {
         fetchTasks();
     }, []);
+
     return (
         <div>
             <nav className="bg-white p-4">
@@ -165,13 +171,12 @@ const Collaboration = ({ user, setloggedIn }) => {
             <div className='flex flex-col md:flex-row gap-10'>
                 <div className='md:w-1/2 overflow-y-auto '>
                     <div className='p-6 rounded-lg' style={{ maxHeight: '85vh', overflowY: "scroll" }}>
-
                         {tasks.length > 0 && (
                             <div>
                                 {user?.email === isadmin ? (
                                     tasks.map((task) => (
                                         <div key={task.id}>
-                                            <CollobTask task={task} isAssignedUser={false} />
+                                            <CollobTask task={task} tasks={tasks} isadmin={isadmin} isAssignedUser={false} />
                                         </div>
                                     ))
                                 ) : (
@@ -179,18 +184,20 @@ const Collaboration = ({ user, setloggedIn }) => {
                                         .filter((task) => task.assignedTo.some((collaborator) => collaborator.email === user?.email))
                                         .map((task) => (
                                             <div key={task.id}>
-                                                <CollobTask task={task} isAssignedUser={true} />
+                                                <CollobTask task={task} tasks={tasks} isadmin={isadmin} isAssignedUser={true} />
                                             </div>
                                         ))
                                 )}
                             </div>
                         )}
-
-
                     </div>
                 </div>
-
-                {user?.email === isadmin &&
+                {(auth.currentUser?.email !== isadmin) && (
+                    <div className="p-6 shadow-md rounded-lg bg-white mt-4" style={{ maxHeight: "300px", overflowY: "auto" }}>
+                        <Notebook user={user} />
+                    </div>
+                )}
+                {user?.email === isadmin && (
                     <div className='md:w-1/2'>
                         <div className='md:flex md:flex-col'>
 
@@ -200,7 +207,7 @@ const Collaboration = ({ user, setloggedIn }) => {
                                 ) : (
                                     <button className='w-24 bg-gray-800 rounded-md p-2 text-white' onClick={onUnformClick}>Close</button>
                                 )}
-                                {showForm &&
+                                {showForm && (
                                     <div className="p-6 shadow-md rounded-lg bg-white mt-4" style={{ maxHeight: "78vh", overflowY: "auto" }}>
                                         <form className="space-y-4">
                                             <div className="flex flex-col">
@@ -287,17 +294,33 @@ const Collaboration = ({ user, setloggedIn }) => {
                                                 >
                                                     Assign
                                                 </button>
-
                                             </div>
                                         </form>
+                                    </div>
+                                )}
+                                {!showForm &&
+                                    <div>
+
+                                        <button
+                                            className="bg-blue-500 hover:bg-blue-600 text-white py-2 px-4 rounded mt-4"
+                                            onClick={() => setShowNotebook(!showNotebook)}
+                                        >
+                                            {showNotebook ? 'Close Notebook' : 'Open Notebook'}
+                                        </button>
+                                        {showNotebook && (
+                                            <div className="p-6 shadow-md rounded-lg bg-white mt-4" style={{ maxHeight: "78vh", overflowY: "auto" }}>
+                                                <Notebook user={user} />
+                                            </div>
+                                        )}
                                     </div>
                                 }
                             </div>
                         </div>
                     </div>
-                }
+                )}
             </div>
-        </div >
+
+        </div>
     );
 };
 
