@@ -435,7 +435,25 @@ const TaskCard = ({
 
 
                             </div>
+                            {isAdmin && (
+                                <div className="mt-4 flex flex-col md:flex-row items-center">
+                                    <input
+                                        type="text"
+                                        placeholder="Enter email to transfer"
+                                        className="px-4 py-2 border rounded mb-2 md:mb-0 md:mr-2"
+                                        onChange={(e) => setTransferToEmail(e.target.value)}
+                                    />
+                                    <div className="flex justify-between gap-2">
+                                        <button
+                                            onClick={() => handleTransferTask(task.id, transferToEmail)}
+                                            className="px-4 py-2 bg-green-500 text-white rounded"
+                                        >
+                                            Transfer
+                                        </button>
 
+                                    </div>
+                                </div>
+                            )}
                             {isAdmin && (
                                 <>
                                     <button

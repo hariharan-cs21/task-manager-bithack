@@ -149,7 +149,18 @@ const CollobTask = ({ task, tasks, isAssignedUser, updateTask }) => {
             console.error('Error updating task:', error);
         }
     };
+    const [expanded, setExpanded] = useState(false);
 
+    const toggleExpand = () => {
+        setExpanded(!expanded);
+    };
+    const toggleExpandAndCollapse = () => {
+        if (expanded) {
+            setExpanded(false);
+        } else {
+            setExpanded(true);
+        }
+    };
     return (
         <div className={`bg-white mb-6 rounded-lg p-4 shadow-lg ${currentUserEmail === adminEmail ? 'border border-blue-500' : ''} ${task.status === 'true' ? 'filter blur-md' : ''}`}>
             <div className="flex justify-between">
@@ -167,21 +178,6 @@ const CollobTask = ({ task, tasks, isAssignedUser, updateTask }) => {
                             editedTask.Task
                         )}
                     </h2>
-                    <div className="text-sm text-gray-600 mb-2">
-                        {currentUserEmail === adminEmail ? (
-                            <textarea
-                                value={editedTask.description}
-                                onChange={(e) => currentUserEmail === adminEmail && setEditedTask({ ...editedTask, description: e.target.value })}
-                                readOnly={currentUserEmail !== adminEmail}
-                                rows={2}
-                                className={`w-full resize-none border-b border-transparent hover:border-blue-500 transition-all duration-300 ${currentUserEmail === adminEmail ? 'hover:border-transparent focus:border-blue-500' : ''}`}
-                            />
-                        ) : (
-                            editedTask.description
-                        )}
-                    </div>
-                </div>
-                <div className="w-1/3 ml-4">
                     <div className={`text-sm ${getPriorityColor(editedTask.Priority)}`}>
                         Priority:
                         {currentUserEmail === adminEmail ? (
@@ -199,6 +195,8 @@ const CollobTask = ({ task, tasks, isAssignedUser, updateTask }) => {
                             editedTask.Priority
                         )}
                     </div>
+                </div>
+                <div className="w-1/3 ml-4">
                     {currentUserEmail === adminEmail && (
                         <div className="mt-4">
                             <button
@@ -211,136 +209,162 @@ const CollobTask = ({ task, tasks, isAssignedUser, updateTask }) => {
                     )}
                 </div>
             </div>
-            {isAssignedUser && (
+            {/* Render the "Show More" button */}
+            {!expanded && (
                 <div className="mt-4">
-                    <label className="block text-sm font-medium text-gray-700">Attach File</label>
-                    <div className="mt-2 flex items-center">
-                        <label className="relative inline-flex items-center px-3 py-1 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50">
-                            <input
-                                type="file"
-                                className="sr-only"
-                                onChange={(event) => {
-                                    setImageUpload(event.target.files[0]);
-                                    setSelectedFileName(event.target.files[0].name);
-                                }}
-                            />
-                            Choose File
-                        </label>
-                        {selectedFileName && (
-                            <div className="text-xs text-gray-600">{selectedFileName}</div>
+                    <button
+                        className="text-blue-500 hover:underline cursor-pointer"
+                        onClick={toggleExpand}
+                    >
+                        Show More
+                    </button>
+                </div>
+            )}
+            {expanded && (
+                <div>
+                    {isAssignedUser && (
+                        <div className="mt-4">
+                            <label className="block text-sm font-medium text-gray-700">Attach File</label>
+                            <div className="mt-2 flex items-center">
+                                <label className="relative inline-flex items-center px-3 py-1 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50">
+                                    <input
+                                        type="file"
+                                        className="sr-only"
+                                        onChange={(event) => {
+                                            setImageUpload(event.target.files[0]);
+                                            setSelectedFileName(event.target.files[0].name);
+                                        }}
+                                    />
+                                    Choose File
+                                </label>
+                                {selectedFileName && (
+                                    <div className="text-xs text-gray-600">{selectedFileName}</div>
+                                )}
+                                <button
+                                    className="ml-2 inline-flex items-center px-3 py-1 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-red-500 hover:bg-red-600"
+                                    onClick={() => {
+                                        setImageUpload(null);
+                                        setSelectedFileName('');
+                                    }}
+                                >
+                                    Remove
+                                </button>
+                                <button
+                                    className="ml-2 inline-flex items-center px-3 py-1 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-green-500 hover:bg-green-600"
+                                    onClick={() => uploadFile(task)}
+                                >
+                                    Upload
+                                </button>
+                            </div>
+                        </div>
+                    )}
+
+                    <div className="mt-4">
+                        {currentUserEmail === adminEmail && (
+                            <div className="flex items-center">
+                                <input
+                                    type="checkbox"
+                                    checked={editedTask.completed}
+                                    onChange={handleCompleteTask}
+                                    className="mr-2 cursor-pointer"
+                                />
+                                <label className="text-sm font-medium">Mark as Completed</label>
+                            </div>
                         )}
+                    </div>
+
+                    <div className="mt-4">
+                        {attachments[task.id] && attachments[task.id].length === 0 ? (
+                            <p className="text-sm font-semibold">No Files uploaded</p>
+                        ) : (
+                            <div>
+                                <p className="text-sm font-semibold">Attachments: </p>
+                                {attachments[task.id] &&
+                                    attachments[task.id].map((attachment, index) => (
+                                        <div key={index} className="mt-1">
+                                            <a href={attachment.imageUrl} download={attachment.fileName} className="text-blue-500 hover:underline">
+                                                View Attachment {index + 1}
+                                            </a>
+                                        </div>
+                                    ))}
+                            </div>
+                        )}
+                    </div>
+                    <div className="mt-4">
+                        <label className="block text-sm font-medium text-gray-700">Comments</label>
+                        {comments.map((comment, index) => (
+                            <div key={index} className="mt-2">
+                                {comment.text}
+                            </div>
+                        ))}
+                        {isAssignedUser && (
+                            <div className="flex mt-2">
+                                <textarea
+                                    value={newComment}
+                                    onChange={(e) => setNewComment(e.target.value)}
+                                    rows={2}
+                                    className="w-full resize-none border-b border-transparent hover:border-blue-500 transition-all duration-300"
+                                />
+                                <button
+                                    className="ml-2 inline-flex items-center p-1 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-green-500 hover:bg-green-600"
+                                    onClick={addComment}
+                                >
+                                    Comment
+                                </button>
+                            </div>
+                        )}
+                    </div>
+                    <div className="mt-4">
                         <button
-                            className="ml-2 inline-flex items-center px-3 py-1 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-red-500 hover:bg-red-600"
-                            onClick={() => {
-                                setImageUpload(null);
-                                setSelectedFileName('');
-                            }}
+                            className="text-blue-500 hover:underline cursor-pointer"
+                            onClick={toggleExpandAndCollapse}
                         >
-                            Remove
+                            Show Less
                         </button>
-                        <button
-                            className="ml-2 inline-flex items-center px-3 py-1 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-green-500 hover:bg-green-600"
-                            onClick={() => uploadFile(task)}
-                        >
-                            Upload
-                        </button>
+                    </div>
+                    <div className="mt-4 text-sm text-gray-500">
+                        Collaborators:<br />
+                        {task.assignedTo.map((collaborator, index) => (
+                            <div key={index} className="flex items-center">
+                                <div className="w-6 h-6 bg-blue-200 rounded-full flex items-center justify-center mr-2">
+                                    <svg
+                                        xmlns="http://www.w3.org/2000/svg"
+                                        className="h-4 w-4 text-blue-500"
+                                        fill="none"
+                                        viewBox="0 0 24 24"
+                                        stroke="currentColor"
+                                    >
+                                        <path
+                                            strokeLinecap="round"
+                                            strokeLinejoin="round"
+                                            strokeWidth="2"
+                                            d="M12 6c1.66 0 3-1.34 3-3s-1.34-3-3-3-3 1.34-3 3 1.34 3 3 3z"
+                                        />
+                                        <path
+                                            strokeLinecap="round"
+                                            strokeLinejoin="round"
+                                            strokeWidth="2"
+                                            d="M21 22h-2c-1.11 0-2-.9-2-2v-2c0-2.21-1.79-4-4-4H7c-2.21 0-4 1.79-4 4v2c0 1.1-.9 2-2 2H3a1 1 0 01-1-1v-5a8.998 a 8.998 0 016.293-8.17"
+                                        />
+                                        <path
+                                            strokeLinecap="round"
+                                            strokeLinejoin="round"
+                                            strokeWidth="2"
+                                            d="M17 20a2 2 0 100-4 2 2 0 000 4z"
+                                        />
+                                    </svg>
+
+                                </div>
+                                <span>{collaborator.name}</span>
+
+                            </div>
+
+                        ))}
                     </div>
                 </div>
             )}
-
-            {/* Add the task completion UI here */}
-            <div className="mt-4">
-                {currentUserEmail === adminEmail && (
-                    <div className="flex items-center">
-                        <input
-                            type="checkbox"
-                            checked={editedTask.completed}
-                            onChange={handleCompleteTask}
-                            className="mr-2 cursor-pointer"
-                        />
-                        <label className="text-sm font-medium">Mark as Completed</label>
-                    </div>
-                )}
-            </div>
-
-            <div className="mt-4">
-                {attachments[task.id] && attachments[task.id].length === 0 ? (
-                    <p className="text-sm font-semibold">No Files uploaded</p>
-                ) : (
-                    <div>
-                        <p className="text-sm font-semibold">Attachments: </p>
-                        {attachments[task.id] &&
-                            attachments[task.id].map((attachment, index) => (
-                                <div key={index} className="mt-1">
-                                    <a href={attachment.imageUrl} download={attachment.fileName} className="text-blue-500 hover:underline">
-                                        View Attachment {index + 1}
-                                    </a>
-                                </div>
-                            ))}
-                    </div>
-                )}
-            </div>
-            <div className="mt-4">
-                <label className="block text-sm font-medium text-gray-700">Comments</label>
-                {comments.map((comment, index) => (
-                    <div key={index} className="mt-2">
-                        {comment.text}
-                    </div>
-                ))}
-                {isAssignedUser && (
-                    <div className="flex mt-2">
-                        <textarea
-                            value={newComment}
-                            onChange={(e) => setNewComment(e.target.value)}
-                            rows={2}
-                            className="w-full resize-none border-b border-transparent hover:border-blue-500 transition-all duration-300"
-                        />
-                        <button
-                            className="ml-2 inline-flex items-center p-1 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-green-500 hover:bg-green-600"
-                            onClick={addComment}
-                        >
-                            Comment
-                        </button>
-                    </div>
-                )}
-            </div>
-            <div className="mt-4 text-sm text-gray-500">
-                Collaborators:<br />
-                {task.assignedTo.map((collaborator, index) => (
-                    <div key={index} className="flex items-center">
-                        <div className="w-6 h-6 bg-blue-200 rounded-full flex items-center justify-center mr-2">
-                            <svg
-                                xmlns="http://www.w3.org/2000/svg"
-                                className="h-4 w-4 text-blue-500"
-                                fill="none"
-                                viewBox="0 0 24 24"
-                                stroke="currentColor"
-                            >
-                                <path
-                                    strokeLinecap="round"
-                                    strokeLinejoin="round"
-                                    strokeWidth="2"
-                                    d="M12 6c1.66 0 3-1.34 3-3s-1.34-3-3-3-3 1.34-3 3 1.34 3 3 3z"
-                                />
-                                <path
-                                    strokeLinecap="round"
-                                    strokeLinejoin="round"
-                                    strokeWidth="2"
-                                    d="M21 22h-2c-1.11 0-2-.9-2-2v-2c0-2.21-1.79-4-4-4H7c-2.21 0-4 1.79-4 4v2c0 1.1-.9 2-2 2H3a1 1 0 01-1-1v-5a8.998 a 8.998 0 016.293-8.17"
-                                />
-                                <path
-                                    strokeLinecap="round"
-                                    strokeLinejoin="round"
-                                    strokeWidth="2"
-                                    d="M17 20a2 2 0 100-4 2 2 0 000 4z"
-                                />
-                            </svg>
-                        </div>
-                        <span>{collaborator.name}</span>
-                    </div>
-                ))}
-            </div>
         </div>
+
     );
 };
 

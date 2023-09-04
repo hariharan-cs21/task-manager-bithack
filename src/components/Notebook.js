@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { collection, addDoc, getDocs, query, setDoc, doc, deleteDoc } from 'firebase/firestore';
-import { db } from './Config/firebaseconfig';
+import { auth, db } from './Config/firebaseconfig';
 
 const Notebook = ({ user }) => {
     const [notebooks, setNotebooks] = useState([]);
@@ -13,8 +13,8 @@ const Notebook = ({ user }) => {
         if (newNotebookName) {
             try {
                 await addDoc(collection(db, 'notebooks'), { name: newNotebookName });
-                setNewNotebookName(''); // Clear the input field after creating the notebook
-                fetchNotebooks(); // Refresh the list of notebooks
+                setNewNotebookName('');
+                fetchNotebooks();
             } catch (error) {
                 console.error('Error creating notebook:', error);
             }
@@ -59,7 +59,7 @@ const Notebook = ({ user }) => {
                 await addDoc(notesRef, { title: newNoteTitle, content: newNoteContent, createdBy: user.displayName }); // Include createdBy field
                 setNewNoteTitle('');
                 setNewNoteContent('');
-                fetchNotes(selectedNotebook); // Refresh the notes
+                fetchNotes(selectedNotebook);
             } catch (error) {
                 console.error('Error creating note:', error);
             }
@@ -74,7 +74,7 @@ const Notebook = ({ user }) => {
                 const notebookRef = doc(db, 'notebooks', selectedNotebook);
                 const notesRef = collection(notebookRef, 'notes');
                 await deleteDoc(doc(notesRef, noteId));
-                fetchNotes(selectedNotebook); // Refresh the notes
+                fetchNotes(selectedNotebook);
             } catch (error) {
                 console.error('Error deleting note:', error);
             }
@@ -93,18 +93,27 @@ const Notebook = ({ user }) => {
     useEffect(() => {
         fetchNotebooks();
     }, []);
-
+    const deleteNotebook = async (notebookId) => {
+        if (window.confirm('Are you sure you want to delete this notebook and all its notes?')) {
+            try {
+                await deleteDoc(doc(db, 'notebooks', notebookId));
+                fetchNotebooks();
+            } catch (error) {
+                console.error('Error deleting notebook:', error);
+            }
+        }
+    };
     return (
         <div className="flex">
-            <div className="w-5/12 p-4 border-r">
+            <div className="w-1/2 p-4 bg-gray-200 border-r">
                 <h1 className="text-xl font-semibold mb-4">Notebooks</h1>
                 <div className="mb-4">
                     <input
                         type="text"
-                        placeholder="New Note"
+                        placeholder="New Notebook"
                         value={newNotebookName}
                         onChange={(e) => setNewNotebookName(e.target.value)}
-                        className="w-full border-b border-gray-300 pb-2 focus:outline-none"
+                        className="w-full border rounded-lg p-2 focus:outline-none"
                         onKeyPress={(e) => {
                             if (e.key === 'Enter') {
                                 createNotebook();
@@ -113,9 +122,9 @@ const Notebook = ({ user }) => {
                     />
                     <button
                         onClick={createNotebook}
-                        className="bg-blue-500 hover:bg-blue-600 text-white p-1 rounded"
+                        className="bg-blue-500 hover:bg-blue-600 text-white py-2 px-2 rounded-lg mt-2"
                     >
-                        New Note
+                        NoteBook
                     </button>
                 </div>
                 <ul>
@@ -123,18 +132,24 @@ const Notebook = ({ user }) => {
                         <li
                             key={notebook.id}
                             onClick={() => selectNotebook(notebook.name)}
-                            className={`cursor-pointer hover:bg-gray-200 p-2 rounded ${selectedNotebook === notebook.name ? 'bg-gray-200' : ''
+                            className={`cursor-pointer hover:bg-gray-300 p-2 rounded-lg ${selectedNotebook === notebook.name ? 'bg-gray-300' : ''
                                 }`}
                         >
-                            {notebook.name}
+                            <span>{notebook.name}</span>
+                            <button
+                                onClick={() => deleteNotebook(notebook.id)}
+                                className="text-red-600 ml-2"
+                            >
+                                <i className="ml-5 uil uil-trash"></i>                                </button>
                         </li>
                     ))}
                 </ul>
+
             </div>
 
             {selectedNotebook && (
-                <div className="w-3/4 p-4 " style={{ overflowY: 'auto', maxHeight: '300px' }}>
-                    <h2 className="text-lg font-semibold mb-2 ml-4"> Notebook: {selectedNotebook}</h2>
+                <div className="w-3/4 p-4">
+                    <h2 className="text-2xl font-semibold mb-4">Notebook: {selectedNotebook}</h2>
                     <div className="space-y-4">
                         <div className="bg-white p-4 border rounded-lg">
                             <input
@@ -142,29 +157,29 @@ const Notebook = ({ user }) => {
                                 placeholder="Note Title"
                                 value={newNoteTitle}
                                 onChange={(e) => setNewNoteTitle(e.target.value)}
-                                className="w-full border-b border-gray-300 pb-2 focus:outline-none"
+                                className="w-full border rounded-lg p-2 focus:outline-none"
                             />
                             <textarea
                                 placeholder="Note Content"
                                 value={newNoteContent}
                                 onChange={(e) => setNewNoteContent(e.target.value)}
-                                className="w-full h-40 border border-gray-300 rounded p-2 focus:outline-none focus:border-indigo-500"
+                                className="w-full h-40 border rounded-lg p-2 focus:outline-none focus:border-indigo-500"
                             />
                         </div>
                         <button
                             onClick={createNote}
-                            className="bg-blue-500 hover:bg-blue-600 text-white py-2 px-4 rounded"
+                            className="bg-blue-500 hover:bg-blue-600 text-white py-2 px-4 rounded-lg"
                         >
-                            Add note
+                            Add Note
                         </button>
                     </div>
                     <div className="mt-4">
-                        <h3 className="text-xl font-semibold mb-2">Notes</h3>
+                        <h3 className="text-2xl font-semibold mb-4">Notes</h3>
                         <ul className="space-y-4">
                             {notes.map((note) => (
-                                <li key={note.id} className="border border-gray-300 rounded p-4">
+                                <li key={note.id} className="border border-gray-300 rounded-lg p-4">
                                     <div className="flex justify-between">
-                                        <h4 className="text-lg font-semibold">{note.title}</h4>
+                                        <h4 className="text-xl font-semibold">{note.title}</h4>
                                         {user.displayName === note.createdBy && (
                                             <button
                                                 onClick={() => deleteNote(note.id)}

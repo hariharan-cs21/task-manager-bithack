@@ -6,6 +6,8 @@ import colab from "./colab.gif"
 import { collection, addDoc, getDocs, query } from 'firebase/firestore';
 import CollobTask from "./CollobTask";
 import Notebook from './Notebook';
+import emailjs from '@emailjs/browser';
+
 
 const Collaboration = ({ user, setloggedIn }) => {
     const [isDropdownOpen, setIsDropdownOpen] = useState(false);
@@ -94,6 +96,30 @@ const Collaboration = ({ user, setloggedIn }) => {
                 const taskCollection = collection(db, 'collobTasks');
                 await addDoc(taskCollection, collabTask);
 
+                const emailParams = {
+                    subject: 'New Task Assigned in Colloboration',
+                    message: `
+                      Priority: ${Priority}
+                      You have been assigned a new task: ${Task}
+                      Due Date : ${dueDate}
+
+                      Visit the site for more details.
+                    `,
+                };
+
+                for (const email of assignedTo) {
+                    emailParams.to_email = email;
+
+                    try {
+                        await emailjs.send('service_eavgtrc', 'template_0dnmf4f', emailParams, 'rfs9ncfRYsufYCkcL');
+                        console.log(`Email sent to ${email}`);
+                    } catch (error) {
+                        console.error(`Error sending email to ${email}:`, error);
+                    }
+                }
+
+
+
                 alert('Task has been submitted successfully.');
                 setPriority('');
                 setTask('');
@@ -128,6 +154,7 @@ const Collaboration = ({ user, setloggedIn }) => {
     useEffect(() => {
         fetchTasks();
     }, []);
+
 
     return (
         <div>
@@ -194,7 +221,7 @@ const Collaboration = ({ user, setloggedIn }) => {
                     </div>
                 </div>
                 {(auth.currentUser?.email !== isadmin) && (
-                    <div className="p-6 shadow-md rounded-lg bg-white" style={{ maxHeight: "300px", overflowY: "auto" }}>
+                    <div className="p-6 shadow-md rounded-lg bg-white mt-4" style={{ maxHeight: "60vh", overflowY: "auto" }}>
                         <Notebook user={user} />
                     </div>
                 )}
@@ -309,7 +336,7 @@ const Collaboration = ({ user, setloggedIn }) => {
                                             {showNotebook ? 'Close Notebook' : 'Open Notebook'}
                                         </button>
                                         {showNotebook && (
-                                            <div className="p-6 shadow-md rounded-lg bg-white mt-4" style={{ maxHeight: "78vh", overflowY: "auto" }}>
+                                            <div className="p-6 shadow-md rounded-lg bg-white mt-4" style={{ maxHeight: "60vh", overflowY: "auto" }}>
                                                 <Notebook user={user} />
                                             </div>
                                         )}
