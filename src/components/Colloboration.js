@@ -66,6 +66,10 @@ const Collaboration = ({ user, setloggedIn }) => {
             console.error('Error fetching users:', error);
         }
     };
+    const onDeleteTask = (taskId) => {
+        const updatedTasks = tasks.filter((task) => task.id !== taskId);
+        setTasks(updatedTasks);
+    };
 
     const submitTask = async () => {
         if (Priority && Task && description && assignedTo.length > 0 && dueDate) {
@@ -97,15 +101,21 @@ const Collaboration = ({ user, setloggedIn }) => {
                 await addDoc(taskCollection, collabTask);
 
                 const emailParams = {
-                    subject: 'New Task Assigned in Colloboration',
+                    subject: 'New Task Assigned in Collaboration',
                     message: `
                       Priority: ${Priority}
                       You have been assigned a new task: ${Task}
                       Due Date : ${dueDate}
-
+                      
+                      Collaborators: ${assignedTo.map(email => {
+                        const user = usersData.find(userData => userData.email === email);
+                        return user ? user.name : email;
+                    }).join(', ')}
+                      
                       Visit the site for more details.
                     `,
                 };
+
 
                 for (const email of assignedTo) {
                     emailParams.to_email = email;
@@ -204,7 +214,7 @@ const Collaboration = ({ user, setloggedIn }) => {
                                 {user?.email === isadmin ? (
                                     tasks.map((task) => (
                                         <div key={task.id}>
-                                            <CollobTask task={task} tasks={tasks} isadmin={isadmin} isAssignedUser={false} />
+                                            <CollobTask task={task} tasks={tasks} isadmin={isadmin} isAssignedUser={false} onDeleteTask={onDeleteTask} />
                                         </div>
                                     ))
                                 ) : (
@@ -212,7 +222,7 @@ const Collaboration = ({ user, setloggedIn }) => {
                                         .filter((task) => task.assignedTo.some((collaborator) => collaborator.email === user?.email))
                                         .map((task) => (
                                             <div key={task.id}>
-                                                <CollobTask task={task} tasks={tasks} isadmin={isadmin} isAssignedUser={true} />
+                                                <CollobTask task={task} tasks={tasks} isadmin={isadmin} isAssignedUser={true} onDeleteTask={onDeleteTask} />
                                             </div>
                                         ))
                                 )}

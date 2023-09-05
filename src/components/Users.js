@@ -1,4 +1,4 @@
-import { addDoc, collection, getDocs } from 'firebase/firestore';
+import { collection, getDocs } from 'firebase/firestore';
 import React, { useState, useEffect } from 'react';
 import { db } from './Config/firebaseconfig';
 import copy from 'clipboard-copy';
@@ -13,9 +13,6 @@ const Users = ({ setCopiedUser }) => {
         setAddedUser(true);
     };
 
-    const handleChange = (e) => {
-        setEnteredEmail(e.target.value);
-    };
 
 
 

@@ -2,9 +2,9 @@ import React, { useEffect, useState } from 'react';
 import { auth, db, storage } from './Config/firebaseconfig';
 import { uploadBytes, ref, getDownloadURL } from 'firebase/storage';
 import { v4 } from 'uuid';
-import { collection, addDoc, getDocs, doc, updateDoc } from 'firebase/firestore';
+import { collection, addDoc, getDocs, doc, updateDoc, deleteDoc } from 'firebase/firestore';
 
-const CollobTask = ({ task, tasks, isAssignedUser, updateTask }) => {
+const CollobTask = ({ task, tasks, isAssignedUser, updateTask, onDeleteTask }) => {
     const [imageUpload, setImageUpload] = useState(null);
     const [selectedFileName, setSelectedFileName] = useState('');
     const adminEmail = 'linktothedeveloper@gmail.com';
@@ -131,6 +131,7 @@ const CollobTask = ({ task, tasks, isAssignedUser, updateTask }) => {
 
         fetchComments();
     }, [task.id]);
+
     const handleUpdateTask = async () => {
         try {
             if (currentUserEmail === adminEmail) {
@@ -159,6 +160,23 @@ const CollobTask = ({ task, tasks, isAssignedUser, updateTask }) => {
             setExpanded(false);
         } else {
             setExpanded(true);
+        }
+    };
+    const handleDeleteTask = async () => {
+        try {
+            if (currentUserEmail === adminEmail) {
+                const taskDocRef = doc(db, 'collobTasks', task.id);
+
+                await deleteDoc(taskDocRef);
+
+                onDeleteTask(task.id);
+
+                alert('Task deleted successfully.');
+            } else {
+                alert('You do not have permission to delete this task.');
+            }
+        } catch (error) {
+            console.error('Error deleting task:', error);
         }
     };
     return (
@@ -205,11 +223,18 @@ const CollobTask = ({ task, tasks, isAssignedUser, updateTask }) => {
                             >
                                 Update
                             </button>
+                            <div className="mt-4">
+                                <button
+                                    className="px-3 py-1 text-sm text-white bg-red-500 rounded hover:bg-red-600 focus:outline-none"
+                                    onClick={handleDeleteTask}
+                                >
+                                    Delete Task
+                                </button>
+                            </div>
                         </div>
                     )}
                 </div>
             </div>
-            {/* Render the "Show More" button */}
             {!expanded && (
                 <div className="mt-4">
                     <button
