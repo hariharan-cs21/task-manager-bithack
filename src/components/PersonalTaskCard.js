@@ -7,6 +7,10 @@ import '../App.css'
 import Music from './Music';
 import PersonalNotify from './PersonalNotify';
 import Calendar from 'react-calendar';
+import SmallComponent from './SmallCompnent';
+import { useSpring, animated, config, useTrail } from 'react-spring';
+
+
 const PersonalTaskCard = ({ user }) => {
     const navigate = useNavigate()
     const [title, setTitle] = useState("")
@@ -147,7 +151,6 @@ const PersonalTaskCard = ({ user }) => {
 
 
 
-
     const editTask = async (index, updatedTask) => {
         try {
             const taskDocRef = doc(db, 'mypersonal', updatedTask.id);
@@ -210,6 +213,45 @@ const PersonalTaskCard = ({ user }) => {
         setShowCalendar(false);
     };
 
+    const [showPopup1, setShowPopup1] = useState(false);
+    const [showPopup2, setShowPopup2] = useState(false);
+    const openPopup2 = () => {
+        setShowPopup2(true);
+    };
+
+    const closePopup2 = () => {
+        setShowPopup2(false);
+    };
+
+    const openPopup1 = () => {
+        setShowPopup1(true);
+    };
+
+    const closePopup1 = () => {
+        setShowPopup1(false);
+    };
+
+    const buttonConfig = [
+        { name: <div><i className="uil uil-plus mr-1"></i>Add Task</div>, onClick: openAddTaskModal },
+        { name: <div><i className="uil uil-calender text-xl mr-1"></i>Calendar</div>, onClick: openCalendar },
+        { name: 'Button', onClick: openPopup1 },
+        { name: <div><i className="uil uil-wordpress-simple text-xl mr-1"></i>Daily Quotes</div>, onClick: openPopup2 },
+    ];
+    const buttonSprings = useTrail(buttonConfig.length, {
+        opacity: 1,
+        transform: 'translateX(0px)',
+        config: config.stiff,
+        from: { opacity: 0, transform: 'translateX(100px)' },
+    });
+    const [showPopup, setShowPopup] = useState(false);
+
+    const togglePopup = () => {
+        setShowPopup(!showPopup);
+    };
+    const popupAnimation = useSpring({
+        from: { opacity: 0, transform: 'scale(0.8)' },
+        to: { opacity: 1, transform: 'scale(1)' },
+    });
 
     return (
 
@@ -238,9 +280,6 @@ const PersonalTaskCard = ({ user }) => {
 
                         </div>
 
-
-
-
                         <div className="flex items-center cursor-pointer transition duration-300 ease-in-out transform hover:scale-105" >
                             <div className='cursor-pointer flex items-center text-black hover:bg-blue-700 p-1 px-1 rounded-xl hover:text-white font-bold text-blue-700 mr-2' onClick={handleNotification}>
                                 <i className="uil uil-bell text-2xl"></i>
@@ -259,22 +298,68 @@ const PersonalTaskCard = ({ user }) => {
                 <Music />
 
                 <div className="flex justify-end mx-6 my-4">
+                    <button
+                        className="ml-2 h-12 bg-blue-700 hover:bg-blue-600 text-white px-4 py-2 rounded-md shadow-md transition duration-300 ease-in-out transform hover:scale-105"
+                        onClick={togglePopup}
+                    >
+                        {showPopup ? 'Close' : 'Show Buttons'}
+                    </button>
 
-                    <button
-                        className="ml-2 h-12 bg-blue-700 hover:bg-blue-600 text-white px-4 py-2 rounded-md shadow-md transition duration-300 ease-in-out transform hover:scale-105"
-                        onClick={openAddTaskModal}
-                    >
-                        Add Task
-                    </button>
-                    <button
-                        className="ml-2 h-12 bg-blue-700 hover:bg-blue-600 text-white px-4 py-2 rounded-md shadow-md transition duration-300 ease-in-out transform hover:scale-105"
-                        onClick={openCalendar}
-                    >
-                        Show Calendar
-                    </button>
-                    {showBar && <ToastWithCloseButton title={title} />}
+                    {showPopup && (
+                        <div className="fixed inset-0 flex items-center justify-center bg-gray-700 bg-opacity-50">
+                            <animated.div
+                                className="bg-white rounded-lg shadow-lg p-6 w-1/2"
+                                style={popupAnimation}
+                            >
+
+                                <div className="flex flex-col">
+                                    {buttonSprings.map((props, index) => (
+                                        <animated.button
+                                            key={index}
+                                            className="h-12 bg-blue-700 hover:bg-blue-600 text-white px-4 py-2 rounded-md shadow-md transition duration-300 ease-in-out transform hover:scale-105"
+                                            style={{
+                                                ...props,
+                                                marginBottom: '8px',
+                                            }}
+                                            onClick={buttonConfig[index].onClick}
+                                        >
+                                            {buttonConfig[index].name}
+                                        </animated.button>
+                                    ))}
+
+                                    <button
+                                        className="h-12 mt-4 bg-gray-200 hover:bg-gray-300 text-gray-600 hover:text-blue-600 px-4 py-2 rounded-md shadow-md transition duration-300 ease-in-out transform hover:scale-105"
+                                        onClick={togglePopup}
+                                    >
+                                        Close Popup
+                                    </button>
+                                </div>
+                            </animated.div>
+
+                        </div>
+                    )}
 
                 </div>
+                {showPopup1 && (
+                    <div className="fixed inset-0 flex items-center justify-center bg-gray-700 bg-opacity-50">
+                        <div className="bg-white rounded-lg shadow-lg p-6 w-1/2">
+                            <button className="ml-2 text-gray-600 hover:text-blue-600" onClick={closePopup1}>
+                                Close
+                            </button>
+                        </div>
+                    </div>
+                )}
+
+                {showPopup2 && (
+                    <div className="fixed inset-0 flex items-center justify-center bg-gray-700 bg-opacity-50 ">
+                        <div className="bg-white rounded-lg shadow-lg p-6 w-1/2">
+                            <SmallComponent />
+                            <button className="ml-2 text-gray-600 hover:text-blue-600" onClick={closePopup2}>
+                                Close
+                            </button>
+                        </div>
+                    </div>
+                )}
                 {showNotificationBar && <PersonalNotify
                     setshowLayout={setshowLayout}
                     showNotificationBar={showNotificationBar}
@@ -312,7 +397,7 @@ const PersonalTaskCard = ({ user }) => {
                                 <>
                                     {
                                         task.queryPerson.id === auth.currentUser?.uid &&
-                                        <div key={index} className={`bg-white rounded-xl shadow-md p-5 ${task.completed ? 'opacity-50' : ''}`}>
+                                        <div key={index} className={`bg-white rounded-xl text-black shadow-md p-5 ${task.completed ? 'line-through text-gray-600' : ''}`}>
 
                                             <>
                                                 <div className='flex justify-between'>
@@ -501,9 +586,6 @@ const PersonalTaskCard = ({ user }) => {
                                     value={dueDate}
                                 />
                             </div>
-
-
-
 
                             <div className="flex justify-end">
                                 <button

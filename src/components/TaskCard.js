@@ -311,7 +311,7 @@ const TaskCard = ({
                                             type='text'
                                             required
                                             placeholder='Reason for Rejection'
-                                            className='border'
+                                            className='border ml-4'
                                             onChange={(e) => setRejectionMessage(e.target.value)}
                                         />
                                         <button
