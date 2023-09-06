@@ -89,8 +89,8 @@ const MotivationalQuote = () => {
             <button onClick={changeQuote} className="mt-4 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full transition duration-300 ease-in-out transform hover:scale-110">
                 Next Quote
             </button>
-            <button onClick={toggleSpeech} ref={subscribeButtonRef} className={`mt-4 ml-2 ${isSpeaking ? 'bg-red-500 hover:bg-red-700' : 'bg-green-500 hover:bg-green-700'} text-white font-bold py-2 px-4 rounded-full transition duration-300 ease-in-out transform hover:scale-110`}>
-                {isSpeaking ? 'Unsubscribe' : 'Subscribe'}
+            <button onClick={toggleSpeech} ref={subscribeButtonRef} className={`ml-6 rounded-md transition duration-300 ease-in-out transform hover:scale-110`}>
+                {isSpeaking ? <i className="uil uil-volume text-xl"></i> : <i className="uil uil-volume-mute text-xl"></i>}
             </button>
         </div>
     );

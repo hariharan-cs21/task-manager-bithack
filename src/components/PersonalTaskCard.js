@@ -10,7 +10,6 @@ import Calendar from 'react-calendar';
 import SmallComponent from './SmallCompnent';
 import { useSpring, animated, config, useTrail } from 'react-spring';
 
-
 const PersonalTaskCard = ({ user }) => {
     const navigate = useNavigate()
     const [title, setTitle] = useState("")
@@ -234,8 +233,9 @@ const PersonalTaskCard = ({ user }) => {
     const buttonConfig = [
         { name: <div><i className="uil uil-plus mr-1"></i>Add Task</div>, onClick: openAddTaskModal },
         { name: <div><i className="uil uil-calender text-xl mr-1"></i>Calendar</div>, onClick: openCalendar },
+        { name: <div><i className="uil uil-wordpress-simple text-xl"></i>Daily Quotes</div>, onClick: openPopup2 },
+
         { name: 'Button', onClick: openPopup1 },
-        { name: <div><i className="uil uil-wordpress-simple text-xl mr-1"></i>Daily Quotes</div>, onClick: openPopup2 },
     ];
     const buttonSprings = useTrail(buttonConfig.length, {
         opacity: 1,
@@ -298,75 +298,105 @@ const PersonalTaskCard = ({ user }) => {
                 <Music />
 
                 <div className="flex justify-end mx-6 my-4">
+
                     <button
-                        className="ml-2 h-12 bg-blue-700 hover:bg-blue-600 text-white px-4 py-2 rounded-md shadow-md transition duration-300 ease-in-out transform hover:scale-105"
+                        className="ml-2  bg-blue-700 hover:bg-blue-600 text-white px-2 py-2 rounded-md shadow-md transition duration-300 ease-in-out transform hover:scale-105"
                         onClick={togglePopup}
                     >
-                        {showPopup ? 'Close' : 'Show Buttons'}
+                        {showPopup ? 'Close ' : 'Show Tools'}
                     </button>
 
                     {showPopup && (
                         <div className="fixed inset-0 flex items-center justify-center bg-gray-700 bg-opacity-50">
                             <animated.div
-                                className="bg-white rounded-lg shadow-lg p-6 w-1/2"
+                                className="bg-white rounded-lg shadow-lg p-6 w-5/12"
                                 style={popupAnimation}
                             >
+                                <div className="flex">
+                                    <div className="flex flex-col">
+                                        {buttonSprings.map((props, index) => (
+                                            <animated.button
+                                                key={index}
+                                                className="h-10 bg-blue-700 hover:bg-blue-600 text-white rounded-md shadow-md transition duration-300 ease-in-out transform hover:scale-105"
+                                                style={{
+                                                    ...props,
+                                                    marginBottom: '8px',
+                                                    width: '140px',
+                                                    height: '70px',
+                                                }}
+                                                onClick={buttonConfig[index].onClick}
+                                            >
+                                                {buttonConfig[index].name}
+                                            </animated.button>
+                                        ))}
+                                    </div>
 
-                                <div className="flex flex-col">
-                                    {buttonSprings.map((props, index) => (
-                                        <animated.button
-                                            key={index}
-                                            className="h-12 bg-blue-700 hover:bg-blue-600 text-white px-4 py-2 rounded-md shadow-md transition duration-300 ease-in-out transform hover:scale-105"
-                                            style={{
-                                                ...props,
-                                                marginBottom: '8px',
-                                            }}
-                                            onClick={buttonConfig[index].onClick}
+                                    <div className="flex ml-4 mb-2">
+                                        <div className="mr-4 p-7 rounded-lg bg-white shadow-md " >
+                                            <h2 className="text-sm font-semibold text-gray-800 mb-4 cursor-pointer" onClick={(openAddTaskModal)}>Add and Manage your Tasks</h2>
+                                            <div className="mt-12 cursor-pointer" onClick={(openCalendar)}>
+                                                <h2 className="text-sm font-semibold text-blue-600">View important dates and Tasks</h2>
+                                            </div>
+                                            <div className="mt-12 cursor-pointer">
+                                                <h2 className="text-sm font-semibold text-green-600" onClick={openPopup2}>Motivational Quotes</h2>
+                                            </div>
+                                            <div>
+                                                <h2 className="text-sm font-semibold text-purple-600 mt-12">New Field</h2>
+                                            </div>
+                                        </div>
+
+                                        <button
+                                            className="h-10 bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-md shadow-md transition duration-300 ease-in-out transform hover:scale-105"
+                                            onClick={togglePopup}
                                         >
-                                            {buttonConfig[index].name}
-                                        </animated.button>
-                                    ))}
+                                            Close
+                                        </button>
+                                    </div>
 
-                                    <button
-                                        className="h-12 mt-4 bg-gray-200 hover:bg-gray-300 text-gray-600 hover:text-blue-600 px-4 py-2 rounded-md shadow-md transition duration-300 ease-in-out transform hover:scale-105"
-                                        onClick={togglePopup}
-                                    >
-                                        Close Popup
-                                    </button>
                                 </div>
+
                             </animated.div>
 
                         </div>
                     )}
 
                 </div>
-                {showPopup1 && (
-                    <div className="fixed inset-0 flex items-center justify-center bg-gray-700 bg-opacity-50">
-                        <div className="bg-white rounded-lg shadow-lg p-6 w-1/2">
-                            <button className="ml-2 text-gray-600 hover:text-blue-600" onClick={closePopup1}>
-                                Close
-                            </button>
+                {
+                    showPopup1 && (
+                        <div className="fixed inset-0 flex items-center justify-center bg-gray-700 bg-opacity-50">
+                            <div className="bg-white rounded-lg shadow-lg p-6 w-1/2">
+                                <button className="ml-2 text-gray-600 hover:text-blue-600" onClick={closePopup1}>
+                                    Close
+                                </button>
+                            </div>
                         </div>
-                    </div>
-                )}
+                    )
+                }
 
-                {showPopup2 && (
-                    <div className="fixed inset-0 flex items-center justify-center bg-gray-700 bg-opacity-50 ">
-                        <div className="bg-white rounded-lg shadow-lg p-6 w-1/2">
-                            <SmallComponent />
-                            <button className="ml-2 text-gray-600 hover:text-blue-600" onClick={closePopup2}>
-                                Close
-                            </button>
+                {
+                    showPopup2 && (
+                        <div className="fixed inset-0 flex items-center justify-center bg-gray-700 bg-opacity-50 ">
+                            <div className="bg-white rounded-lg shadow-lg p-6 w-1/2">
+                                <SmallComponent />
+                                <button className="ml-2 text-gray-600 hover:text-blue-600" onClick={closePopup2}>
+                                    Close
+                                </button>
+                            </div>
                         </div>
-                    </div>
-                )}
-                {showNotificationBar && <PersonalNotify
-                    setshowLayout={setshowLayout}
-                    showNotificationBar={showNotificationBar}
-                    setshowNotificationBar={setshowNotificationBar}
-                    tasks={tasks} />}
+                    )
+                }
+                {showBar && <ToastWithCloseButton title={title} />}
 
-                {showLayout &&
+                {
+                    showNotificationBar && <PersonalNotify
+                        setshowLayout={setshowLayout}
+                        showNotificationBar={showNotificationBar}
+                        setshowNotificationBar={setshowNotificationBar}
+                        tasks={tasks} />
+                }
+
+                {
+                    showLayout &&
                     <>
                         <div className="flex justify-between mx-6 mb-2">
                             <div className="space-x-4">
@@ -461,156 +491,160 @@ const PersonalTaskCard = ({ user }) => {
                         </div>
                     </>
                 }
-                {showCalendar && (
-                    <div className="fixed inset-0 flex items-center justify-center bg-gray-700 bg-opacity-50">
-                        <div className="bg-white rounded-lg shadow-lg p-6 w-1/2">
-                            <div className="w-full rounded-lg">
-                                <Calendar
-                                    value={new Date()}
-                                    className="bg-white rounded-lg shadow-md"
-                                    tileClassName={({ date }) => {
-                                        const dueDatesForCurrentUser = tasksWithDueDate.filter((task) =>
-                                            new Date(task.dueDate).toDateString() === date.toDateString() &&
-                                            task.queryPerson.id === auth.currentUser?.uid &&
-                                            !task.deleted
-                                        );
-
-                                        return dueDatesForCurrentUser.length > 0
-                                            ? "bg-blue-500 text-white rounded-lg"
-                                            : "";
-                                    }}
-                                    tileContent={({ date }) => {
-                                        const dueDatesForCurrentUser = tasksWithDueDate.filter((task) =>
-                                            new Date(task.dueDate).toDateString() === date.toDateString() &&
-                                            task.queryPerson.id === auth.currentUser?.uid &&
-                                            !task.deleted
-                                        );
-
-                                        if (dueDatesForCurrentUser.length > 0) {
-                                            return (
-                                                <div className="flex flex-col space-y-2">
-                                                    {dueDatesForCurrentUser.map((task) => (
-                                                        <div
-                                                            key={task.id}
-                                                            className="bg-blue-500 text-white text-sm py-1 px-1 rounded-full"
-                                                        >
-                                                            {task.title}
-                                                        </div>
-                                                    ))}
-                                                </div>
+                {
+                    showCalendar && (
+                        <div className="fixed inset-0 flex items-center justify-center bg-gray-700 bg-opacity-50">
+                            <div className="bg-white rounded-lg shadow-lg p-6 w-1/2">
+                                <div className="w-full rounded-lg">
+                                    <Calendar
+                                        value={new Date()}
+                                        className="bg-white rounded-lg shadow-md"
+                                        tileClassName={({ date }) => {
+                                            const dueDatesForCurrentUser = tasksWithDueDate.filter((task) =>
+                                                new Date(task.dueDate).toDateString() === date.toDateString() &&
+                                                task.queryPerson.id === auth.currentUser?.uid &&
+                                                !task.deleted
                                             );
-                                        }
-                                        return null;
-                                    }}
 
-                                />
+                                            return dueDatesForCurrentUser.length > 0
+                                                ? "bg-blue-500 text-white rounded-lg"
+                                                : "";
+                                        }}
+                                        tileContent={({ date }) => {
+                                            const dueDatesForCurrentUser = tasksWithDueDate.filter((task) =>
+                                                new Date(task.dueDate).toDateString() === date.toDateString() &&
+                                                task.queryPerson.id === auth.currentUser?.uid &&
+                                                !task.deleted
+                                            );
 
-                            </div>
-                            <div className="flex justify-end mt-4">
-                                <button
-                                    className="ml-2 text-gray-600 hover:text-blue-600"
-                                    onClick={closeCalendar}
-                                >
-                                    Close
-                                </button>
+                                            if (dueDatesForCurrentUser.length > 0) {
+                                                return (
+                                                    <div className="flex flex-col space-y-2">
+                                                        {dueDatesForCurrentUser.map((task) => (
+                                                            <div
+                                                                key={task.id}
+                                                                className="bg-blue-500 text-white text-sm py-1 px-1 rounded-full"
+                                                            >
+                                                                {task.title}
+                                                            </div>
+                                                        ))}
+                                                    </div>
+                                                );
+                                            }
+                                            return null;
+                                        }}
+
+                                    />
+
+                                </div>
+                                <div className="flex justify-end mt-4">
+                                    <button
+                                        className="ml-2 text-gray-600 hover:text-blue-600"
+                                        onClick={closeCalendar}
+                                    >
+                                        Close
+                                    </button>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                )}
-                {isAddingTask && (
-                    <div className="fixed inset-0 flex items-center justify-center bg-gray-700 bg-opacity-50">
-                        <div className="bg-white rounded-lg shadow-lg p-6 w-96">
-                            <div className="mb-2">
-                                <label className="block font-medium text-sm mb-1">Title:</label>
-                                <input
-                                    className="w-full border border-gray-300 rounded-md p-2"
-                                    type="text"
-                                    name="title"
-                                    value={title}
-                                    onChange={(e) => { setTitle(e.target.value) }}
-                                />
-                            </div>
-                            <div className="mb-2">
-                                <label className="block font-medium text-sm mb-1">Description:</label>
-                                <textarea
-                                    className="w-full border border-gray-300 rounded-md p-2"
-                                    name="description"
-                                    rows="3"
-                                    onChange={(e) => { setDescription(e.target.value) }}
-                                    value={description}
-                                />
+                    )
+                }
+                {
+                    isAddingTask && (
+                        <div className="fixed inset-0 flex items-center justify-center bg-gray-700 bg-opacity-50">
+                            <div className="bg-white rounded-lg shadow-lg p-6 w-96">
+                                <div className="mb-2">
+                                    <label className="block font-medium text-sm mb-1">Title:</label>
+                                    <input
+                                        className="w-full border border-gray-300 rounded-md p-2"
+                                        type="text"
+                                        name="title"
+                                        value={title}
+                                        onChange={(e) => { setTitle(e.target.value) }}
+                                    />
+                                </div>
+                                <div className="mb-2">
+                                    <label className="block font-medium text-sm mb-1">Description:</label>
+                                    <textarea
+                                        className="w-full border border-gray-300 rounded-md p-2"
+                                        name="description"
+                                        rows="3"
+                                        onChange={(e) => { setDescription(e.target.value) }}
+                                        value={description}
+                                    />
 
-                            </div>
-                            <div className="mb-2">
-                                <label className="block font-medium text-sm mb-1">Priority:</label>
-                                <select
-                                    className="w-full border border-gray-300 rounded-md p-2"
-                                    name="priority"
-                                    value={priority}
-                                    onChange={e => setPriority(e.target.value)}
-                                >
-                                    <option value=""></option>
+                                </div>
+                                <div className="mb-2">
+                                    <label className="block font-medium text-sm mb-1">Priority:</label>
+                                    <select
+                                        className="w-full border border-gray-300 rounded-md p-2"
+                                        name="priority"
+                                        value={priority}
+                                        onChange={e => setPriority(e.target.value)}
+                                    >
+                                        <option value=""></option>
 
-                                    <option value="high">High</option>
-                                    <option value="medium">Medium</option>
-                                    <option value="low">Low</option>
-                                </select>
-                            </div>
-                            <div className="mb-2">
-                                <label className="block font-medium text-sm mb-1">Category:</label>
-                                <input
-                                    className="w-full border border-gray-300 rounded-md p-2"
-                                    type="text"
-                                    name="category"
-                                    value={category}
-                                    onChange={(e) => setCategory(e.target.value)}
-                                />
-                            </div>
-                            <div className="mb-2">
-                                <label className="block font-medium text-sm mb-1">Start Date:</label>
-                                <input
-                                    className="w-full border border-gray-300 rounded-md p-2"
-                                    type="date"
-                                    name="dueDate"
-                                    onChange={(e) => { setstartDate(e.target.value) }}
-                                    value={startDate}
-                                />
-                            </div>
-                            <div className="mb-2">
-                                <label className="block font-medium text-sm mb-1">Due Date:</label>
-                                <input
-                                    className="w-full border border-gray-300 rounded-md p-2"
-                                    type="date"
-                                    name="dueDate"
-                                    onChange={(e) => { setDueDate(e.target.value) }}
-                                    value={dueDate}
-                                />
-                            </div>
+                                        <option value="high">High</option>
+                                        <option value="medium">Medium</option>
+                                        <option value="low">Low</option>
+                                    </select>
+                                </div>
+                                <div className="mb-2">
+                                    <label className="block font-medium text-sm mb-1">Category:</label>
+                                    <input
+                                        className="w-full border border-gray-300 rounded-md p-2"
+                                        type="text"
+                                        name="category"
+                                        value={category}
+                                        onChange={(e) => setCategory(e.target.value)}
+                                    />
+                                </div>
+                                <div className="mb-2">
+                                    <label className="block font-medium text-sm mb-1">Start Date:</label>
+                                    <input
+                                        className="w-full border border-gray-300 rounded-md p-2"
+                                        type="date"
+                                        name="dueDate"
+                                        onChange={(e) => { setstartDate(e.target.value) }}
+                                        value={startDate}
+                                    />
+                                </div>
+                                <div className="mb-2">
+                                    <label className="block font-medium text-sm mb-1">Due Date:</label>
+                                    <input
+                                        className="w-full border border-gray-300 rounded-md p-2"
+                                        type="date"
+                                        name="dueDate"
+                                        onChange={(e) => { setDueDate(e.target.value) }}
+                                        value={dueDate}
+                                    />
+                                </div>
 
-                            <div className="flex justify-end">
-                                <button
-                                    className="bg-blue-700 hover:bg-blue-600 text-white px-4 py-2 rounded-md shadow-md transition duration-300 ease-in-out transform hover:scale-105"
-                                    onClick={addNewTask}
-                                >
-                                    Add
-                                </button>
-                                <button
-                                    className="ml-2 text-gray-600 hover:text-blue-600"
-                                    onClick={closeAddTaskModal}
-                                >
-                                    Cancel
-                                </button>
+                                <div className="flex justify-end">
+                                    <button
+                                        className="bg-blue-700 hover:bg-blue-600 text-white px-4 py-2 rounded-md shadow-md transition duration-300 ease-in-out transform hover:scale-105"
+                                        onClick={addNewTask}
+                                    >
+                                        Add
+                                    </button>
+                                    <button
+                                        className="ml-2 text-gray-600 hover:text-blue-600"
+                                        onClick={closeAddTaskModal}
+                                    >
+                                        Cancel
+                                    </button>
+                                </div>
+
                             </div>
 
                         </div>
 
-                    </div>
+                    )
+                }
 
-                )}
-
-            </div>
+            </div >
             <div></div>
-        </div>
+        </div >
     )
 }
 

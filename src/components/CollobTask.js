@@ -4,7 +4,7 @@ import { uploadBytes, ref, getDownloadURL } from 'firebase/storage';
 import { v4 } from 'uuid';
 import { collection, addDoc, getDocs, doc, updateDoc, deleteDoc } from 'firebase/firestore';
 
-const CollobTask = ({ task, tasks, isAssignedUser, updateTask, onDeleteTask }) => {
+const CollobTask = ({ task, tasks, isAssignedUser, onDeleteTask }) => {
     const [imageUpload, setImageUpload] = useState(null);
     const [selectedFileName, setSelectedFileName] = useState('');
     const adminEmail = 'linktothedeveloper@gmail.com';
@@ -49,10 +49,6 @@ const CollobTask = ({ task, tasks, isAssignedUser, updateTask, onDeleteTask }) =
                 await updateDoc(taskDocRef, updatedTask);
 
                 setEditedTask(updatedTask);
-
-                if (updateTask) {
-                    updateTask(updatedTask);
-                }
 
                 alert(`Task ${updatedTask.completed ? 'completed' : 'marked as incomplete'} successfully.`);
             } else {
@@ -138,9 +134,6 @@ const CollobTask = ({ task, tasks, isAssignedUser, updateTask, onDeleteTask }) =
                 const taskDocRef = doc(db, 'collobTasks', task.id);
 
                 await updateDoc(taskDocRef, editedTask);
-                if (updateTask) {
-                    updateTask(editedTask);
-                }
 
                 alert('Task updated successfully.');
             } else {
@@ -235,6 +228,7 @@ const CollobTask = ({ task, tasks, isAssignedUser, updateTask, onDeleteTask }) =
                     )}
                 </div>
             </div>
+
             {!expanded && (
                 <div className="mt-4">
                     <button
