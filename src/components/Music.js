@@ -2,9 +2,10 @@ import React, { useState, useRef, useEffect } from 'react';
 import myaudio2 from "./vellake_anirudh_bgm.mp3";
 import myaudio3 from "./perfect.mp3";
 import myaudio4 from "./dzanum.mp3";
-import myaudio5 from "./Manithan - Poi Vazhva.mp3";
 import myaudio6 from "./Hukum.mp3";
 import musicIc from "./Music.gif";
+import myaudio7 from "./Adele-Set-Fire-To-The-Rain.mp3"
+import myaudio8 from "./Ruth-B-Dandelions.mp3"
 
 const Music = () => {
     const [isPlaying, setIsPlaying] = useState(false);
@@ -15,11 +16,14 @@ const Music = () => {
     const seekBarRef = useRef(null);
 
     const tracks = [
-        { name: "Hukum", artist: "Anirudh Ravichander", file: myaudio6 },
         { name: "Anirudh BGM", artist: "Anirudh Ravichander", file: myaudio2 },
         { name: "Perfect", artist: "Ed Sheeran", file: myaudio3 },
         { name: "Dzanum", artist: "Dino Merlin", file: myaudio4 },
-        { name: "Poi Vazhva", artist: "Ilaiyaraaja", file: myaudio5 }
+        { name: "Hukum", artist: "Anirudh Ravichander", file: myaudio6 },
+
+        { name: "Set Fire", artist: "Adele", file: myaudio7 },
+        { name: "Dandelions", artist: "Ruth B", file: myaudio8 }
+
     ];
 
     const playPauseHandler = () => {
@@ -74,7 +78,6 @@ const Music = () => {
                 const duration = audioRef.current.duration;
                 const percentage = (currentTime / duration) * 100;
 
-                // Update the seek bar without triggering a seek event
                 seekBarRef.current.removeEventListener('input', seekHandler);
                 seekBarRef.current.value = percentage;
                 seekBarRef.current.addEventListener('input', seekHandler);
@@ -93,7 +96,7 @@ const Music = () => {
                             <p className="text-gray-400">{tracks[currentTrackIndex].artist}</p>
                         </div>
                     </div>
-                    <div className="flex items-center space-x-4">
+                    <div className="flex items-center space-x-4 mt-4">
                         <button onClick={prevTrackHandler} className="p-2 text-gray-400 hover:text-white">
                             ⏮️
                         </button>
