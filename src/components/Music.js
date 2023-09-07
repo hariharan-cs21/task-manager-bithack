@@ -11,6 +11,7 @@ const Music = () => {
     const [isPlaying, setIsPlaying] = useState(false);
     const [currentTrackIndex, setCurrentTrackIndex] = useState(0);
     const [isCollapsed, setIsCollapsed] = useState(true);
+    const [currentSeekPosition, setCurrentSeekPosition] = useState(0);
 
     const audioRef = useRef(null);
     const seekBarRef = useRef(null);
@@ -22,13 +23,14 @@ const Music = () => {
         { name: "Anirudh BGM", artist: "Anirudh Ravichander", file: myaudio2 },
         { name: "Set Fire", artist: "Adele", file: myaudio7 },
         { name: "Dandelions", artist: "Ruth B", file: myaudio8 }
-
     ];
 
     const playPauseHandler = () => {
-        setIsPlaying(prevState => !prevState);
         if (audioRef.current) {
-            isPlaying ? audioRef.current.pause() : audioRef.current.play();
+            setIsPlaying(prevState => !prevState);
+            isPlaying ? audioRef.current.pause() : audioRef.current.play().catch(error => {
+                console.error('Error playing audio:', error);
+            });
         }
     };
 
@@ -36,12 +38,14 @@ const Music = () => {
         const nextIndex = (currentTrackIndex + 1) % tracks.length;
         setCurrentTrackIndex(nextIndex);
         setIsPlaying(true);
+        setCurrentSeekPosition(0); // Reset the seek position
     };
 
     const prevTrackHandler = () => {
         const prevIndex = (currentTrackIndex - 1 + tracks.length) % tracks.length;
         setCurrentTrackIndex(prevIndex);
         setIsPlaying(true);
+        setCurrentSeekPosition(0); // Reset the seek position
     };
 
     const toggleCollapse = () => {
@@ -49,9 +53,10 @@ const Music = () => {
     };
 
     const seekHandler = (e) => {
-        const newSeekTime = (parseFloat(e.target.value) / 100) * audioRef.current.duration;
-        if (audioRef.current) {
+        if (audioRef.current && audioRef.current.readyState === 4) {
+            const newSeekTime = (parseFloat(e.target.value) / 100) * audioRef.current.duration;
             audioRef.current.currentTime = newSeekTime;
+            setCurrentSeekPosition(parseFloat(e.target.value));
         }
     };
 
@@ -70,19 +75,22 @@ const Music = () => {
 
     useEffect(() => {
         if (audioRef.current) {
-            audioRef.current.ontimeupdate = () => {
-                if (!seekBarRef.current) return;
-
-                const currentTime = audioRef.current.currentTime;
-                const duration = audioRef.current.duration;
-                const percentage = (currentTime / duration) * 100;
-
-                seekBarRef.current.removeEventListener('input', seekHandler);
-                seekBarRef.current.value = percentage;
-                seekBarRef.current.addEventListener('input', seekHandler);
-            };
+            audioRef.current.addEventListener('loadedmetadata', () => {
+                if (isPlaying) {
+                    audioRef.current.play().catch(error => {
+                        console.error('Error playing audio:', error);
+                    });
+                }
+                seekBarRef.current.value = currentSeekPosition;
+            });
         }
-    }, []);
+
+        return () => {
+            if (audioRef.current) {
+                audioRef.current.removeEventListener('loadedmetadata', () => { });
+            }
+        };
+    }, [currentTrackIndex, isPlaying, audioRef, currentSeekPosition]);
 
     return (
         <div className={`fixed bottom-4 right-4 w-80 bg-black text-white rounded-lg shadow-lg transition-all duration-300 ${isPlaying ? 'ring-4 ring-purple-400' : ''}`}>
@@ -112,10 +120,11 @@ const Music = () => {
                         <h3 className="text-base font-semibold mb-2">Song List</h3>
                         <ul className="text-gray-400">
                             {tracks.map((track, index) => (
-                                <li key={index} className={`cursor-pointer ${index === currentTrackIndex ? 'text-white' : ''}`} onClick={() => setCurrentTrackIndex(index)}>
+                                <li key={track.name} className={`cursor-pointer ${track.name === tracks[currentTrackIndex].name ? 'text-white' : ''}`} onClick={() => setCurrentTrackIndex(index)}>
                                     {track.name} - {track.artist}
                                 </li>
                             ))}
+
                         </ul>
                     </div>
                 )}

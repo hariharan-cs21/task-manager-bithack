@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { auth, db } from './Config/firebaseconfig';
-import { collection, addDoc, getDocs, updateDoc, doc, getDoc, deleteDoc, where, query } from 'firebase/firestore';
+import { collection, addDoc, getDocs, updateDoc, doc, getDoc, deleteDoc, where, query, onSnapshot } from 'firebase/firestore';
 import TaskCard from './TaskCard';
 import Users from "./Users"
 import calculateTimeRemaining from "./Utility/duedate"
@@ -267,6 +267,18 @@ const TwoColumnLayout = () => {
         setSubtasks(updatedSubtasks);
     };
 
+    useEffect(() => {
+        const unsubscribe = onSnapshot(queryCollection, (querySnapshot) => {
+            const updatedTasks = querySnapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
+            setTasks(updatedTasks);
+        });
+
+        return () => {
+            unsubscribe();
+        };
+    }, []);
+
+
     return (
         <div className='flex flex-wrap justify-start lg:justify-start mr-4'>
             {isAdmin && (
@@ -442,6 +454,7 @@ const TwoColumnLayout = () => {
 
             <TaskCard
                 tasks={tasks}
+                setTasks={setTasks}
                 currentUserEmail={currentUserEmail}
                 isAdmin={isAdmin}
                 handleRejectTask={handleRejectTask}

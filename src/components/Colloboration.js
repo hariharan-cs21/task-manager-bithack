@@ -3,7 +3,7 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { auth, db } from './Config/firebaseconfig';
 import colab from "./colab.gif";
-import { collection, addDoc, getDocs, query } from 'firebase/firestore';
+import { collection, addDoc, getDocs, query, onSnapshot } from 'firebase/firestore';
 import CollobTask from "./CollobTask";
 import Notebook from './Notebook';
 import emailjs from '@emailjs/browser';
@@ -70,6 +70,7 @@ const Collaboration = ({ user, setloggedIn }) => {
         const updatedTasks = tasks.filter((task) => task.id !== taskId);
         setTasks(updatedTasks);
     };
+    const taskCollection = collection(db, 'collobTasks');
 
     const submitTask = async () => {
         if (Priority && Task && description && assignedTo.length > 0 && dueDate) {
@@ -97,7 +98,6 @@ const Collaboration = ({ user, setloggedIn }) => {
                     subtasks: [],
                 };
 
-                const taskCollection = collection(db, 'collobTasks');
                 await addDoc(taskCollection, collabTask);
 
                 const emailParams = {
@@ -206,6 +206,19 @@ const Collaboration = ({ user, setloggedIn }) => {
     const closePopup1 = () => {
         setShowPopup1(false);
     };
+
+    useEffect(() => {
+        const immediate = onSnapshot(taskCollection, (querySnapshot) => {
+            const updatedTasks = querySnapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
+            setTasks(updatedTasks);
+        });
+
+        return () => {
+            immediate();
+        };
+    }, []);
+
+
     return (
         <div>
             <nav className="bg-white p-4">
