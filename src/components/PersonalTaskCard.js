@@ -427,7 +427,7 @@ const PersonalTaskCard = ({ user }) => {
                                 <>
                                     {
                                         task.queryPerson.id === auth.currentUser?.uid &&
-                                        <div key={index} className={`bg-white rounded-xl text-black shadow-md p-5 ${task.completed ? 'line-through text-gray-600' : ''}`}>
+                                        <div key={index} style={{ textDecorationColor: "gray", textDecorationThickness: "2px" }} className={`bg-white rounded-xl text-black shadow-md p-5 ${task.completed ? 'line-through' : ''}`}>
 
                                             <>
                                                 <div className='flex justify-between'>

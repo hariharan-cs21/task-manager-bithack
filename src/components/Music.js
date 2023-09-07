@@ -16,11 +16,10 @@ const Music = () => {
     const seekBarRef = useRef(null);
 
     const tracks = [
-        { name: "Anirudh BGM", artist: "Anirudh Ravichander", file: myaudio2 },
+        { name: "Hukum", artist: "Anirudh Ravichander", file: myaudio6 },
         { name: "Perfect", artist: "Ed Sheeran", file: myaudio3 },
         { name: "Dzanum", artist: "Dino Merlin", file: myaudio4 },
-        { name: "Hukum", artist: "Anirudh Ravichander", file: myaudio6 },
-
+        { name: "Anirudh BGM", artist: "Anirudh Ravichander", file: myaudio2 },
         { name: "Set Fire", artist: "Adele", file: myaudio7 },
         { name: "Dandelions", artist: "Ruth B", file: myaudio8 }
 

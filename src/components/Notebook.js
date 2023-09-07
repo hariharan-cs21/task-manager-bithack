@@ -138,7 +138,7 @@ const Notebook = ({ user }) => {
                             <span>{notebook.name}</span>
                             <button
                                 onClick={() => deleteNotebook(notebook.id)}
-                                className="text-red-600 ml-2"
+                                className="text-red-600"
                             >
                                 <i className="ml-5 uil uil-trash"></i>                                </button>
                         </li>

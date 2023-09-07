@@ -79,7 +79,6 @@ const Login = ({ setloggedIn }) => {
                     </div>
                 </div>
             </div>
-
         );
     }
 
@@ -99,7 +98,6 @@ const Login = ({ setloggedIn }) => {
                             <img
                                 className="w-8 h-8"
                                 src="https://www.svgrepo.com/show/475656/google-color.svg"
-                                loading="lazy"
                                 alt="Google logo"
                             />
                             <span className="text-lg font-semibold">Sign in with Google</span>

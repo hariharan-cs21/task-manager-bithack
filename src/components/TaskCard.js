@@ -134,7 +134,7 @@ const TaskCard = ({
                 <input
                     type="text"
                     placeholder="Search tasks"
-                    className="border p-1 rounded mb-3 w-1/2 ml-6"
+                    className="border p-1 rounded-lg p-2 mb-3 w-1/2 ml-6"
                     value={searchInput}
                     onChange={(e) => setSearchInput(e.target.value)}
                 />
@@ -153,7 +153,7 @@ const TaskCard = ({
 
             </div>
             {isAdmin && (
-                <div className="p-4 bg-white rounded-lg shadow-md mb-4 max-w-md ml-2">
+                <div className="p-6 bg-white rounded-lg shadow-md mb-4 max-w-md ml-2">
                     <ul>
                         {Object.entries(taskCountsByUser).map(([userEmail, counts]) => (
                             <li key={userEmail} style={{ textTransform: "capitalize" }}>
@@ -186,7 +186,7 @@ const TaskCard = ({
                                         <div className="flex justify-between items-center mb-3">
                                             <h2 className="text-xl font-bold">{task.Task}</h2>
                                             <div className="flex items-center">
-                                                <span className={`text-sm font-semibold ${task.Priority === 'High' ? 'text-red-500' : 'text-green-500'}`}>
+                                                <span className={` text-sm font-semibold ${task.Priority === 'High' ? 'text-red-500' : 'text-green-500'}`}>
                                                     {task.Priority}
                                                 </span>
 
@@ -297,29 +297,32 @@ const TaskCard = ({
                                         </div>
                                     )}
                                 </div>
-                                {!task.acceptedBy && currentUserEmail === task.assignedTo && (
-                                    <button
-                                        onClick={() => handleAcceptTask(task.id)}
-                                        className="px-3 mt-1 py-1 bg-blue-500 text-white rounded"
-                                    >
-                                        Accept
-                                    </button>
-                                )}
+
                                 {!task.acceptedBy && currentUserEmail === task.assignedTo && (
                                     <>
-                                        <input
-                                            type='text'
-                                            required
-                                            placeholder='Reason for Rejection'
-                                            className='border ml-4'
-                                            onChange={(e) => setRejectionMessage(e.target.value)}
-                                        />
-                                        <button
-                                            className="bg-red-500 text-white py-1 px-1 rounded ml-1"
-                                            onClick={() => handleRejectTask(task.id, rejectionMessage)}
-                                        >
-                                            Reject
-                                        </button>
+                                        <div className='flex'>
+
+
+                                            <button
+                                                onClick={() => handleAcceptTask(task.id)}
+                                                className="px-2 py-2 bg-blue-500 text-white px-1 rounded ml-1"
+                                            >
+                                                Accept
+                                            </button>
+                                            <button
+                                                className="bg-red-500 w-16 text-white py-1 px-1 rounded ml-1"
+                                                onClick={() => handleRejectTask(task.id, rejectionMessage)}
+                                            >
+                                                Reject
+                                            </button>
+                                            <input
+                                                type='text'
+                                                required
+                                                placeholder='Reason for Rejection'
+                                                className='border ml-4'
+                                                onChange={(e) => setRejectionMessage(e.target.value)}
+                                            />
+                                        </div>
                                     </>
                                 )}
 
@@ -443,28 +446,23 @@ const TaskCard = ({
                                         className="px-4 py-2 border rounded mb-2 md:mb-0 md:mr-2"
                                         onChange={(e) => setTransferToEmail(e.target.value)}
                                     />
-                                    <div className="flex justify-between gap-2">
+                                    <div className="flex justify-between gap-1">
                                         <button
                                             onClick={() => handleTransferTask(task.id, transferToEmail)}
                                             className="px-4 py-2 bg-green-500 text-white rounded"
                                         >
                                             Transfer
                                         </button>
-
+                                        <button
+                                            onClick={() => handleDeleteTask(task.id)}
+                                            className="px-2 py-2 bg-red-500 text-white rounded md:ml-2"
+                                        >
+                                            Delete
+                                        </button>
                                     </div>
                                 </div>
                             )}
-                            {isAdmin && (
-                                <>
-                                    <button
-                                        onClick={() => handleDeleteTask(task.id)}
-                                        className="px-2 py-2 bg-red-500 text-white rounded md:ml-2"
-                                    >
-                                        Delete
-                                    </button>
 
-                                </>
-                            )}
                         </div>
                     ))}
                 </div>

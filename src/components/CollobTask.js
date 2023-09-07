@@ -3,6 +3,8 @@ import { auth, db, storage } from './Config/firebaseconfig';
 import { uploadBytes, ref, getDownloadURL } from 'firebase/storage';
 import { v4 } from 'uuid';
 import { collection, addDoc, getDocs, doc, updateDoc, deleteDoc } from 'firebase/firestore';
+import Lottie from "lottie-react"
+import anim from "./animation_lm8o0cy1.json"
 
 const CollobTask = ({ task, tasks, isAssignedUser, onDeleteTask }) => {
     const [imageUpload, setImageUpload] = useState(null);
@@ -128,15 +130,21 @@ const CollobTask = ({ task, tasks, isAssignedUser, onDeleteTask }) => {
         fetchComments();
     }, [task.id]);
 
+    const [isUpdating, setisUpdating] = useState(false)
+
     const handleUpdateTask = async () => {
         try {
             if (currentUserEmail === adminEmail) {
+                setisUpdating(true);
+
                 const taskDocRef = doc(db, 'collobTasks', task.id);
-
                 await updateDoc(taskDocRef, editedTask);
-
-                alert('Task updated successfully.');
+                setTimeout(() => {
+                    setisUpdating(false);
+                }, 3000);
             } else {
+                setisUpdating(false);
+
                 alert('You do not have permission to edit this task.');
             }
         } catch (error) {
@@ -172,8 +180,22 @@ const CollobTask = ({ task, tasks, isAssignedUser, onDeleteTask }) => {
             console.error('Error deleting task:', error);
         }
     };
+
+    if (isUpdating) {
+        return (
+            <div className="flex items-center justify-center h-full">
+                <div className="bg-white p-4 rounded-lg shadow-md">
+                    <div className="flex items-center space-x-4">
+                        <Lottie animationData={anim} style={{ height: "80px", width: "70px" }}></Lottie>
+                        <div className="text-xl font-medium text-gray-700">Updating...</div>
+                    </div>
+                </div>
+            </div>
+        );
+    }
+
     return (
-        <div className={`bg-white mb-6 rounded-lg p-4 shadow-lg ${currentUserEmail === adminEmail ? 'border border-blue-500' : ''} ${task.status === 'true' ? 'filter blur-md' : ''}`}>
+        <div className={`bg-white mt-4 mb-4 rounded-lg p-6 shadow-lg ${currentUserEmail === adminEmail ? 'border border-blue-500' : ''} ${task.status === 'true' ? 'filter blur-md' : ''}`}>
             <div className="flex justify-between">
                 <div className="w-2/3">
                     <h2 className="text-xl font-semibold text-gray-800 mb-1">
@@ -189,6 +211,22 @@ const CollobTask = ({ task, tasks, isAssignedUser, onDeleteTask }) => {
                             editedTask.Task
                         )}
                     </h2>
+                    {currentUserEmail === adminEmail ? (
+                        <div className="my-1 font-bold text-sm">
+                            Due :{' '}
+                            <input
+                                type="date"
+                                value={editedTask.dueDate}
+                                onChange={(e) =>
+                                    currentUserEmail === adminEmail &&
+                                    setEditedTask({ ...editedTask, dueDate: e.target.value })
+                                }
+                            />
+                        </div>
+                    ) : (
+                        <p className="my-1 font-bold text-sm">Due : {editedTask.dueDate}</p>
+                    )}
+
                     <div className={`text-sm ${getPriorityColor(editedTask.Priority)}`}>
                         Priority:
                         {currentUserEmail === adminEmail ? (
@@ -207,32 +245,31 @@ const CollobTask = ({ task, tasks, isAssignedUser, onDeleteTask }) => {
                         )}
                     </div>
                 </div>
-                <div className="w-1/3 ml-4">
+                <div className="w-full justify-end mr-4 flex items-center">
                     {currentUserEmail === adminEmail && (
-                        <div className="mt-4">
+                        <>
                             <button
-                                className="px-3 py-1 text-sm text-white bg-blue-500 rounded hover:bg-blue-600 focus:outline-none"
+                                className="px-2 mr-2 py-2 text-sm text-white bg-blue-500 rounded hover:bg-blue-600 focus:outline-none"
                                 onClick={handleUpdateTask}
                             >
                                 Update
                             </button>
-                            <div className="mt-4">
-                                <button
-                                    className="px-3 py-1 text-sm text-white bg-red-500 rounded hover:bg-red-600 focus:outline-none"
-                                    onClick={handleDeleteTask}
-                                >
-                                    Delete Task
-                                </button>
-                            </div>
-                        </div>
+
+                            <button
+                                className="px-2 py-2 text-sm text-white bg-red-500 rounded hover:bg-red-600 focus:outline-none"
+                                onClick={handleDeleteTask}
+                            >
+                                Delete Task
+                            </button>
+                        </>
                     )}
                 </div>
             </div>
 
             {!expanded && (
-                <div className="mt-4">
+                <div className="mt-2 ">
                     <button
-                        className="text-blue-500 hover:underline cursor-pointer"
+                        className="text-blue-700 text-sm p-2 hover:text-white hover:bg-blue-500 rounded-lg"
                         onClick={toggleExpand}
                     >
                         Show More
@@ -241,6 +278,17 @@ const CollobTask = ({ task, tasks, isAssignedUser, onDeleteTask }) => {
             )}
             {expanded && (
                 <div>
+                    {currentUserEmail === adminEmail ? (
+                        <input
+                            type="text"
+                            value={editedTask.description}
+                            onChange={(e) => currentUserEmail === adminEmail && setEditedTask({ ...editedTask, description: e.target.value })}
+                            readOnly={currentUserEmail !== adminEmail}
+                            className={`w-full p-1 rounded-lg border border-blue-700 hover:border-blue-500 transition-all duration-300 ${currentUserEmail === adminEmail ? 'hover:border-transparent focus:border-blue-500' : ''}`}
+                        />
+                    ) : (
+                        editedTask.description
+                    )}
                     {isAssignedUser && (
                         <div className="mt-4">
                             <label className="block text-sm font-medium text-gray-700">Attach File</label>
@@ -298,14 +346,17 @@ const CollobTask = ({ task, tasks, isAssignedUser, onDeleteTask }) => {
                         ) : (
                             <div>
                                 <p className="text-sm font-semibold">Attachments: </p>
-                                {attachments[task.id] &&
-                                    attachments[task.id].map((attachment, index) => (
-                                        <div key={index} className="mt-1">
-                                            <a href={attachment.imageUrl} download={attachment.fileName} className="text-blue-500 hover:underline">
-                                                View Attachment {index + 1}
-                                            </a>
-                                        </div>
-                                    ))}
+                                <div className='border p-1 rounded-lg border-blue-600'>
+                                    {attachments[task.id] &&
+                                        attachments[task.id].map((attachment, index) => (
+                                            <div key={index} className="mt-1">
+                                                <a href={attachment.imageUrl} download={attachment.fileName} className="text-green-500 text-sm hover:underline">
+                                                    View Attachment {index + 1}
+                                                </a>
+                                            </div>
+                                        ))
+                                    }
+                                </div>
                             </div>
                         )}
                     </div>
