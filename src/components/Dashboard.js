@@ -180,6 +180,12 @@ function Dashboard({ isloggedIn, setloggedIn, user }) {
                                 <span className='ml-1 '>Collaboration</span>
                             </p>
                         </Link>
+                        <p
+                            className="flex items-center cursor-pointer  px-6 py-3 ml-3 fixed bottom-0 mb-2 text-gray-300 hover:bg-gray-700 hover:text-white rounded-xl"
+                            onClick={LogutUser}>
+                            <i class="uil uil-signout ml-2 text-2xl"></i>
+                            <span className='ml-1'>Logout</span>
+                        </p>
                     </nav>
                 </div>
             </div>

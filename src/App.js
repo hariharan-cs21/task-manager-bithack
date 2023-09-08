@@ -49,7 +49,7 @@ function App() {
               }
             />
             <Route path="/personaltask" element={<PersonalTask isloggedIn={isloggedIn} setloggedIn={setloggedIn} user={user} />} />
-            <Route path="/colloborate" element={<DashboardLayout user={user} setloggedIn={setloggedIn} />} />
+            <Route path="/colloborate" element={<DashboardLayout user={user} setloggedIn={setloggedIn} isloggedIn={isloggedIn} />} />
 
           </Routes>
         </Router>

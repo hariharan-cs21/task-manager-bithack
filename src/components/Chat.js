@@ -6,7 +6,7 @@ import {
     serverTimestamp,
     addDoc,
     query,
-    where,
+    where, onSnapshot,
 } from 'firebase/firestore';
 import { db, auth } from '../components/Config/firebaseconfig';
 
@@ -72,10 +72,12 @@ const Chat = ({ isloggedIn, user }) => {
             const messageData = querySnapshot.docs.map((doc) => doc.data());
             messageData.sort((a, b) => a.timestamp - b.timestamp);
             setMessages(messageData);
+            scrollToBottom();
         } catch (error) {
             console.error('Error fetching chat:', error);
         }
     };
+
 
     const fetchHashtagGroups = async () => {
         try {
@@ -135,6 +137,22 @@ const Chat = ({ isloggedIn, user }) => {
             navigate("/")
         }
     })
+
+    useEffect(() => {
+        const unsubscribe = onSnapshot(
+            query(chatCollection, where('groupId', '==', selectedGroup)),
+            (querySnapshot) => {
+                const updatedMessages = querySnapshot.docs.map((doc) => doc.data());
+                updatedMessages.sort((a, b) => a.timestamp - b.timestamp);
+                setMessages(updatedMessages);
+                scrollToBottom();
+            }
+        );
+
+        return () => {
+            unsubscribe();
+        };
+    }, [selectedGroup]);
 
 
 

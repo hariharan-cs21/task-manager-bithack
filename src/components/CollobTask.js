@@ -172,7 +172,7 @@ const CollobTask = ({ task, tasks, isAssignedUser, onDeleteTask }) => {
 
                 onDeleteTask(task.id);
 
-                alert('Task deleted successfully.');
+                alert(`Task id ${task.id} deleted successfully.`);
             } else {
                 alert('You do not have permission to delete this task.');
             }
@@ -227,7 +227,7 @@ const CollobTask = ({ task, tasks, isAssignedUser, onDeleteTask }) => {
                         <p className="my-1 font-bold text-sm">Due : {editedTask.dueDate}</p>
                     )}
 
-                    <div className={`text-sm ${getPriorityColor(editedTask.Priority)}`}>
+                    <div className={`flex text-sm ${getPriorityColor(editedTask.Priority)}`}>
                         Priority:
                         {currentUserEmail === adminEmail ? (
                             <select
@@ -241,7 +241,8 @@ const CollobTask = ({ task, tasks, isAssignedUser, onDeleteTask }) => {
                                 <option value="high">High</option>
                             </select>
                         ) : (
-                            editedTask.Priority
+                            <p className='ml-1'>{editedTask.Priority}</p>
+
                         )}
                     </div>
                 </div>

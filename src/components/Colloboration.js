@@ -8,7 +8,7 @@ import CollobTask from "./CollobTask";
 import Notebook from './Notebook';
 import emailjs from '@emailjs/browser';
 
-const Collaboration = ({ user, setloggedIn }) => {
+const Collaboration = ({ user, setloggedIn, isloggedIn }) => {
     const [isDropdownOpen, setIsDropdownOpen] = useState(false);
     const toggleDropdown = () => {
         setIsDropdownOpen(!isDropdownOpen);
@@ -285,7 +285,7 @@ const Collaboration = ({ user, setloggedIn }) => {
                     </div>
                 </div>
 
-                {(auth.currentUser?.email !== isadmin) && (
+                {(auth.currentUser?.email !== isadmin) && isloggedIn && (
                     <div className="p-6 shadow-md rounded-lg bg-white mt-4" style={{ maxHeight: "60vh", overflowY: "auto" }}>
                         <Notebook user={user} />
                     </div>
@@ -298,9 +298,18 @@ const Collaboration = ({ user, setloggedIn }) => {
                             <div>
                                 {unShowForm ? (
                                     <>
-                                        <button onClick={openPopup1} className='bg-gray-800 rounded-md p-2 top-1 text-white w-32 mb-2 mr-2'>Add Domain</button>
-
-                                        <button onClick={onFormClick} className='bg-gray-800 rounded-md p-2 top-1 text-white w-24'>Add Task</button>
+                                        <div className='bg-blue-600 rounded-md p-2 text-white w-1/3 mb-2 mr-2  hover:bg-blue-700 mt-1' onClick={openPopup1} >
+                                            <div className='flex items-center justify-center'>
+                                                <i className="uil uil-channel text-xl"></i>
+                                                <button className='ml-2'>Add Domain</button>
+                                            </div>
+                                        </div>
+                                        <div onClick={onFormClick} className='bg-blue-600 rounded-md p-2 top-1 text-white w-1/3 hover:bg-blue-700'>
+                                            <div className='flex items-center justify-center'>
+                                                <i className="uil uil-plus-circle text-xl mr-1"></i>
+                                                <button > Add Task</button>
+                                            </div>
+                                        </div>
                                     </>
                                 ) : (
                                     <button className='w-24 bg-gray-800 rounded-md p-2 text-white' onClick={onUnformClick}>Close</button>
@@ -399,8 +408,9 @@ const Collaboration = ({ user, setloggedIn }) => {
                                 )}
                                 {!showForm &&
                                     <div>
+
                                         <button
-                                            className="bg-blue-500 hover:bg-blue-600 text-white py-2 px-4 rounded mt-4"
+                                            className="bg-blue-600 hover:bg-blue-700 text-white py-2 px-4 rounded mt-4"
                                             onClick={() => setShowNotebook(!showNotebook)}
                                         >
                                             {showNotebook ? 'Close Notebook' : 'Open Notebook'}
@@ -458,7 +468,7 @@ const Collaboration = ({ user, setloggedIn }) => {
                             </div>
                             <div className="flex justify-end">
                                 <button
-                                    className="bg-green-500 hover:bg-green-600 text-white py-2 px-4 rounded"
+                                    className="bg-black text-white py-2 px-3 hover:bg-gray-800 rounded"
                                     onClick={addNewDomain}
                                     type="button"
                                 >

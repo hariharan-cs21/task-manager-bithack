@@ -1,8 +1,10 @@
 import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import Collaboration from './Colloboration';
+import { auth } from './Config/firebaseconfig';
+import { signOut } from 'firebase/auth';
 
-const DashboardLayout = ({ user, setloggedIn }) => {
+const DashboardLayout = ({ user, setloggedIn, isloggedIn }) => {
     const [sidebarOpen, setSidebarOpen] = useState(false);
 
     const toggleSidebar = () => {
@@ -22,7 +24,14 @@ const DashboardLayout = ({ user, setloggedIn }) => {
             return () => clearTimeout(timeout);
         }
     }, []);
-
+    let navigate = useNavigate()
+    const LogutUser = () => {
+        signOut(auth).then(() => {
+            localStorage.clear();
+            setloggedIn(false);
+            navigate("/")
+        });
+    };
     return (
         <div className="flex h-screen bg-blue-50">
             <div
@@ -51,6 +60,12 @@ const DashboardLayout = ({ user, setloggedIn }) => {
                         </p>
                     </Link>
                 </nav>
+                <p
+                    className="flex items-center cursor-pointer  px-6 py-3 ml-5 fixed bottom-0 mb-2 text-gray-300 hover:bg-gray-700 hover:text-white rounded-xl"
+                    onClick={LogutUser}>
+                    <i class="uil uil-signout ml-2 text-2xl"></i>
+                    <span className='ml-1'>Logout</span>
+                </p>
             </div>
 
             <div className="flex flex-col flex-1">
@@ -73,7 +88,7 @@ const DashboardLayout = ({ user, setloggedIn }) => {
                         /></svg>}
                 </button>
 
-                <Collaboration user={user} setloggedIn={setloggedIn} />
+                <Collaboration user={user} setloggedIn={setloggedIn} isloggedIn={isloggedIn} />
             </div>
         </div>
     );

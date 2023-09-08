@@ -106,7 +106,7 @@ const Notebook = ({ user }) => {
     return (
         <div className="flex">
             <div className="w-1/2 p-4 bg-gray-200 border-r">
-                <h1 className="text-xl font-semibold mb-4">Notebooks</h1>
+                <h1 className="text-xl font-semibold mb-4">Notebook</h1>
                 <div className="mb-4">
                     <input
                         type="text"
@@ -122,9 +122,9 @@ const Notebook = ({ user }) => {
                     />
                     <button
                         onClick={createNotebook}
-                        className="bg-blue-500 hover:bg-blue-600 text-white py-2 px-2 rounded-lg mt-2"
+                        className="bg-blue-500 w-full hover:bg-blue-600 text-white py-2 px-2 rounded-lg mt-2"
                     >
-                        NoteBook
+                        Create
                     </button>
                 </div>
                 <ul>
@@ -174,12 +174,12 @@ const Notebook = ({ user }) => {
                         </button>
                     </div>
                     <div className="mt-4">
-                        <h3 className="text-2xl font-semibold mb-4">Notes</h3>
+                        <h3 className="text-xl font-semibold mb-4">Notes</h3>
                         <ul className="space-y-4">
                             {notes.map((note) => (
                                 <li key={note.id} className="border border-gray-300 rounded-lg p-4">
                                     <div className="flex justify-between">
-                                        <h4 className="text-xl font-semibold">{note.title}</h4>
+                                        <h4 className="text-lg font-semibold">{note.title}</h4>
                                         {user.displayName === note.createdBy && (
                                             <button
                                                 onClick={() => deleteNote(note.id)}
@@ -189,7 +189,7 @@ const Notebook = ({ user }) => {
                                             </button>
                                         )}
                                     </div>
-                                    <p className="text-gray-600">Created by: {note.createdBy}</p>
+                                    <p className="text-gray-600 text-[11px] font-bold">Created by: {note.createdBy}</p>
                                     <p className="text-gray-600">{note.content}</p>
                                 </li>
                             ))}
