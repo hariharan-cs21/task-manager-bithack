@@ -60,6 +60,7 @@ const Music = () => {
         }
     };
 
+
     useEffect(() => {
         if (audioRef.current) {
             audioRef.current.pause();
@@ -91,7 +92,15 @@ const Music = () => {
             }
         };
     }, [currentTrackIndex, isPlaying, audioRef, currentSeekPosition]);
+    useEffect(() => {
+        audioRef.current.addEventListener('timeupdate', () => {
+            const currentTime = audioRef.current.currentTime;
+            const duration = audioRef.current.duration;
+            const seekPercentage = (currentTime / duration) * 100;
+            seekBarRef.current.value = seekPercentage;
+        });
 
+    })
     return (
         <div className={`fixed bottom-4 right-4 w-80 bg-black text-white rounded-lg shadow-lg transition-all duration-300 ${isPlaying ? 'ring-4 ring-purple-400' : ''}`}>
             <div className="p-4">

@@ -1,0 +1,1800 @@
+[{
+  "_id": {
+    "$oid": "64e729c8ffcd0f5c32e23b2c"
+  },
+  "title": "Hukum",
+  "artist": "Anirudh",
+  "genre": "Massy",
+  "year": 2023,
+  "duration": 207,
+  "url": "/songs/Hukum.mp3",
+  "icon": "/icons/JAILER.webp",
+  "likes": 0,
+  "views": 0,
+  "movie": "JAILER",
+  "language": "Tamil",
+  "lyrics": "null",
+  "downloads": 0
+},
+{
+  "_id": {
+    "$oid": "64e729c8ffcd0f5c32e23b2d"
+  },
+  "title": "Jailer Drill Theme",
+  "artist": "Anirudh",
+  "genre": "Theme",
+  "year": 2023,
+  "duration": 43,
+  "url": "/songs/Jailer-Drill-Theme.mp3",
+  "icon": "/icons/JAILER.webp",
+  "likes": 0,
+  "views": 0,
+  "movie": "JAILER",
+  "language": "Tamil",
+  "lyrics": "null",
+  "downloads": 0
+},
+{
+  "_id": {
+    "$oid": "64e729c8ffcd0f5c32e23b31"
+  },
+  "title": "Porkanda Singam",
+  "artist": "Anirudh",
+  "genre": "Motive",
+  "year": 2022,
+  "duration": 198,
+  "url": "/songs/Porkanda Singam.mp3",
+  "icon": "/icons/VIKRAM.webp",
+  "likes": 0,
+  "views": 0,
+  "movie": "VIKRAM",
+  "language": "Tamil",
+  "lyrics": "null",
+  "downloads": 0
+},
+{
+  "_id": {
+    "$oid": "64e729c8ffcd0f5c32e23b33"
+  },
+  "title": "Devaralan Aattam",
+  "artist": "A R.Rahman",
+  "genre": "Drums",
+  "year": 2022,
+  "duration": 273,
+  "url": "/songs/Devaralan Aattam.mp3",
+  "icon": "/icons/PS.jpg",
+  "likes": 0,
+  "views": 0,
+  "movie": "PS",
+  "language": "Tamil",
+  "lyrics": "null",
+  "downloads": 0
+},
+{
+  "_id": {
+    "$oid": "64e729c8ffcd0f5c32e23b34"
+  },
+  "title": "Ponni Nadhi",
+  "artist": "A R.Rahman",
+  "genre": "Travel",
+  "year": 2022,
+  "duration": 290,
+  "url": "/songs/Ponni Nadhi.mp3",
+  "icon": "/icons/PS.jpg",
+  "likes": 0,
+  "views": 0,
+  "movie": "PS",
+  "language": "Tamil",
+  "lyrics": "null",
+  "downloads": 0
+},
+{
+  "_id": {
+    "$oid": "64e729c8ffcd0f5c32e23b36"
+  },
+  "title": "Sol",
+  "artist": "A R.Rahman",
+  "genre": "Love",
+  "year": 2022,
+  "duration": 134,
+  "url": "/songs/Sol.mp3",
+  "icon": "/icons/PS.jpg",
+  "likes": 0,
+  "views": 0,
+  "movie": "PS",
+  "language": "Tamil",
+  "lyrics": "null",
+  "downloads": 0
+},
+{
+  "_id": {
+    "$oid": "64e729c8ffcd0f5c32e23b37"
+  },
+  "title": "Kathari Poovazhagi",
+  "artist": "G.V.Prakash Kumar",
+  "genre": "Love",
+  "year": 2019,
+  "duration": 225,
+  "url": "/songs/Kathari Poovazhagi.mp3",
+  "icon": "/icons/ASURAN.jpg",
+  "likes": 0,
+  "views": 0,
+  "movie": "ASURAN",
+  "language": "Tamil",
+  "lyrics": "null",
+  "downloads": 0
+},
+{
+  "_id": {
+    "$oid": "64e729c8ffcd0f5c32e23b38"
+  },
+  "title": "Polladha Boomi",
+  "artist": "G.V.Prakash Kumar",
+  "genre": "Sorrow",
+  "year": 2019,
+  "duration": 237,
+  "url": "/songs/Polladha Boomi.mp3",
+  "icon": "/icons/ASURAN.jpg",
+  "likes": 0,
+  "views": 0,
+  "movie": "ASURAN",
+  "language": "Tamil",
+  "lyrics": "null",
+  "downloads": 0
+},
+{
+  "_id": {
+    "$oid": "64e729c8ffcd0f5c32e23b3a"
+  },
+  "title": "Yen Minukki",
+  "artist": "G.V.Prakash Kumar",
+  "genre": "Love",
+  "year": 2019,
+  "duration": 272,
+  "url": "/songs/Yen Minukki.mp3",
+  "icon": "/icons/ASURAN.jpg",
+  "likes": 0,
+  "views": 0,
+  "movie": "ASURAN",
+  "language": "Tamil",
+  "lyrics": "null",
+  "downloads": 0
+},
+{
+  "_id": {
+    "$oid": "64e729c8ffcd0f5c32e23b3c"
+  },
+  "title": "Rendu Raaja",
+  "artist": "Yuvan Shankar Raja",
+  "genre": "Massy",
+  "year": 2022,
+  "duration": 202,
+  "url": "/songs/Rendu Raaja.mp3",
+  "icon": "/icons/NANE VARUVEN.jpg",
+  "likes": 0,
+  "views": 0,
+  "movie": "NANE VARUVEN",
+  "language": "Tamil",
+  "lyrics": "null",
+  "downloads": 0
+},
+{
+  "_id": {
+    "$oid": "64e729c8ffcd0f5c32e23b3d"
+  },
+  "title": "Veera Soora",
+  "artist": "Yuvan Shankar Raja",
+  "genre": "Massy",
+  "year": 2022,
+  "duration": 205,
+  "url": "/songs/Veera Soora.mp3",
+  "icon": "/icons/NANE VARUVEN.jpg",
+  "likes": 0,
+  "views": 0,
+  "movie": "NANE VARUVEN",
+  "language": "Tamil",
+  "lyrics": "null",
+  "downloads": 0
+},
+{
+  "_id": {
+    "$oid": "64e729c8ffcd0f5c32e23b3f"
+  },
+  "title": "Halena",
+  "artist": "Harris Jayaraj",
+  "genre": "Melody",
+  "year": 2016,
+  "duration": 288,
+  "url": "/songs/Halena.mp3",
+  "icon": "/icons/IRUMUGAN.jpg",
+  "likes": 0,
+  "views": 0,
+  "movie": "IRUMUGAN",
+  "language": "Tamil",
+  "lyrics": "null",
+  "downloads": 0
+},
+{
+  "_id": {
+    "$oid": "64e729c8ffcd0f5c32e23b41"
+  },
+  "title": "Kannai Vittu",
+  "artist": "Harris Jayaraj",
+  "genre": "Sorrow",
+  "year": 2016,
+  "duration": 362,
+  "url": "/songs/Kannai Vittu.mp3",
+  "icon": "/icons/IRUMUGAN.jpg",
+  "likes": 0,
+  "views": 0,
+  "movie": "IRUMUGAN",
+  "language": "Tamil",
+  "lyrics": "null",
+  "downloads": 0
+},
+{
+  "_id": {
+    "$oid": "64e729c8ffcd0f5c32e23b42"
+  },
+  "title": "Face Off",
+  "artist": "Harris Jayaraj",
+  "genre": "Theme",
+  "year": 2016,
+  "duration": 194,
+  "url": "/songs/Face Off.mp3",
+  "icon": "/icons/IRUMUGAN.jpg",
+  "likes": 0,
+  "views": 0,
+  "movie": "IRUMUGAN",
+  "language": "Tamil",
+  "lyrics": "null",
+  "downloads": 0
+},
+{
+  "_id": {
+    "$oid": "64e729c8ffcd0f5c32e23b47"
+  },
+  "title": "Playing The Pain",
+  "artist": "Ghibran",
+  "genre": "Instrumental",
+  "year": 2018,
+  "duration": 86,
+  "url": "/songs/Playing The Pain.mp3",
+  "icon": "/icons/RATSASAN.jpg",
+  "likes": 0,
+  "views": 0,
+  "movie": "RATSASAN",
+  "language": "Tamil",
+  "lyrics": "null",
+  "downloads": 0
+},
+{
+  "_id": {
+    "$oid": "64e729c8ffcd0f5c32e23b48"
+  },
+  "title": "Ratsasan Piano",
+  "artist": "Ghibran",
+  "genre": "Instrumental",
+  "year": 2018,
+  "duration": 55,
+  "url": "/songs/Ratsasan Piano.mp3",
+  "icon": "/icons/RATSASAN.jpg",
+  "likes": 0,
+  "views": 0,
+  "movie": "RATSASAN",
+  "language": "Tamil",
+  "lyrics": "null",
+  "downloads": 0
+},
+{
+  "_id": {
+    "$oid": "64e729c8ffcd0f5c32e23b49"
+  },
+  "title": "Beat In The Dark",
+  "artist": "Ghibran",
+  "genre": "Theme",
+  "year": 2018,
+  "duration": 42,
+  "url": "/songs/Beat In The Dark.mp3",
+  "icon": "/icons/RATSASAN.jpg",
+  "likes": 0,
+  "views": 0,
+  "movie": "RATSASAN",
+  "language": "Tamil",
+  "lyrics": "null",
+  "downloads": 0
+},
+{
+  "_id": {
+    "$oid": "64e729c8ffcd0f5c32e23b4a"
+  },
+  "title": "Clue Is On The Path",
+  "artist": "Ghibran",
+  "genre": "Theme",
+  "year": 2018,
+  "duration": 45,
+  "url": "/songs/Clue Is On The Path.mp3",
+  "icon": "/icons/RATSASAN.jpg",
+  "likes": 0,
+  "views": 0,
+  "movie": "RATSASAN",
+  "language": "Tamil",
+  "lyrics": "null",
+  "downloads": 0
+},
+{
+  "_id": {
+    "$oid": "64e729c8ffcd0f5c32e23b4c"
+  },
+  "title": "Enna Nadanthalum",
+  "artist": "Hiphop Tamizha",
+  "genre": "Love",
+  "year": 2017,
+  "duration": 245,
+  "url": "/songs/Enna Nadanthalum.mp3",
+  "icon": "/icons/MEESAYA MURUKU.jpg",
+  "likes": 0,
+  "views": 0,
+  "movie": "MEESAYA MURUKU",
+  "language": "Tamil",
+  "lyrics": "null",
+  "downloads": 0
+},
+{
+  "_id": {
+    "$oid": "64e729c8ffcd0f5c32e23b4e"
+  },
+  "title": "Vaadi Nee Vaadi",
+  "artist": "Hiphop Tamizha",
+  "genre": "Hip hop",
+  "year": 2017,
+  "duration": 185,
+  "url": "/songs/Vaadi Nee Vaadi.mp3",
+  "icon": "/icons/MEESAYA MURUKU.jpg",
+  "likes": 0,
+  "views": 0,
+  "movie": "MEESAYA MURUKU",
+  "language": "Tamil",
+  "lyrics": "null",
+  "downloads": 0
+},
+{
+  "_id": {
+    "$oid": "64e729c8ffcd0f5c32e23b4f"
+  },
+  "title": "Arutperunjodhi",
+  "artist": "Ilayaraaja",
+  "genre": "Mercy",
+  "year": 2023,
+  "duration": 212,
+  "url": "/songs/Arutperunjodhi.mp3",
+  "icon": "/icons/VIDUTHALAI.jpg",
+  "likes": 0,
+  "views": 0,
+  "movie": "VIDUTHALAI",
+  "language": "Tamil",
+  "lyrics": "null",
+  "downloads": 0
+},
+{
+  "_id": {
+    "$oid": "64e729c8ffcd0f5c32e23b50"
+  },
+  "title": "Onnoda Nadandhaa",
+  "artist": "Ilayaraaja",
+  "genre": "Love",
+  "year": 2023,
+  "duration": 315,
+  "url": "/songs/Onnoda Nadandhaa.mp3",
+  "icon": "/icons/VIDUTHALAI.jpg",
+  "likes": 0,
+  "views": 0,
+  "movie": "VIDUTHALAI",
+  "language": "Tamil",
+  "lyrics": "null",
+  "downloads": 0
+},
+{
+  "_id": {
+    "$oid": "64e729c8ffcd0f5c32e23b51"
+  },
+  "title": "Kaattumalli",
+  "artist": "Ilayaraaja",
+  "genre": "Love",
+  "year": 2023,
+  "duration": 306,
+  "url": "/songs/Kaattumalli.mp3",
+  "icon": "/icons/VIDUTHALAI.jpg",
+  "likes": 0,
+  "views": 0,
+  "movie": "VIDUTHALAI",
+  "language": "Tamil",
+  "lyrics": "null",
+  "downloads": 0
+},
+{
+  "_id": {
+    "$oid": "64e729c8ffcd0f5c32e23b53"
+  },
+  "title": "Sarpatta Parambarai",
+  "artist": "Santhosh Narayanan",
+  "movie": "SARPATTA PARAMBARAI",
+  "genre": "Theme",
+  "year": 2021,
+  "duration": 34,
+  "url": "/songs/Sarpatta Parambarai.mp3",
+  "icon": "/icons/SARPATTA PARAMBARAI.jpg",
+  "language": "Tamil",
+  "likes": 0,
+  "views": 0,
+  "lyrics": "null",
+  "downloads": 0
+},
+{
+  "_id": {
+    "$oid": "64e729c8ffcd0f5c32e23b54"
+  },
+  "title": "Dancing Rose",
+  "artist": "Santhosh Narayanan",
+  "movie": "SARPATTA PARAMBARAI",
+  "genre": "Theme",
+  "year": 2021,
+  "duration": 205,
+  "url": "/songs/Dancing Rose.mp3",
+  "icon": "/icons/SARPATTA PARAMBARAI.jpg",
+  "language": "Tamil",
+  "likes": 0,
+  "views": 0,
+  "lyrics": "null",
+  "downloads": 0
+},
+{
+  "_id": {
+    "$oid": "64e729c8ffcd0f5c32e23b56"
+  },
+  "title": "Vambula Thumbula",
+  "artist": "Santhosh Narayanan",
+  "movie": "SARPATTA PARAMBARAI",
+  "genre": "Dance",
+  "year": 2021,
+  "duration": 304,
+  "url": "/songs/Vambula Thumbula.mp3",
+  "icon": "/icons/SARPATTA PARAMBARAI.jpg",
+  "language": "Tamil",
+  "likes": 0,
+  "views": 0,
+  "lyrics": "null",
+  "downloads": 0
+},
+{
+  "_id": {
+    "$oid": "64e729c8ffcd0f5c32e23b57"
+  },
+  "title": "Neeye Oli",
+  "artist": "Santhosh Narayanan",
+  "movie": "SARPATTA PARAMBARAI",
+  "genre": "Motive",
+  "year": 2021,
+  "duration": 237,
+  "url": "/songs/Neeye Oli.mp3",
+  "icon": "/icons/SARPATTA PARAMBARAI.jpg",
+  "language": "Tamil",
+  "likes": 0,
+  "views": 0,
+  "lyrics": "null",
+  "downloads": 0
+},
+{
+  "_id": {
+    "$oid": "64e729c8ffcd0f5c32e23b58"
+  },
+  "title": "Dandaana Darna",
+  "artist": "Vidyasagar",
+  "movie": "KURUVI",
+  "genre": "Dance",
+  "year": 2008,
+  "duration": 227,
+  "url": "/songs/Dandaana Darna.mp3",
+  "icon": "/icons/KURUVI.jpg",
+  "language": "Tamil",
+  "likes": 0,
+  "views": 0,
+  "lyrics": "null",
+  "downloads": 0
+},
+{
+  "_id": {
+    "$oid": "64e729c8ffcd0f5c32e23b59"
+  },
+  "title": "Thaen Thaen Thaen",
+  "artist": "Vidyasagar",
+  "movie": "KURUVI",
+  "genre": "Melody",
+  "year": 2008,
+  "duration": 238,
+  "url": "/songs/Thaen Thaen Thaen.mp3",
+  "icon": "/icons/KURUVI.jpg",
+  "language": "Tamil",
+  "likes": 0,
+  "views": 0,
+  "lyrics": "null",
+  "downloads": 0
+},
+{
+  "_id": {
+    "$oid": "64e729c8ffcd0f5c32e23b5c"
+  },
+  "title": "Ulaginil Miga",
+  "artist": "Vijay Antony",
+  "movie": "NAAN",
+  "genre": "Sorrow",
+  "year": 2012,
+  "duration": 287,
+  "url": "/songs/Ulaginil Miga.mp3",
+  "icon": "/icons/NAAN.jpg",
+  "language": "Tamil",
+  "likes": 0,
+  "views": 0,
+  "lyrics": "null",
+  "downloads": 0
+},
+{
+  "_id": {
+    "$oid": "64e729c8ffcd0f5c32e23b5e"
+  },
+  "title": "No One Is Perfect Theme",
+  "artist": "Vijay Antony",
+  "movie": "NAAN",
+  "genre": "Instrumental",
+  "year": 2012,
+  "duration": 175,
+  "url": "/songs/No One Is Perfect Theme.mp3",
+  "icon": "/icons/NAAN.jpg",
+  "language": "Tamil",
+  "likes": 0,
+  "views": 0,
+  "lyrics": "null",
+  "downloads": 0
+},
+{
+  "_id": {
+    "$oid": "64e729c8ffcd0f5c32e23b5f"
+  },
+  "title": "Pichaikkaran Theme",
+  "artist": "Vijay Antony",
+  "movie": "NAAN",
+  "genre": "Theme",
+  "year": 2012,
+  "duration": 72,
+  "url": "/songs/Pichaikkaran Theme.mp3",
+  "icon": "/icons/NAAN.jpg",
+  "language": "Tamil",
+  "likes": 0,
+  "views": 0,
+  "lyrics": "null",
+  "downloads": 0
+},
+{
+  "_id": {
+    "$oid": "64e729c8ffcd0f5c32e23b61"
+  },
+  "title": "Eppadi Iruntha Naanga",
+  "artist": "Vivek-Mervin",
+  "movie": "SULTAN",
+  "genre": "Scenic",
+  "year": 2021,
+  "duration": 272,
+  "url": "/songs/Eppadi Iruntha Naanga.mp3",
+  "icon": "/icons/SULTAN.jpg",
+  "language": "Tamil",
+  "likes": 0,
+  "views": 0,
+  "lyrics": "null",
+  "downloads": 0
+},
+{
+  "_id": {
+    "$oid": "64e729c8ffcd0f5c32e23b62"
+  },
+  "title": "Yaaro En Nenjai",
+  "artist": "Vivek-Mervin",
+  "movie": "SULTAN",
+  "genre": "Love",
+  "year": 2021,
+  "duration": 310,
+  "url": "/songs/Yaaro En Nenjai.mp3",
+  "icon": "/icons/SULTAN.jpg",
+  "language": "Tamil",
+  "likes": 0,
+  "views": 0,
+  "lyrics": "null",
+  "downloads": 0
+},
+{
+  "_id": {
+    "$oid": "64e729c8ffcd0f5c32e23b64"
+  },
+  "title": "Iraivanai Thandha Iraiviye",
+  "artist": "Sean Roldan",
+  "movie": "VIP 2",
+  "genre": "Love",
+  "year": 2017,
+  "duration": 192,
+  "url": "/songs/Iraivanai Thandha Iraiviye.mp3",
+  "icon": "/icons/VIP 2.jpg",
+  "language": "Tamil",
+  "likes": 0,
+  "views": 0,
+  "lyrics": "null",
+  "downloads": 0
+},
+{
+  "_id": {
+    "$oid": "64e729c8ffcd0f5c32e23b66"
+  },
+  "title": "The Empress Arrives",
+  "artist": "Sean Roldan",
+  "movie": "VIP 2",
+  "genre": "Theme",
+  "year": 2017,
+  "duration": 129,
+  "url": "/songs/The Empress Arrives.mp3",
+  "icon": "/icons/VIP 2.jpg",
+  "language": "Tamil",
+  "likes": 0,
+  "views": 0,
+  "lyrics": "null",
+  "downloads": 0
+},
+{
+  "_id": {
+    "$oid": "64e729c8ffcd0f5c32e23b68"
+  },
+  "title": "Karuppu Vellai",
+  "artist": "Sam C.S",
+  "movie": "VIKRAM VEDHA",
+  "genre": "Theme",
+  "year": 2017,
+  "duration": 195,
+  "url": "/songs/Karuppu Vellai.mp3",
+  "icon": "/icons/VIKRAM VEDHA.webp",
+  "language": "Tamil",
+  "likes": 0,
+  "views": 0,
+  "lyrics": "null",
+  "downloads": 0
+},
+{
+  "_id": {
+    "$oid": "64e729c8ffcd0f5c32e23b69"
+  },
+  "title": "Yaanji",
+  "artist": "Sam C.S",
+  "movie": "VIKRAM VEDHA",
+  "genre": "Love",
+  "year": 2017,
+  "duration": 270,
+  "url": "/songs/Yaanji.mp3",
+  "icon": "/icons/VIKRAM VEDHA.webp",
+  "language": "Tamil",
+  "likes": 0,
+  "views": 0,
+  "lyrics": "null",
+  "downloads": 0
+},
+{
+  "_id": {
+    "$oid": "64e729c8ffcd0f5c32e23b6b"
+  },
+  "title": "Yethu Dharmam",
+  "artist": "Sam C.S",
+  "movie": "VIKRAM VEDHA",
+  "genre": "Scenic",
+  "year": 2017,
+  "duration": 96,
+  "url": "/songs/Yethu Dharmam.mp3",
+  "icon": "/icons/VIKRAM VEDHA.webp",
+  "language": "Tamil",
+  "likes": 0,
+  "views": 0,
+  "lyrics": "null",
+  "downloads": 0
+},
+{
+  "_id": {
+    "$oid": "64e729c8ffcd0f5c32e23b6c"
+  },
+  "title": "Kaithi Main Theme",
+  "artist": "Sam C.S",
+  "movie": "KAITHI",
+  "genre": "Theme",
+  "year": 2019,
+  "duration": 28,
+  "url": "/songs/Kaithi Main Theme.mp3",
+  "icon": "/icons/KAITHI.webp",
+  "language": "Tamil",
+  "likes": 0,
+  "views": 0,
+  "lyrics": "null",
+  "downloads": 0
+},
+{
+  "_id": {
+    "$oid": "64e729c8ffcd0f5c32e23b71"
+  },
+  "title": "Sonapareeya",
+  "artist": "A R.Rahman",
+  "movie": "MARYAN",
+  "genre": "Dance",
+  "year": 2013,
+  "duration": 249,
+  "url": "/songs/Sonapareeya.mp3",
+  "icon": "/icons/MARYAN.webp",
+  "language": "Tamil",
+  "likes": 0,
+  "views": 0,
+  "lyrics": "null",
+  "downloads": 0
+},
+{
+  "_id": {
+    "$oid": "64e729c8ffcd0f5c32e23b72"
+  },
+  "title": "Kadal Raasa Naan",
+  "artist": "A R.Rahman",
+  "movie": "MARYAN",
+  "genre": "Happy",
+  "year": 2013,
+  "duration": 254,
+  "url": "/songs/Kadal Raasa Naan.mp3",
+  "icon": "/icons/MARYAN.webp",
+  "language": "Tamil",
+  "likes": 0,
+  "views": 0,
+  "lyrics": "null",
+  "downloads": 0
+},
+{
+  "_id": {
+    "$oid": "64e729c8ffcd0f5c32e23b73"
+  },
+  "title": "Innum Konjam Neram",
+  "artist": "A R.Rahman",
+  "movie": "MARYAN",
+  "genre": "Love",
+  "year": 2013,
+  "duration": 313,
+  "url": "/songs/Innum Konjam Neram.mp3",
+  "icon": "/icons/MARYAN.webp",
+  "language": "Tamil",
+  "likes": 0,
+  "views": 0,
+  "lyrics": "null",
+  "downloads": 0
+},
+{
+  "_id": {
+    "$oid": "64e729c8ffcd0f5c32e23b75"
+  },
+  "title": "Osarattum Pathu Thala",
+  "artist": "A R.Rahman",
+  "movie": "PATHU THALA",
+  "genre": "Massy",
+  "year": 2023,
+  "duration": 290,
+  "url": "/songs/Osarattum Pathu Thala.mp3",
+  "icon": "/icons/PATHU THALA.webp",
+  "language": "Tamil",
+  "likes": 0,
+  "views": 0,
+  "lyrics": "null",
+  "downloads": 0
+},
+{
+  "_id": {
+    "$oid": "64e729c8ffcd0f5c32e23b79"
+  },
+  "title": "Bale Bale",
+  "artist": "M M.KEERAVANI",
+  "movie": "BAHUBALI",
+  "genre": "Scenic",
+  "year": 2015,
+  "duration": 204,
+  "url": "/songs/Bale Bale.mp3",
+  "icon": "/icons/BAHUBALI.jpg",
+  "language": "Tamil",
+  "likes": 0,
+  "views": 0,
+  "lyrics": "null",
+  "downloads": 0
+},
+{
+  "_id": {
+    "$oid": "64e729c8ffcd0f5c32e23b7c"
+  },
+  "title": "Aaromal",
+  "artist": "Shaan Rahman",
+  "movie": "MINNAL MURALI",
+  "genre": "Scenic",
+  "year": 2018,
+  "duration": 244,
+  "url": "/songs/Aaromal.mp3",
+  "icon": "/icons/MINNAL MURALI.jpg",
+  "language": "Malayalam",
+  "likes": 0,
+  "views": 0,
+  "lyrics": "null",
+  "downloads": 0
+},
+{
+  "_id": {
+    "$oid": "64e729c8ffcd0f5c32e23b81"
+  },
+  "title": "Ramuloo Ramulaa",
+  "artist": "Thaman",
+  "movie": "ALA VAIKUNTHAPURAMULO",
+  "genre": "Dance",
+  "year": 2019,
+  "duration": 245,
+  "url": "/songs/Ramuloo Ramulaa.mp3",
+  "icon": "/icons/ALA VAIKUNTHAPURAMULO.jpg",
+  "language": "Telugu",
+  "likes": 0,
+  "views": 0,
+  "lyrics": "null",
+  "downloads": 0
+},
+{
+  "_id": {
+    "$oid": "64e729c8ffcd0f5c32e23b82"
+  },
+  "title": "Sittharala Sirapadu",
+  "artist": "Thaman",
+  "movie": "ALA VAIKUNTHAPURAMULO",
+  "genre": "Tempo",
+  "year": 2019,
+  "duration": 184,
+  "url": "/songs/Sittharala Sirapadu.mp3",
+  "icon": "/icons/ALA VAIKUNTHAPURAMULO.jpg",
+  "language": "Telugu",
+  "likes": 0,
+  "views": 0,
+  "lyrics": "null",
+  "downloads": 0
+},
+{
+  "_id": {
+    "$oid": "64e729c8ffcd0f5c32e23b87"
+  },
+  "title": "Arcade",
+  "artist": "Ducan Laurence",
+  "movie": "ALBUM",
+  "genre": "Pop",
+  "year": 2019,
+  "duration": 183,
+  "url": "/songs/Arcade.mp3",
+  "icon": "/icons/ARCADE.jpg",
+  "language": "English",
+  "likes": 0,
+  "views": 0,
+  "lyrics": "null",
+  "downloads": 0
+},
+{
+  "_id": {
+    "$oid": "64e729c8ffcd0f5c32e23b89"
+  },
+  "title": "Mehabooba",
+  "artist": "Ravi Barsur",
+  "movie": "KGF",
+  "genre": "Melody",
+  "year": 2018,
+  "duration": 213,
+  "url": "/songs/Mehabooba.mp3",
+  "icon": "/icons/KGF.jpg",
+  "language": "Kannada",
+  "likes": 0,
+  "views": 0,
+  "lyrics": "null",
+  "downloads": 0
+},
+{
+  "_id": {
+    "$oid": "64e729c8ffcd0f5c32e23b8b"
+  },
+  "title": "The Monster",
+  "artist": "Ravi Barsur",
+  "movie": "KGF",
+  "genre": "Rock",
+  "year": 2018,
+  "duration": 166,
+  "url": "/songs/The Monster.mp3",
+  "icon": "/icons/KGF.jpg",
+  "language": "Kannada",
+  "likes": 0,
+  "views": 0,
+  "lyrics": "null",
+  "downloads": 0
+},
+{
+  "_id": {
+    "$oid": "64e729c8ffcd0f5c32e23b8c"
+  },
+  "title": "Dance Pe Chance",
+  "artist": "Salim",
+  "movie": "RAB NE BANA DI JODI",
+  "genre": "Dance",
+  "year": 2008,
+  "duration": 262,
+  "url": "/songs/Dance Pe Chance.mp3",
+  "icon": "/icons/RAB NE BANA DI JODI.jpg",
+  "language": "Hindi",
+  "likes": 0,
+  "views": 0,
+  "lyrics": "null",
+  "downloads": 0
+},
+{
+  "_id": {
+    "$oid": "64e729c8ffcd0f5c32e23b8f"
+  },
+  "title": "Tujh Mein Rab Dikhta Hai",
+  "artist": "Salim",
+  "movie": "RAB NE BANA DI JODI",
+  "genre": "Love",
+  "year": 2008,
+  "duration": 284,
+  "url": "/songs/Tujh Mein Rab Dikhta Hai.mp3",
+  "icon": "/icons/RAB NE BANA DI JODI.jpg",
+  "language": "Hindi",
+  "likes": 0,
+  "views": 0,
+  "lyrics": "null",
+  "downloads": 0
+},
+{
+  "_id": {
+    "$oid": "64e729c8ffcd0f5c32e23b2b"
+  },
+  "title": "Alappara Theme",
+  "artist": "Anirudh",
+  "genre": "Theme",
+  "year": 2023,
+  "duration": 77,
+  "url": "/songs/Alappara-Theme.mp3",
+  "icon": "/icons/JAILER.webp",
+  "likes": 0,
+  "views": 0,
+  "movie": "JAILER",
+  "language": "Tamil",
+  "lyrics": "null",
+  "downloads": 0
+},
+{
+  "_id": {
+    "$oid": "64e729c8ffcd0f5c32e23b2e"
+  },
+  "title": "Muthuvel Pandian Theme",
+  "artist": "Anirudh",
+  "genre": "Theme",
+  "year": 2023,
+  "duration": 207,
+  "url": "/songs/Muthuvel-Pandian-Theme.mp3",
+  "icon": "/icons/JAILER.webp",
+  "likes": 0,
+  "views": 0,
+  "movie": "JAILER",
+  "language": "Tamil",
+  "lyrics": "null",
+  "downloads": 0
+},
+{
+  "_id": {
+    "$oid": "64e729c8ffcd0f5c32e23b2f"
+  },
+  "title": "Once Upon a Time",
+  "artist": "Anirudh",
+  "genre": "Pop",
+  "year": 2022,
+  "duration": 143,
+  "url": "/songs/Once Upon a Time.mp3",
+  "icon": "/icons/VIKRAM.webp",
+  "likes": 0,
+  "views": 0,
+  "movie": "VIKRAM",
+  "language": "Tamil",
+  "lyrics": "null",
+  "downloads": 0
+},
+{
+  "_id": {
+    "$oid": "64e729c8ffcd0f5c32e23b30"
+  },
+  "title": "Pathala Pathala",
+  "artist": "Anirudh",
+  "genre": "Dance",
+  "year": 2022,
+  "duration": 211,
+  "url": "/songs/Pathala Pathala.mp3",
+  "icon": "/icons/VIKRAM.webp",
+  "likes": 0,
+  "views": 0,
+  "movie": "VIKRAM",
+  "language": "Tamil",
+  "lyrics": "null",
+  "downloads": 0
+},
+{
+  "_id": {
+    "$oid": "64e729c8ffcd0f5c32e23b32"
+  },
+  "title": "Wasted",
+  "artist": "Anirudh",
+  "genre": "Electronic",
+  "year": 2022,
+  "duration": 182,
+  "url": "/songs/.mp3",
+  "icon": "/icons/VIKRAM.webp",
+  "likes": 0,
+  "views": 0,
+  "movie": "VIKRAM",
+  "language": "Tamil",
+  "lyrics": "null",
+  "downloads": 0
+},
+{
+  "_id": {
+    "$oid": "64e729c8ffcd0f5c32e23b35"
+  },
+  "title": "Ratchasa Maamaney",
+  "artist": "A R.Rahman",
+  "genre": "Scenic",
+  "year": 2022,
+  "duration": 289,
+  "url": "/songs/Ratchasa Maamaney.mp3",
+  "icon": "/icons/PS.jpg",
+  "likes": 0,
+  "views": 0,
+  "movie": "PS",
+  "language": "Tamil",
+  "lyrics": "null",
+  "downloads": 0
+},
+{
+  "_id": {
+    "$oid": "64e729c8ffcd0f5c32e23b39"
+  },
+  "title": "The Blood Bath",
+  "artist": "G.V.Prakash Kumar",
+  "genre": "Anger",
+  "year": 2019,
+  "duration": 242,
+  "url": "/songs/The Blood Bath.mp3",
+  "icon": "/icons/ASURAN.jpg",
+  "likes": 0,
+  "views": 0,
+  "movie": "ASURAN",
+  "language": "Tamil",
+  "lyrics": "null",
+  "downloads": 0
+},
+{
+  "_id": {
+    "$oid": "64e729c8ffcd0f5c32e23b3b"
+  },
+  "title": "Pinju Pinju Mazhai",
+  "artist": "Yuvan Shankar Raja",
+  "genre": "Love",
+  "year": 2022,
+  "duration": 318,
+  "url": "/songs/Pinju Pinju Mazhai.mp3",
+  "icon": "/icons/NANE VARUVEN.jpg",
+  "likes": 0,
+  "views": 0,
+  "movie": "NANE VARUVEN",
+  "language": "Tamil",
+  "lyrics": "null",
+  "downloads": 0
+},
+{
+  "_id": {
+    "$oid": "64e729c8ffcd0f5c32e23b3e"
+  },
+  "title": "Yaarum Illa",
+  "artist": "Yuvan Shankar Raja",
+  "genre": "Happy",
+  "year": 2022,
+  "duration": 205,
+  "url": "/songs/Yaarum Illa.mp3",
+  "icon": "/icons/NANE VARUVEN.jpg",
+  "likes": 0,
+  "views": 0,
+  "movie": "NANE VARUVEN",
+  "language": "Tamil",
+  "lyrics": "null",
+  "downloads": 0
+},
+{
+  "_id": {
+    "$oid": "64e729c8ffcd0f5c32e23b40"
+  },
+  "title": "Irumugan Settai",
+  "artist": "Harris Jayaraj",
+  "genre": "Chase",
+  "year": 2016,
+  "duration": 245,
+  "url": "/songs/Irumugan Settai.mp3",
+  "icon": "/icons/IRUMUGAN.jpg",
+  "likes": 0,
+  "views": 0,
+  "movie": "IRUMUGAN",
+  "language": "Tamil",
+  "lyrics": "null",
+  "downloads": 0
+},
+{
+  "_id": {
+    "$oid": "64e729c8ffcd0f5c32e23b43"
+  },
+  "title": "Feel My Love",
+  "artist": "Devi Sri Prasad",
+  "genre": "Love",
+  "year": 2010,
+  "duration": 297,
+  "url": "/songs/Feel My Love.mp3",
+  "icon": "/icons/KUTTY.jpg",
+  "likes": 0,
+  "views": 0,
+  "movie": "KUTTY",
+  "language": "Tamil",
+  "lyrics": "null",
+  "downloads": 0
+},
+{
+  "_id": {
+    "$oid": "64e729c8ffcd0f5c32e23b44"
+  },
+  "title": "Nee Kadhalikkum Ponnu",
+  "artist": "Devi Sri Prasad",
+  "genre": "Dance",
+  "year": 2010,
+  "duration": 268,
+  "url": "/songs/Nee Kadhalikkum Ponnu.mp3",
+  "icon": "/icons/KUTTY.jpg",
+  "likes": 0,
+  "views": 0,
+  "movie": "KUTTY",
+  "language": "Tamil",
+  "lyrics": "null",
+  "downloads": 0
+},
+{
+  "_id": {
+    "$oid": "64e729c8ffcd0f5c32e23b45"
+  },
+  "title": "Life A Jaali",
+  "artist": "Devi Sri Prasad",
+  "genre": "Happy",
+  "year": 2010,
+  "duration": 292,
+  "url": "/songs/Life A Jaali.mp3",
+  "icon": "/icons/KUTTY.jpg",
+  "likes": 0,
+  "views": 0,
+  "movie": "KUTTY",
+  "language": "Tamil",
+  "lyrics": "null",
+  "downloads": 0
+},
+{
+  "_id": {
+    "$oid": "64e729c8ffcd0f5c32e23b46"
+  },
+  "title": "Yaaro En Nenjai",
+  "artist": "Devi Sri Prasad",
+  "genre": "Happy",
+  "year": 2010,
+  "duration": 310,
+  "url": "/songs/Yaaro En Nenjai.mp3",
+  "icon": "/icons/KUTTY.jpg",
+  "likes": 0,
+  "views": 0,
+  "movie": "KUTTY",
+  "language": "Tamil",
+  "lyrics": "null",
+  "downloads": 0
+},
+{
+  "_id": {
+    "$oid": "64e729c8ffcd0f5c32e23b4b"
+  },
+  "title": "Adiye Sakkarakatti",
+  "artist": "Hiphop Tamizha",
+  "genre": "Hip hop",
+  "year": 2017,
+  "duration": 189,
+  "url": "/songs/Adiye Sakkarakatti.mp3",
+  "icon": "/icons/MEESAYA MURUKU.jpg",
+  "likes": 0,
+  "views": 0,
+  "movie": "MEESAYA MURUKU",
+  "language": "Tamil",
+  "lyrics": "null",
+  "downloads": 0
+},
+{
+  "_id": {
+    "$oid": "64e729c8ffcd0f5c32e23b4d"
+  },
+  "title": "Meesaya Murukku",
+  "artist": "Hiphop Tamizha",
+  "genre": "Theme",
+  "year": 2017,
+  "duration": 222,
+  "url": "/songs/Meesaya Murukku.mp3",
+  "icon": "/icons/MEESAYA MURUKU.jpg",
+  "likes": 0,
+  "views": 0,
+  "movie": "MEESAYA MURUKU",
+  "language": "Tamil",
+  "lyrics": "null",
+  "downloads": 0
+},
+{
+  "_id": {
+    "$oid": "64e729c8ffcd0f5c32e23b52"
+  },
+  "title": "Valai Osai",
+  "artist": "Ilayaraaja",
+  "genre": "Tempo",
+  "year": 2023,
+  "duration": 276,
+  "url": "/songs/Valai Osai.mp3",
+  "icon": "/icons/VIDUTHALAI.jpg",
+  "likes": 0,
+  "views": 0,
+  "movie": "VIDUTHALAI",
+  "language": "Tamil",
+  "lyrics": "null",
+  "downloads": 0
+},
+{
+  "_id": {
+    "$oid": "64e729c8ffcd0f5c32e23b5a"
+  },
+  "title": "Palaanadhu Palaanadhu",
+  "artist": "Vidyasagar",
+  "movie": "KURUVI",
+  "genre": "Dance",
+  "year": 2008,
+  "duration": 251,
+  "url": "/songs/Palaanadhu Palaanadhu.mp3",
+  "icon": "/icons/KURUVI.jpg",
+  "language": "Tamil",
+  "likes": 0,
+  "views": 0,
+  "lyrics": "null",
+  "downloads": 0
+},
+{
+  "_id": {
+    "$oid": "64e729c8ffcd0f5c32e23b5b"
+  },
+  "title": "Kuruvi Theme",
+  "artist": "Vidyasagar",
+  "movie": "KURUVI",
+  "genre": "Theme",
+  "year": 2008,
+  "duration": 214,
+  "url": "/songs/Kuruvi Theme.mp3",
+  "icon": "/icons/KURUVI.jpg",
+  "language": "Tamil",
+  "likes": 0,
+  "views": 0,
+  "lyrics": "null",
+  "downloads": 0
+},
+{
+  "_id": {
+    "$oid": "64e729c8ffcd0f5c32e23b5d"
+  },
+  "title": "Thappellam Thappe Ii",
+  "artist": "Vijay Antony",
+  "movie": "NAAN",
+  "genre": "Instrumental",
+  "year": 2012,
+  "duration": 156,
+  "url": "/songs/Thappellam Thappe Ii.mp3",
+  "icon": "/icons/NAAN.jpg",
+  "language": "Tamil",
+  "likes": 0,
+  "views": 0,
+  "lyrics": "null",
+  "downloads": 0
+},
+{
+  "_id": {
+    "$oid": "64e729c8ffcd0f5c32e23b60"
+  },
+  "title": "Jai Sulthan",
+  "artist": "Vivek-Mervin",
+  "movie": "SULTAN",
+  "genre": "Dance",
+  "year": 2021,
+  "duration": 246,
+  "url": "/songs/Jai Sulthan.mp3",
+  "icon": "/icons/SULTAN.jpg",
+  "language": "Tamil",
+  "likes": 0,
+  "views": 0,
+  "lyrics": "null",
+  "downloads": 0
+},
+{
+  "_id": {
+    "$oid": "64e729c8ffcd0f5c32e23b63"
+  },
+  "title": "Pudhu Saththam",
+  "artist": "Vivek-Mervin",
+  "movie": "SULTAN",
+  "genre": "Dance",
+  "year": 2021,
+  "duration": 300,
+  "url": "/songs/Pudhu Saththam.mp3",
+  "icon": "/icons/SULTAN.jpg",
+  "language": "Tamil",
+  "likes": 0,
+  "views": 0,
+  "lyrics": "null",
+  "downloads": 0
+},
+{
+  "_id": {
+    "$oid": "64e729c8ffcd0f5c32e23b65"
+  },
+  "title": "Nada Da Raja",
+  "artist": "Sean Roldan",
+  "movie": "VIP 2",
+  "genre": "Rap",
+  "year": 2017,
+  "duration": 210,
+  "url": "/songs/Nada Da Raja.mp3",
+  "icon": "/icons/VIP 2.jpg",
+  "language": "Tamil",
+  "likes": 0,
+  "views": 0,
+  "lyrics": "null",
+  "downloads": 0
+},
+{
+  "_id": {
+    "$oid": "64e729c8ffcd0f5c32e23b67"
+  },
+  "title": "Ucchathula",
+  "artist": "Sean Roldan",
+  "movie": "VIP 2",
+  "genre": "Dance",
+  "year": 2017,
+  "duration": 215,
+  "url": "/songs/Ucchathula.mp3",
+  "icon": "/icons/VIP 2.jpg",
+  "language": "Tamil",
+  "likes": 0,
+  "views": 0,
+  "lyrics": "null",
+  "downloads": 0
+},
+{
+  "_id": {
+    "$oid": "64e729c8ffcd0f5c32e23b6a"
+  },
+  "title": "Oru Katha Sollatta",
+  "artist": "Sam C.S",
+  "movie": "VIKRAM VEDHA",
+  "genre": "Scenic",
+  "year": 2017,
+  "duration": 84,
+  "url": "/songs/Oru Katha Sollatta.mp3",
+  "icon": "/icons/VIKRAM VEDHA.webp",
+  "language": "Tamil",
+  "likes": 0,
+  "views": 0,
+  "lyrics": "null",
+  "downloads": 0
+},
+{
+  "_id": {
+    "$oid": "64e729c8ffcd0f5c32e23b6d"
+  },
+  "title": "Dilli's Swag",
+  "artist": "Sam C.S",
+  "movie": "KAITHI",
+  "genre": "Theme",
+  "year": 2019,
+  "duration": 50,
+  "url": "/songs/Dilli's Swag.mp3",
+  "icon": "/icons/KAITHI.webp",
+  "language": "Tamil",
+  "likes": 0,
+  "views": 0,
+  "lyrics": "null",
+  "downloads": 0
+},
+{
+  "_id": {
+    "$oid": "64e729c8ffcd0f5c32e23b6e"
+  },
+  "title": "Eternal Love Of Father",
+  "artist": "Sam C.S",
+  "movie": "KAITHI",
+  "genre": "Love",
+  "year": 2019,
+  "duration": 194,
+  "url": "/songs/Eternal Love Of Father.mp3",
+  "icon": "/icons/KAITHI.webp",
+  "language": "Tamil",
+  "likes": 0,
+  "views": 0,
+  "lyrics": "null",
+  "downloads": 0
+},
+{
+  "_id": {
+    "$oid": "64e729c8ffcd0f5c32e23b6f"
+  },
+  "title": "Night Is Dark",
+  "artist": "Sam C.S",
+  "movie": "KAITHI",
+  "genre": "Theme",
+  "year": 2019,
+  "duration": 113,
+  "url": "/songs/Night Is Dark.mp3",
+  "icon": "/icons/KAITHI.webp",
+  "language": "Tamil",
+  "likes": 0,
+  "views": 0,
+  "lyrics": "null",
+  "downloads": 0
+},
+{
+  "_id": {
+    "$oid": "64e729c8ffcd0f5c32e23b70"
+  },
+  "title": "I Love My Africa",
+  "artist": "A R.Rahman",
+  "movie": "MARYAN",
+  "genre": "Happy",
+  "year": 2013,
+  "duration": 173,
+  "url": "/songs/I Love My Africa.mp3",
+  "icon": "/icons/MARYAN.webp",
+  "language": "Tamil",
+  "likes": 0,
+  "views": 0,
+  "lyrics": "null",
+  "downloads": 0
+},
+{
+  "_id": {
+    "$oid": "64e729c8ffcd0f5c32e23b74"
+  },
+  "title": "Raawadi",
+  "artist": "A R.Rahman",
+  "movie": "PATHU THALA",
+  "genre": "Dance",
+  "year": 2023,
+  "duration": 191,
+  "url": "/songs/Raawadi.mp3",
+  "icon": "/icons/PATHU THALA.webp",
+  "language": "Tamil",
+  "likes": 0,
+  "views": 0,
+  "lyrics": "null",
+  "downloads": 0
+},
+{
+  "_id": {
+    "$oid": "64e729c8ffcd0f5c32e23b76"
+  },
+  "title": "Namma Satham",
+  "artist": "A R.Rahman",
+  "movie": "PATHU THALA",
+  "genre": "Dance",
+  "year": 2023,
+  "duration": 215,
+  "url": "/songs/Namma Satham.mp3",
+  "icon": "/icons/PATHU THALA.webp",
+  "language": "Tamil",
+  "likes": 0,
+  "views": 0,
+  "lyrics": "null",
+  "downloads": 0
+},
+{
+  "_id": {
+    "$oid": "64e729c8ffcd0f5c32e23b77"
+  },
+  "title": "Nee Singam Dhan",
+  "artist": "A R.Rahman",
+  "movie": "PATHU THALA",
+  "genre": "Motive",
+  "year": 2023,
+  "duration": 247,
+  "url": "/songs/Nee Singam Dhan.mp3",
+  "icon": "/icons/PATHU THALA.webp",
+  "language": "Tamil",
+  "likes": 0,
+  "views": 0,
+  "lyrics": "null",
+  "downloads": 0
+},
+{
+  "_id": {
+    "$oid": "64e729c8ffcd0f5c32e23b78"
+  },
+  "title": "Vandhaai Ayya",
+  "artist": "M M.KEERAVANI",
+  "movie": "BAHUBALI",
+  "genre": "Mercy",
+  "year": 2015,
+  "duration": 212,
+  "url": "/songs/Vandhaai Ayya.mp3",
+  "icon": "/icons/BAHUBALI.jpg",
+  "language": "Tamil",
+  "likes": 0,
+  "views": 0,
+  "lyrics": "null",
+  "downloads": 0
+},
+{
+  "_id": {
+    "$oid": "64e729c8ffcd0f5c32e23b7a"
+  },
+  "title": "Moochile Theeyumaay",
+  "artist": "M M.KEERAVANI",
+  "movie": "BAHUBALI",
+  "genre": "Sorrow",
+  "year": 2015,
+  "duration": 189,
+  "url": "/songs/Moochile Theeyumaay.mp3",
+  "icon": "/icons/BAHUBALI.jpg",
+  "language": "Tamil",
+  "likes": 0,
+  "views": 0,
+  "lyrics": "null",
+  "downloads": 0
+},
+{
+  "_id": {
+    "$oid": "64e729c8ffcd0f5c32e23b7b"
+  },
+  "title": "Siva Sivaya Potri",
+  "artist": "M M.KEERAVANI",
+  "movie": "BAHUBALI",
+  "genre": "Mercy",
+  "year": 2015,
+  "duration": 195,
+  "url": "/songs/Siva Sivaya Potri.mp3",
+  "icon": "/icons/BAHUBALI.jpg",
+  "language": "Tamil",
+  "likes": 0,
+  "views": 0,
+  "lyrics": "null",
+  "downloads": 0
+},
+{
+  "_id": {
+    "$oid": "64e729c8ffcd0f5c32e23b7d"
+  },
+  "title": "Kugramame",
+  "artist": "Shaan Rahman",
+  "movie": "MINNAL MURALI",
+  "genre": "Scenic",
+  "year": 2018,
+  "duration": 98,
+  "url": "/songs/Kugramame.mp3",
+  "icon": "/icons/MINNAL MURALI.jpg",
+  "language": "Malayalam",
+  "likes": 0,
+  "views": 0,
+  "lyrics": "null",
+  "downloads": 0
+},
+{
+  "_id": {
+    "$oid": "64e729c8ffcd0f5c32e23b7e"
+  },
+  "title": "Niranju Thaarakangal",
+  "artist": "Shaan Rahman",
+  "movie": "MINNAL MURALI",
+  "genre": "Hip hop",
+  "year": 2018,
+  "duration": 109,
+  "url": "/songs/Niranju Thaarakangal.mp3",
+  "icon": "/icons/MINNAL MURALI.jpg",
+  "language": "Malayalam",
+  "likes": 0,
+  "views": 0,
+  "lyrics": "null",
+  "downloads": 0
+},
+{
+  "_id": {
+    "$oid": "64e729c8ffcd0f5c32e23b7f"
+  },
+  "title": "Thee Minnal",
+  "artist": "Shaan Rahman",
+  "movie": "MINNAL MURALI",
+  "genre": "Theme",
+  "year": 2018,
+  "duration": 132,
+  "url": "/songs/Thee Minnal.mp3",
+  "icon": "/icons/MINNAL MURALI.jpg",
+  "language": "Malayalam",
+  "likes": 0,
+  "views": 0,
+  "lyrics": "null",
+  "downloads": 0
+},
+{
+  "_id": {
+    "$oid": "64e729c8ffcd0f5c32e23b80"
+  },
+  "title": "ButtaBomma",
+  "artist": "Thaman",
+  "movie": "ALA VAIKUNTHAPURAMULO",
+  "genre": "Hip hop",
+  "year": 2019,
+  "duration": 195,
+  "url": "/songs/ButtaBomma.mp3",
+  "icon": "/icons/ALA VAIKUNTHAPURAMULO.jpg",
+  "language": "Telugu",
+  "likes": 0,
+  "views": 0,
+  "lyrics": "null",
+  "downloads": 0
+},
+{
+  "_id": {
+    "$oid": "64e729c8ffcd0f5c32e23b83"
+  },
+  "title": "Ala Vaikunthapurramuloo",
+  "artist": "Thaman",
+  "movie": "ALA VAIKUNTHAPURAMULO",
+  "genre": "Theme",
+  "year": 2019,
+  "duration": 193,
+  "url": "/songs/Ala Vaikunthapurramuloo.mp3",
+  "icon": "/icons/ALA VAIKUNTHAPURAMULO.jpg",
+  "language": "Telugu",
+  "likes": 0,
+  "views": 0,
+  "lyrics": "null",
+  "downloads": 0
+},
+{
+  "_id": {
+    "$oid": "64e729c8ffcd0f5c32e23b84"
+  },
+  "title": "Believer",
+  "artist": "Daniel Coulter",
+  "movie": "ALBUM",
+  "genre": "Pop",
+  "year": 2017,
+  "duration": 204,
+  "url": "/songs/Believer.mp3",
+  "icon": "/icons/BELEIVER.jpg",
+  "language": "English",
+  "likes": 0,
+  "views": 0,
+  "lyrics": "null",
+  "downloads": 0
+},
+{
+  "_id": {
+    "$oid": "64e729c8ffcd0f5c32e23b85"
+  },
+  "title": "Lets Dance Chotu Motu",
+  "artist": "Devi Sri Prasad",
+  "movie": "KISI KI BHAI",
+  "genre": "Dance",
+  "year": 2023,
+  "duration": 200,
+  "url": "/songs/Lets Dance Chotu Motu.mp3",
+  "icon": "/icons/KISI KI BHAI.jpg",
+  "language": "English",
+  "likes": 0,
+  "views": 0,
+  "lyrics": "null",
+  "downloads": 0
+},
+{
+  "_id": {
+    "$oid": "64e729c8ffcd0f5c32e23b86"
+  },
+  "title": "Air Drop Carnival",
+  "artist": "Alan Walker",
+  "movie": "ALBUM",
+  "genre": "Theme",
+  "year": 2023,
+  "duration": 75,
+  "url": "/songs/Air Drop Carnival.mp3",
+  "icon": "/icons/AIRDROP CARNIVAL.jpg",
+  "language": "English",
+  "likes": 0,
+  "views": 0,
+  "lyrics": "null",
+  "downloads": 0
+},
+{
+  "_id": {
+    "$oid": "64e729c8ffcd0f5c32e23b88"
+  },
+  "title": "Toofan",
+  "artist": "Ravi Barsur",
+  "movie": "KGF",
+  "genre": "Hight octane",
+  "year": 2018,
+  "duration": 213,
+  "url": "/songs/Toofan.mp3",
+  "icon": "/icons/KGF.jpg",
+  "language": "Kannada",
+  "likes": 0,
+  "views": 0,
+  "lyrics": "null",
+  "downloads": 0
+},
+{
+  "_id": {
+    "$oid": "64e729c8ffcd0f5c32e23b8a"
+  },
+  "title": "Sulthana",
+  "artist": "Ravi Barsur",
+  "movie": "KGF",
+  "genre": "Hight octane",
+  "year": 2018,
+  "duration": 228,
+  "url": "/songs/Sulthana.mp3",
+  "icon": "/icons/KGF.jpg",
+  "language": "Kannada",
+  "likes": 0,
+  "views": 0,
+  "lyrics": "null",
+  "downloads": 0
+},
+{
+  "_id": {
+    "$oid": "64e729c8ffcd0f5c32e23b8d"
+  },
+  "title": "Dancing Jodi",
+  "artist": "Salim",
+  "movie": "RAB NE BANA DI JODI",
+  "genre": "Dance",
+  "year": 2008,
+  "duration": 239,
+  "url": "/songs/Dancing Jodi.mp3",
+  "icon": "/icons/RAB NE BANA DI JODI.jpg",
+  "language": "Hindi",
+  "likes": 0,
+  "views": 0,
+  "lyrics": "null",
+  "downloads": 0
+},
+{
+  "_id": {
+    "$oid": "64e729c8ffcd0f5c32e23b8e"
+  },
+  "title": "Haule Haule",
+  "artist": "Salim",
+  "movie": "RAB NE BANA DI JODI",
+  "genre": "Pop",
+  "year": 2008,
+  "duration": 265,
+  "url": "/songs/Haule Haule.mp3",
+  "icon": "/icons/RAB NE BANA DI JODI.jpg",
+  "language": "Hindi",
+  "likes": 0,
+  "views": 0,
+  "lyrics": "null",
+  "downloads": 0
+}]
