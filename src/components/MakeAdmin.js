@@ -126,7 +126,7 @@ const MakeAdmin = () => {
             </div>
             <div className="bg-gray-100 h-full flex flex-col justify-center items-center" style={{ overflowY: "auto" }}>
                 <div className="container mx-auto p-4 rounded-lg bg-white shadow-lg">
-                    <h1 className={`text-xl mb-2 font-semibold text-center text-blue-700 ${auth.currentUser?.email === "linktothedeveloper@gmail.com" ? 'mt-36' : ''}`}>Admin Management</h1>
+                    <h1 className={`text-xl mb-2 font-semibold text-center text-blue-700 ${auth.currentUser?.email === "linktothedeveloper@gmail.com" ? 'mt-40' : ''}`}>Admin Management</h1>
                     {isAdmin && (
                         <div className="mb-8">
                             <h2 className="text-xl font-semibold mb-4 text-blue-600">Make User as Admin</h2>

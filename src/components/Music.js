@@ -1,11 +1,12 @@
 import React, { useState, useRef, useEffect } from 'react';
 import myaudio2 from "./vellake_anirudh_bgm.mp3";
 import myaudio3 from "./perfect.mp3";
-import myaudio4 from "./dzanum.mp3";
+import myaudio4 from "./Play Date.mp3";
 import myaudio6 from "./Hukum.mp3";
 import musicIc from "./Music.gif";
 import myaudio7 from "./Adele-Set-Fire-To-The-Rain.mp3"
 import myaudio8 from "./Ruth-B-Dandelions.mp3"
+import myaudio9 from "./Cupid.mp3"
 
 const Music = () => {
     const [isPlaying, setIsPlaying] = useState(false);
@@ -17,12 +18,15 @@ const Music = () => {
     const seekBarRef = useRef(null);
 
     const tracks = [
-        { name: "Hukum", artist: "Anirudh Ravichander", file: myaudio6 },
         { name: "Perfect", artist: "Ed Sheeran", file: myaudio3 },
-        { name: "Dzanum", artist: "Dino Merlin", file: myaudio4 },
+        {
+            name: "Play Date", artist: "Melanie Martinez", file: myaudio4
+        },
+        { name: "Hukum", artist: "Anirudh Ravichander", file: myaudio6 },
         { name: "Anirudh BGM", artist: "Anirudh Ravichander", file: myaudio2 },
         { name: "Set Fire", artist: "Adele", file: myaudio7 },
-        { name: "Dandelions", artist: "Ruth B", file: myaudio8 }
+        { name: "Dandelions", artist: "Ruth B", file: myaudio8 },
+        { name: "Cupid", artist: "FIFTY FIFTY", file: myaudio9 }
     ];
 
     const playPauseHandler = () => {
@@ -38,14 +42,14 @@ const Music = () => {
         const nextIndex = (currentTrackIndex + 1) % tracks.length;
         setCurrentTrackIndex(nextIndex);
         setIsPlaying(true);
-        setCurrentSeekPosition(0); // Reset the seek position
+        setCurrentSeekPosition(0);
     };
 
     const prevTrackHandler = () => {
         const prevIndex = (currentTrackIndex - 1 + tracks.length) % tracks.length;
         setCurrentTrackIndex(prevIndex);
         setIsPlaying(true);
-        setCurrentSeekPosition(0); // Reset the seek position
+        setCurrentSeekPosition(0);
     };
 
     const toggleCollapse = () => {
@@ -108,8 +112,8 @@ const Music = () => {
                     <div className="flex items-center space-x-4">
                         <img src={musicIc} alt="music" className="w-16 h-16 rounded-full" />
                         <div>
-                            <h2 className="text-xl font-semibold">{tracks[currentTrackIndex].name}</h2>
-                            <p className="text-gray-400">{tracks[currentTrackIndex].artist}</p>
+                            <h2 className="text-[14px] w-full font-semibold">{tracks[currentTrackIndex].name}</h2>
+                            <p className="text-gray-400  text-sm">{tracks[currentTrackIndex].artist}</p>
                         </div>
                     </div>
                     <div className="flex items-center space-x-4 mt-4">
@@ -127,9 +131,9 @@ const Music = () => {
                 {!isCollapsed && (
                     <div className="mt-4">
                         <h3 className="text-base font-semibold mb-2">Song List</h3>
-                        <ul className="text-gray-400">
+                        <ul className="text-gray-400" style={{ overflowY: "auto", height: "150px" }}>
                             {tracks.map((track, index) => (
-                                <li key={track.name} className={`cursor-pointer ${track.name === tracks[currentTrackIndex].name ? 'text-white' : ''}`} onClick={() => setCurrentTrackIndex(index)}>
+                                <li key={track.name} className={` text-sm hover:text-black hover:p-2 hover:bg-white hover:rounded-lg cursor-pointer ${track.name === tracks[currentTrackIndex].name ? 'text-white' : ''}`} onClick={() => setCurrentTrackIndex(index)}>
                                     {track.name} - {track.artist}
                                 </li>
                             ))}
