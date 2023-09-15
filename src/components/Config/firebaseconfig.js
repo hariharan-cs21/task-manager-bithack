@@ -3,12 +3,7 @@ import { initializeApp } from "firebase/app";
 import { getFirestore } from "firebase/firestore";
 import { getStorage } from "firebase/storage"
 const firebaseConfig = {
-    apiKey: "AIzaSyAbrLWMTVv0RFPBGpwPDBrZ44sA2avLwcc",
-    authDomain: "task-manager-41b77.firebaseapp.com",
-    projectId: "task-manager-41b77",
-    storageBucket: "task-manager-41b77.appspot.com",
-    messagingSenderId: "466510851578",
-    appId: "1:466510851578:web:3b45a8e0ed9bdfc3bdc843"
+   //api key hidden for security reasons
 };
 
 const app = initializeApp(firebaseConfig);
