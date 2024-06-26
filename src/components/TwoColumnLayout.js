@@ -77,7 +77,7 @@ const TwoColumnLayout = () => {
                     `,
                 };
 
-                await emailjs.send('service_eavgtrc', 'template_0dnmf4f', emailParams, 'rfs9ncfRYsufYCkcL');
+                await emailjs.send('', '', emailParams,'');
 
                 alert("Uploaded");
                 setPriority("");
