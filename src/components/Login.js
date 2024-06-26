@@ -18,7 +18,7 @@ const Login = ({ setloggedIn }) => {
     };
 
     const determineUserRole = (user) => {
-        const superAdminEmail = "linktothedeveloper@gmail.com";
+        const superAdminEmail = "";
 
         if (user.email === superAdminEmail) {
             return "superAdmin";
