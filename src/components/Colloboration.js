@@ -13,7 +13,7 @@ const Collaboration = ({ user, setloggedIn, isloggedIn }) => {
     const toggleDropdown = () => {
         setIsDropdownOpen(!isDropdownOpen);
     };
-    const isadmin = "linktothedeveloper@gmail.com";
+    const isadmin = "";
 
     let navigate = useNavigate();
     const LogutUser = () => {
