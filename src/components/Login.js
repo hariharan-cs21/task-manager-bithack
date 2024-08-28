@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import { auth, provider, db } from './Config/firebaseconfig';
-import { signInWithRedirect, getRedirectResult } from 'firebase/auth';
+import { signInWithPopup, getRedirectResult } from 'firebase/auth';
 import { useNavigate } from 'react-router-dom';
 import { doc, setDoc, getDoc } from 'firebase/firestore';
-import facebookimg from "./facebook.svg"
+import facebookimg from "./facebook.svg";
 
 const Login = ({ setloggedIn }) => {
     const [isLoading, setIsLoading] = useState(true);
@@ -11,9 +11,37 @@ const Login = ({ setloggedIn }) => {
 
     const signIn = async () => {
         try {
-            await signInWithRedirect(auth, provider);
+            const result = await signInWithPopup(auth, provider);
+            const user = result.user;
+
+            if (user) {
+                const userEmail = user.email;
+                const username = user.displayName;
+                const userRef = doc(db, 'users', user.uid);
+
+                const existingRoleSnapshot = await getDoc(userRef);
+                const existingRole = existingRoleSnapshot.exists()
+                    ? existingRoleSnapshot.data().role
+                    : '';
+
+                const role = existingRole || determineUserRole(user);
+
+                if (role === "superAdmin" || role === "user") {
+                    await setDoc(userRef, {
+                        name: username,
+                        email: userEmail,
+                        role: role
+                    });
+
+                    localStorage.setItem('isLogged', 'true');
+                    setloggedIn(true);
+                    navigate("/dashboard");
+                }
+            }
         } catch (error) {
             console.log("Error occurred during sign-in:", error.message);
+        } finally {
+            setIsLoading(false);
         }
     };
 
@@ -31,40 +59,14 @@ const Login = ({ setloggedIn }) => {
         const handleRedirectResult = async () => {
             try {
                 await getRedirectResult(auth);
-                if (auth.currentUser) {
-                    const user = auth.currentUser;
-                    const userEmail = user.email;
-                    const username = user.displayName;
-                    const userRef = doc(db, 'users', user.uid);
-
-                    const existingRoleSnapshot = await getDoc(userRef);
-                    const existingRole = existingRoleSnapshot.exists()
-                        ? existingRoleSnapshot.data().role
-                        : '';
-
-                    const role = existingRole || determineUserRole(user);
-
-                    if (role === "superAdmin" || role === "user") {
-                        await setDoc(userRef, {
-                            name: username,
-                            email: userEmail,
-                            role: role
-                        });
-
-                        localStorage.setItem('isLogged', 'true');
-                        setloggedIn(true);
-                        navigate("/dashboard");
-                    }
-                } else {
-                    setIsLoading(false);
-                }
             } catch (error) {
                 console.log("Redirecting error", error.message);
+            } finally {
                 setIsLoading(false);
             }
         };
         handleRedirectResult();
-    }, [navigate, setloggedIn]);
+    }, []);
 
     if (isLoading) {
         return (
@@ -117,7 +119,7 @@ const Login = ({ setloggedIn }) => {
                             Sign In
                         </button>
                     </div>
-                    <div className="flex justify-center  gap-4 items-center">
+                    <div className="flex justify-center gap-4 items-center">
                         <button
                             onClick={signIn}
                             className="flex items-center rounded-lg px-5 py-3 shadow-lg "
@@ -141,7 +143,6 @@ const Login = ({ setloggedIn }) => {
                 </div>
             </div>
         </div>
-
     );
 };
 
